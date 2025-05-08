@@ -3,7 +3,7 @@ import { getSiteConfig } from '../utils/config';
 
 // 获取配置
 const config = getSiteConfig();
-const isDev = import.meta.env.DEV;
+const isDev = import.meta.env.DEV === true; // 确保是布尔值
 ---
 
 {isDev && (
@@ -17,8 +17,12 @@ const isDev = import.meta.env.DEV;
 )}
 
 <script>
-  // 在生产环境中可以通过URL参数显示debug信息
-  if (!document.getElementById('deploy-debug') && window.location.search.includes('debug=true')) {
+  // 在生产环境中只通过URL参数显示debug信息
+  // 检查是否为生产环境且有debug=true参数
+  if (
+    !document.getElementById('deploy-debug') && 
+    window.location.search.includes('debug=true')
+  ) {
     const debugDiv = document.createElement('div');
     debugDiv.id = 'deploy-debug';
     debugDiv.style.position = 'fixed';
