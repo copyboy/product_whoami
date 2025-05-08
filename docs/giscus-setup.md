@@ -1,43 +1,43 @@
-# Giscus 评论系统配置指南
+# Giscus Comment System Configuration Guide
 
-Giscus是一个基于GitHub Discussions的评论系统。要使Giscus正常工作，请按照以下步骤配置：
+Giscus is a comment system powered by GitHub Discussions. To make Giscus work properly, follow these steps:
 
-## 1. 准备GitHub仓库
+## 1. Prepare a GitHub Repository
 
-Giscus需要一个公开的GitHub仓库来存储评论。建议创建一个专门用于评论的仓库，例如`your-username/blog-comments`。
+Giscus requires a public GitHub repository to store comments. It's recommended to create a dedicated repository for comments, such as `your-username/blog-comments`.
 
-### 启用GitHub Discussions
+### Enable GitHub Discussions
 
-1. 访问您的GitHub仓库
-2. 点击仓库顶部的"Settings"选项卡
-3. 在左侧菜单中找到"General"设置
-4. 向下滚动至"Features"部分
-5. 勾选"Discussions"复选框
-6. 保存更改
+1. Visit your GitHub repository
+2. Click on the "Settings" tab at the top of the repository
+3. Find "General" settings in the left menu
+4. Scroll down to the "Features" section
+5. Check the "Discussions" checkbox
+6. Save changes
 
-## 2. 安装Giscus应用
+## 2. Install the Giscus App
 
-1. 访问[Giscus GitHub应用](https://github.com/apps/giscus)
-2. 点击"Install"按钮
-3. 选择您要授权Giscus访问的仓库（选择您启用了Discussions的仓库）
-4. 完成安装
+1. Visit the [Giscus GitHub App](https://github.com/apps/giscus)
+2. Click the "Install" button
+3. Select the repository you want to authorize Giscus to access (choose the repository where you enabled Discussions)
+4. Complete the installation
 
-## 3. 获取Giscus配置参数
+## 3. Get Giscus Configuration Parameters
 
-1. 访问[Giscus官网](https://giscus.app/)
-2. 填写表单:
-   - 选择语言
-   - 输入仓库名称（格式为`username/repo`）
-   - 选择页面-讨论映射方式（建议选择"Discussion title contains page pathname"）
-   - 选择讨论类别（建议选择"Announcements"分类，避免任何人都能创建新讨论）
-3. 勾选您想启用的功能
-4. 选择主题
-5. 复制生成的配置代码
+1. Visit the [Giscus website](https://giscus.app/)
+2. Fill out the form:
+   - Select language
+   - Enter repository name (format: `username/repo`)
+   - Choose page-discussion mapping method (recommended: "Discussion title contains page pathname")
+   - Select discussion category (recommended: "Announcements" category to prevent anyone from creating new discussions)
+3. Check the features you want to enable
+4. Choose a theme
+5. Copy the generated configuration code
 
-## 4. 更新站点配置
+## 4. Update Site Configuration
 
-1. 打开`src/config/site.json`
-2. 确保giscus部分配置正确:
+1. Open `src/config/site.json`
+2. Ensure the giscus section is configured correctly:
    ```json
    "giscus": {
      "enabled": true,
@@ -56,23 +56,23 @@ Giscus需要一个公开的GitHub仓库来存储评论。建议创建一个专�
    }
    ```
 
-## 常见问题排查
+## Troubleshooting Common Issues
 
-如果Giscus不能正常工作，请检查以下几点：
+If Giscus doesn't work properly, check the following:
 
-1. **404错误**: 确保GitHub仓库存在且为公开状态，并且已启用Discussions功能
-2. **未加载评论框**: 确保已正确安装Giscus应用到您的GitHub仓库
-3. **权限问题**: 查看GitHub日志，确认Giscus应用有权限访问您的仓库
-4. **配置错误**: 确保您的`repoId`和`categoryId`与GitHub上的值匹配
+1. **404 Error**: Ensure the GitHub repository exists, is public, and has Discussions enabled
+2. **Comments frame not loading**: Make sure the Giscus app is installed correctly to your GitHub repository
+3. **Permission issues**: Check GitHub logs to confirm the Giscus app has permission to access your repository
+4. **Configuration errors**: Verify that your `repoId` and `categoryId` match the values on GitHub
 
-## 手动创建讨论（可选）
+## Manually Creating Discussions (Optional)
 
-如果您想预先创建讨论而不等待用户第一次评论：
+If you want to pre-create discussions instead of waiting for the first user comment:
 
-1. 访问仓库的Discussions页面
-2. 创建新讨论
-3. 标题需要包含页面路径，例如：如果您的页面路径是`/blog/hello-world`，讨论标题应包含这个路径
-4. 选择正确的分类（与配置中的相同）
-5. 发布讨论
+1. Visit the Discussions page of your repository
+2. Create a new discussion
+3. The title should include the page path, for example: if your page path is `/blog/hello-world`, the discussion title should include this path
+4. Select the correct category (same as in your configuration)
+5. Publish the discussion
 
-完成以上步骤后，Giscus应该能正确加载并显示评论系统。 
+After completing these steps, Giscus should load and display the comment system correctly. 
