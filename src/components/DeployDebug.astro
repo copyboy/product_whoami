@@ -1,0 +1,42 @@
+---
+import { getSiteConfig } from '../utils/config';
+
+// 获取配置
+const config = getSiteConfig();
+const isDev = import.meta.env.DEV;
+---
+
+{isDev && (
+  <div id="deploy-debug" style="position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 5px; font-size: 12px; z-index: 9999;">
+    <div><strong>环境:</strong> {import.meta.env.MODE}</div>
+    <div><strong>URL:</strong> {config.url}</div>
+    <div><strong>Base:</strong> {config.base}</div>
+    <div><strong>BASE_URL:</strong> {import.meta.env.BASE_URL}</div>
+    <div><strong>PUBLIC_BASE_URL:</strong> {import.meta.env.PUBLIC_BASE_URL}</div>
+  </div>
+)}
+
+<script>
+  // 在生产环境中可以通过URL参数显示debug信息
+  if (!document.getElementById('deploy-debug') && window.location.search.includes('debug=true')) {
+    const debugDiv = document.createElement('div');
+    debugDiv.id = 'deploy-debug';
+    debugDiv.style.position = 'fixed';
+    debugDiv.style.bottom = '10px';
+    debugDiv.style.right = '10px';
+    debugDiv.style.background = 'rgba(0,0,0,0.7)';
+    debugDiv.style.color = 'white';
+    debugDiv.style.padding = '10px';
+    debugDiv.style.borderRadius = '5px';
+    debugDiv.style.fontSize = '12px';
+    debugDiv.style.zIndex = '9999';
+    
+    debugDiv.innerHTML = `
+      <div><strong>环境:</strong> ${import.meta.env.MODE}</div>
+      <div><strong>BASE_URL:</strong> ${import.meta.env.BASE_URL}</div>
+      <div><strong>PUBLIC_BASE_URL:</strong> ${import.meta.env.PUBLIC_BASE_URL || '未定义'}</div>
+    `;
+    
+    document.body.appendChild(debugDiv);
+  }
+</script> 

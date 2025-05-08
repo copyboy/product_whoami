@@ -1,133 +1,83 @@
 ---
-import Icon from './Icon.astro';
-import ThemeToggle from './ThemeToggle.astro';
-import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
 import { getSiteConfig, getSocialConfig } from '@utils/config';
+import { getLink } from '@utils/paths';
 
-// Get all blog posts
-const blogPosts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-});
-
-// Extract and count categories
-const categories = blogPosts.reduce((acc, post) => {
-  if (post.data.categories) {
-    post.data.categories.forEach(category => {
-      acc[category] = (acc[category] || 0) + 1;
-    });
-  }
-  return acc;
-}, {} as Record<string, number>);
-
-// Convert to array and sort alphabetically
-const sortedCategories = Object.entries(categories)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([name, count]) => ({ name, count }));
-
-// Get site configuration
+// 获取站点配置
 const siteConfig = getSiteConfig();
 const socialConfig = getSocialConfig();
+
+// Logo和品牌标题
+const logo = siteConfig.logo || '/logo.svg';
+const brandTitle = siteConfig.brandTitle || siteConfig.title;
+
+// 确保logo路径正确
+const logoPath = logo.startsWith('http') ? logo : getLink(logo);
+
+// 当前路径
+const pathname = Astro.url.pathname;
+
+// 检查路径是否活跃
+function isActive(path: string): boolean {
+  if (path === '/') {
+    return pathname === path;
+  }
+  return pathname.startsWith(path);
+}
 ---
 
-<div class="fixed inset-x-0 top-0 z-50 lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-  <div class="flex items-center justify-between h-16 px-4">
-    <a href="/" class="flex items-center gap-2 text-xl font-bold">
-      <Icon name="book" class="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-      <span>{siteConfig.brandTitle}</span>
+<div id="mobile-nav" class="fixed inset-0 z-50 bg-white dark:bg-slate-900 hidden flex-col overflow-auto">
+  <div class="border-b border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between">
+    <a href={getLink('/')} class="flex items-center gap-2 text-xl font-bold">
+      {logoPath && <img src={logoPath} alt="Logo" class="h-8 w-8" />}
+      <span>{brandTitle}</span>
     </a>
+    <button id="close-mobile-nav" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+      <Icon name="heroicons:x-mark" class="h-6 w-6" />
+    </button>
+  </div>
+  <div class="p-4 flex-1">
+    <nav class="mb-8">
+      <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Navigation</h3>
+      <a href={getLink('/')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">Home</a>
+      <a href={getLink('/blog')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">Blog</a>
+      <a href={getLink('/projects')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">Projects</a>
+      <a href={getLink('/about')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">About</a>
+    </nav>
     
-    <div class="flex items-center gap-2">
-      <ThemeToggle />
-      
-      <button 
-        id="mobile-menu-button" 
-        class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-        aria-label="Toggle menu"
-        data-menu-open="false"
-      >
-        <Icon name="menu" class="w-6 h-6 block" id="menu-open-icon" />
-        <Icon name="x" class="w-6 h-6 hidden" id="menu-close-icon" />
-      </button>
+    <div class="mb-8">
+      <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Categories</h3>
+      <a href={getLink('/categories')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">All Categories</a>
+      <a href={getLink('/tags')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">All Tags</a>
     </div>
   </div>
-  
-  <div id="mobile-menu-panel" class="hidden p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-    <nav class="space-y-4">
-      <a href="/" class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">Home</a>
-      <a href="/blog" class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">Blog</a>
-      <a href="/projects" class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">Projects</a>
-      <a href="/about" class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">About</a>
-      
-      {sortedCategories.length > 0 && (
-      <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
-        <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-2">Categories</p>
-        <div class="space-y-1">
-            {sortedCategories.map(({ name, count }) => (
-              <a 
-                href={`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`} 
-                class="flex justify-between items-center p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
-              >
-                <span>{name}</span>
-                <span class="text-xs bg-slate-200 dark:bg-slate-700 rounded-full px-2 py-0.5 text-slate-600 dark:text-slate-300">{count}</span>
-              </a>
-            ))}
-          </div>
-        </div>
+  <div class="border-t border-slate-200 dark:border-slate-800 p-4">
+    <div class="flex items-center justify-center gap-4">
+      {socialConfig.github && (
+        <a href={socialConfig.github} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" target="_blank" rel="noopener">
+          <Icon name="heroicons:link" class="h-5 w-5" />
+        </a>
       )}
-      
-      <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
-        <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-2">Connect</p>
-        <div class="flex space-x-3 items-center">
-          <a href={socialConfig.github} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="GitHub">
-            <Icon name="github" class="w-5 h-5" />
-          </a>
-          <a href={socialConfig.linkedin} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="LinkedIn">
-            <Icon name="linkedin" class="w-5 h-5" />
-          </a>
-          <a href="/api/rss.xml" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="RSS">
-            <Icon name="rss" class="w-5 h-5" />
-          </a>
-        </div>
-      </div>
-    </nav>
+      {socialConfig.linkedin && (
+        <a href={socialConfig.linkedin} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" target="_blank" rel="noopener">
+          <Icon name="heroicons:link" class="h-5 w-5" />
+        </a>
+      )}
+      <a href={getLink('/api/rss.xml')} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="RSS">
+        <Icon name="heroicons:rss" class="h-5 w-5" />
+      </a>
+    </div>
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu-panel');
-    
-    if (mobileMenuButton && mobileMenu) {
-      // Click handler
-      mobileMenuButton.addEventListener('click', () => {
-        // Get menu state
-        const isExpanded = mobileMenuButton.getAttribute('data-menu-open') === 'true';
-        
-        // Toggle menu state
-        mobileMenuButton.setAttribute('data-menu-open', (!isExpanded).toString());
-        
-        if (isExpanded) {
-          // Close menu
-          mobileMenu.classList.add('hidden');
-          mobileMenuButton.querySelector('#menu-open-icon').classList.remove('hidden');
-          mobileMenuButton.querySelector('#menu-open-icon').classList.add('block');
-          mobileMenuButton.querySelector('#menu-close-icon').classList.add('hidden');
-          mobileMenuButton.querySelector('#menu-close-icon').classList.remove('block');
-        } else {
-          // Open menu
-          mobileMenu.classList.remove('hidden');
-          mobileMenuButton.querySelector('#menu-open-icon').classList.add('hidden');
-          mobileMenuButton.querySelector('#menu-open-icon').classList.remove('block');
-          mobileMenuButton.querySelector('#menu-close-icon').classList.remove('hidden');
-          mobileMenuButton.querySelector('#menu-close-icon').classList.add('block');
-        }
-      });
-      
-      // Add click event handler
-      document.addEventListener('click', (event) => {
-        // ...existing code...
-      });
-    }
-  });
+  const closeBtn = document.getElementById('close-mobile-nav');
+  const mobileNav = document.getElementById('mobile-nav');
+  
+  if (closeBtn && mobileNav) {
+    closeBtn.addEventListener('click', () => {
+      mobileNav.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    });
+  }
 </script>

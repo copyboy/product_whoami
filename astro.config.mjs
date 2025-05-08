@@ -6,11 +6,16 @@ import sitemap from '@astrojs/sitemap';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkToc from 'remark-toc';
-import { getSiteConfig } from './src/utils/config';
+import { getSiteConfig } from './src/utils/config'; // 确保路径正确
+
+const siteConfig = getSiteConfig();
+console.log('Astro Config - URL:', siteConfig.url);
+console.log('Astro Config - Base:', siteConfig.base);
 
 // https://astro.build/config
 export default defineConfig({
-  site: getSiteConfig().url,
+  site: siteConfig.url, // 使用从 config 文件获取的 URL
+  base: siteConfig.base, // <-- 使用从 config 文件获取的 base
   integrations: [
     tailwind(),
     mdx({
@@ -26,7 +31,7 @@ export default defineConfig({
       }
     }),
     react(),
-    sitemap()
+    sitemap() // sitemap 会自动使用 site 和 base
   ],
   markdown: {
     syntaxHighlight: 'shiki',
@@ -35,36 +40,26 @@ export default defineConfig({
       wrap: true
     }
   },
-  output: 'static',
+  output: 'static', // 保持 'static'，因为 GitHub Pages 和 Cloudflare Pages 都托管静态文件
   image: {
-    // Image service optimization configuration
     service: {
       entrypoint: 'astro/assets/services/sharp',
       config: {
-        jpeg: {
-          quality: 80
-        },
-        png: {
-          quality: 80
-        },
-        webp: {
-          quality: 80
-        },
-        avif: {
-          quality: 65 // Reduce AVIF quality to speed up processing
-        }
+        jpeg: { quality: 80 },
+        png: { quality: 80 },
+        webp: { quality: 80 },
+        avif: { quality: 65 }
       }
     },
-    // Use faster formats for development environment
     dev: {
-      format: 'webp' // Use WebP instead of AVIF in development environment
+      format: 'webp'
     }
   },
   vite: {
+    base: siteConfig.base, // 确保Vite也使用相同的base
     build: {
-      assetsInlineLimit: 4096, // Inline images smaller than 4kb as base64
+      assetsInlineLimit: 4096,
     },
-    // Optimize development server
     server: {
       watch: {
         usePolling: false
@@ -72,6 +67,10 @@ export default defineConfig({
       hmr: {
         overlay: true
       }
+    },
+    // 添加定义环境变量，确保客户端代码能访问
+    define: {
+      'import.meta.env.PUBLIC_BASE_URL': JSON.stringify(siteConfig.base)
     }
   }
 });

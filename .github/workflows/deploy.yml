@@ -35,11 +35,32 @@ jobs:
           node-version: '20' # 推荐使用 LTS 版本，根据你的项目需要调整
           cache: 'npm' # 或 'yarn', 'pnpm'
 
+      - name: Debug environment variables
+        run: |
+          echo "DEPLOY_ENV: $DEPLOY_ENV"
+          echo "GITHUB_REPO_NAME: $GITHUB_REPO_NAME"
+          echo "GITHUB_ACTOR: $GITHUB_ACTOR"
+          echo "NODE_ENV: $NODE_ENV"
+          
       - name: Install dependencies
         run: npm ci # 或者 yarn install --frozen-lockfile, pnpm install --frozen-lockfile
 
+      - name: Generate debug script
+        run: |
+          echo "console.log('Debug configuration:');" > debug-config.js
+          echo "const { getSiteConfig } = require('./src/utils/config');" >> debug-config.js
+          echo "const config = getSiteConfig();" >> debug-config.js
+          echo "console.log('URL:', config.url);" >> debug-config.js
+          echo "console.log('Base:', config.base);" >> debug-config.js
+          echo "console.log('Full URL:', config.url + config.base);" >> debug-config.js
+
+      - name: Debug config
+        run: node debug-config.js
+
       - name: Build Astro site
-        run: npm run build # Astro 的构建命令
+        run: |
+          export NODE_ENV=production
+          npm run build # Astro 的构建命令
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
