@@ -4,6 +4,7 @@ import ThemeScript from '@components/ThemeScript.astro';
 import DeployDebug from '@components/DeployDebug.astro';
 import '../styles/global.css';
 import { getSiteConfig } from '@utils/config';
+import { getLink } from '@utils/paths';
 
 export interface Props {
   title?: string;
@@ -14,7 +15,6 @@ export interface Props {
 
 // Get site configuration
 const siteConfig = getSiteConfig();
-const isDev = import.meta.env.DEV === true;
 
 const {
   title = siteConfig.title,
@@ -34,8 +34,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
     
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href={import.meta.env.BASE_URL + "favicon.ico"} />
-    <link rel="apple-touch-icon" href={import.meta.env.BASE_URL + "favicon.ico"} />
+    <link rel="icon" type="image/x-icon" href={getLink("/favicon.ico")} />
+    <link rel="apple-touch-icon" href={getLink("/favicon.ico")} />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalURL} />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
@@ -67,7 +67,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
   </head>
   <body class="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 transition-colors duration-300">
     <slot />
-    {/* 只在开发环境或有debug参数时显示调试信息 */}
-    {isDev || Astro.url.searchParams.has('debug') ? <DeployDebug /> : null}
+    <DeployDebug />
   </body>
 </html>
