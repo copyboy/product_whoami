@@ -45,17 +45,17 @@ jobs:
       - name: Install dependencies
         run: npm ci # 或者 yarn install --frozen-lockfile, pnpm install --frozen-lockfile
 
-      - name: Generate debug script
+      # 使用内联Node脚本直接输出环境变量，避免模块系统问题
+      - name: Debug Astro Environment
         run: |
-          echo "console.log('Debug configuration:');" > debug-config.js
-          echo "const { getSiteConfig } = require('./src/utils/config');" >> debug-config.js
-          echo "const config = getSiteConfig();" >> debug-config.js
-          echo "console.log('URL:', config.url);" >> debug-config.js
-          echo "console.log('Base:', config.base);" >> debug-config.js
-          echo "console.log('Full URL:', config.url + config.base);" >> debug-config.js
-
-      - name: Debug config
-        run: node debug-config.js
+          node -e "
+          console.log('Debug Astro Environment:');
+          console.log('NODE_ENV:', process.env.NODE_ENV || 'undefined');
+          console.log('DEPLOY_ENV:', process.env.DEPLOY_ENV || 'undefined');
+          console.log('GITHUB_REF:', process.env.GITHUB_REF || 'undefined');
+          console.log('GITHUB_REPO_NAME:', process.env.GITHUB_REPO_NAME || 'undefined');
+          console.log('GITHUB_ACTOR:', process.env.GITHUB_ACTOR || 'undefined');
+          "
 
       - name: Build Astro site
         run: |

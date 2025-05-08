@@ -14,11 +14,13 @@ export function getLink(path) {
   }
   
   // 使用Astro的环境变量来获取基础路径
-  return import.meta.env.BASE_URL.endsWith('/') 
-    ? import.meta.env.BASE_URL.slice(0, -1) + path 
-    : import.meta.env.BASE_URL + path;
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  return baseUrl.endsWith('/') 
+    ? baseUrl.slice(0, -1) + path 
+    : baseUrl + path;
 }
 
+// 确保使用ES模块导出语法
 export default {
   getLink
 }; 

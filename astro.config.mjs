@@ -7,6 +7,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkToc from 'remark-toc';
 import { getSiteConfig } from './src/utils/config'; // 确保路径正确
+import icon from 'astro-icon';
 
 const siteConfig = getSiteConfig();
 console.log('Astro Config - URL:', siteConfig.url);
@@ -31,7 +32,8 @@ export default defineConfig({
       }
     }),
     react(),
-    sitemap() // sitemap 会自动使用 site 和 base
+    sitemap(), // sitemap 会自动使用 site 和 base
+    icon() // 添加 icon 集成
   ],
   markdown: {
     syntaxHighlight: 'shiki',
