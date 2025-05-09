@@ -183,6 +183,78 @@ import { getLink } from '@utils/paths';
 <a href={getLink('/blog')}>博客</a>
 ```
 
+### 重要！确保处理所有链接类型
+
+**必须确保项目中的所有链接都使用`getLink`函数处理，包括但不限于：**
+
+1. **导航链接**：主导航、侧边栏、页脚导航等
+2. **文章卡片链接**：从列表页到详情页的链接
+3. **分页链接**：如博客分页中的上一页/下一页链接
+4. **标签和分类链接**：如标签云中的每个标签链接
+5. **相关文章链接**：如"阅读更多"、"相关文章"等推荐链接
+6. **动态生成的链接**：如从API或数据文件中生成的链接
+
+### 客户端JavaScript/React组件中处理链接
+
+对于客户端JavaScript组件（如React组件），需要特殊处理以获取基础路径：
+
+```jsx
+// React组件中处理链接的示例
+import React from 'react';
+
+// 客户端获取基础路径的辅助函数
+const getBasePath = () => {
+  // 在生产环境中，可以从全局变量读取基础路径
+  if (typeof window !== 'undefined') {
+    // @ts-ignore - 全局变量由Astro注入
+    if (window.BASE_PATH) {
+      // @ts-ignore
+      return window.BASE_PATH;
+    }
+  }
+  return import.meta.env.BASE_URL || '';
+};
+
+// 生成带有基础路径的链接
+const getLink = (path) => {
+  const basePath = getBasePath();
+  // 确保路径以斜杠开头
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  // 拼接路径时避免双斜杠
+  return `${basePath}${normalizedPath}`;
+};
+
+function MyComponent() {
+  return (
+    <div>
+      <a href={getLink('/blog')}>博客</a>
+      <a href={getLink('/about')}>关于</a>
+    </div>
+  );
+}
+```
+
+### 常见链接问题检查清单
+
+为了避免部署后出现404错误，请检查以下组件和文件中的链接：
+
+- [ ] ArticleCard, ArticleListItem等文章卡片组件
+- [ ] Navigation, Sidebar等导航组件 
+- [ ] 分页组件和分页链接
+- [ ] 标签页面和标签链接
+- [ ] 分类页面和分类链接
+- [ ] 搜索结果页面中的链接
+- [ ] React/Vue等客户端组件中的链接
+
+**提示**：部署前，可以通过以下命令在本地检查所有HTML文件中的链接是否包含基础路径：
+
+```bash
+# 构建项目
+npm run build
+# 查找所有不包含基础路径的链接
+grep -r "href=\"/[^\"]*\"" dist --include="*.html"
+```
+
 ## 4. 本地开发与预览
 
 为了方便本地开发和预览，我们需要添加一些命令到`package.json`：
