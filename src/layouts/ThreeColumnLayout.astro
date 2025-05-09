@@ -25,7 +25,7 @@ const { title, description, image, article, toc } = Astro.props;
     <MobileNav />
 
     <!-- Left Sidebar (hidden on mobile) -->
-    <Navigation class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 shrink-0" />
+    <Navigation class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 shrink-0 z-40" />
 
     <!-- Main Content -->
     <main class="flex-1 w-full px-4 pt-16 lg:pt-0 lg:ml-64 xl:mr-72">
@@ -35,6 +35,22 @@ const { title, description, image, article, toc } = Astro.props;
     </main>
 
     <!-- Right Sidebar (hidden on mobile and tablet) -->
-    <Sidebar class="hidden xl:block xl:w-72 shrink-0 fixed right-0 top-0 bottom-0" toc={toc} />
+    <Sidebar class="hidden xl:block xl:w-72 shrink-0 fixed right-0 top-0 bottom-0 border-l border-slate-200 dark:border-slate-800 overflow-y-auto" toc={toc} />
   </div>
 </BaseLayout>
+
+<style>
+  /* 确保左侧边栏始终占据固定宽度的空间 */
+  @media (min-width: 1024px) {
+    main {
+      margin-left: 16rem; /* 等同于 lg:w-64 */
+    }
+  }
+  
+  /* 确保右侧边栏始终占据固定宽度的空间 */
+  @media (min-width: 1280px) {
+    main {
+      margin-right: 18rem; /* 等同于 xl:w-72 */
+    }
+  }
+</style>

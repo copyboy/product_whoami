@@ -5,6 +5,28 @@ interface SidebarSearchIslandProps {
   placeholder?: string;
 }
 
+// Helper function to get base path in client-side JavaScript
+const getBasePath = () => {
+  // In production, read from the global BASE_PATH variable if it exists
+  if (typeof window !== 'undefined') {
+    // @ts-ignore - global variable injected by Astro
+    if (window.BASE_PATH) {
+      // @ts-ignore
+      return window.BASE_PATH;
+    }
+  }
+  return import.meta.env.BASE_URL || '';
+};
+
+// Helper function to get a URL with the base path
+const getLink = (path: string) => {
+  const basePath = getBasePath();
+  // Ensure path starts with a slash
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  // Avoid double slashes when concatenating
+  return `${basePath}${normalizedPath}`;
+};
+
 /**
  * Sidebar Search Component - Client-side interactive island
  */
@@ -20,7 +42,7 @@ function SidebarSearchIsland({ placeholder = "Search..." }: SidebarSearchIslandP
     if (!searchQuery.trim()) return;
     
     // Redirect to search page
-    window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+    window.location.href = getLink(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
   }, [searchQuery]);
   
   // Handle input change - Use useCallback to cache function
@@ -50,7 +72,7 @@ function SidebarSearchIsland({ placeholder = "Search..." }: SidebarSearchIslandP
   return (
     <form 
       ref={formRef}
-      action="/search" 
+      action={getLink('/search')} 
       method="get" 
       className="relative"
       onSubmit={handleSubmit}

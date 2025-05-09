@@ -1,4 +1,6 @@
 ---
+import { getLink } from '@utils/paths';
+
 export interface Props {
   title: string;
   description: string;
@@ -34,7 +36,7 @@ const hasUpdated = updatedDate && updatedDate > pubDate;
     <div>
       <!-- Title -->
       <h2 class="text-xl font-bold mb-2 leading-snug">
-        <a href={`/blog/${slug}`} class="hover:text-indigo-600 dark:hover:text-indigo-400">
+        <a href={getLink(`/blog/${slug}`)} class="hover:text-indigo-600 dark:hover:text-indigo-400">
           {title}
         </a>
       </h2>
@@ -44,7 +46,7 @@ const hasUpdated = updatedDate && updatedDate > pubDate;
         <div class="flex flex-wrap gap-1.5 mb-3">
           {tags.map(tag => (
             <a 
-              href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+              href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
               class="text-xs text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"
             >
               #{tag}
@@ -65,7 +67,7 @@ const hasUpdated = updatedDate && updatedDate > pubDate;
         </span>
         
         <a 
-          href={`/blog/${slug}`}
+          href={getLink(`/blog/${slug}`)}
           class="text-indigo-600 dark:text-indigo-400 hover:underline"
         >
           Read more →

@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
 import ArticleListItem from '@components/ArticleListItem.astro';
+import { getLink } from '@utils/paths';
 
 export async function getStaticPaths({ paginate }) {
   const allPosts = await getCollection('blog', ({ data }) => {
@@ -50,7 +51,7 @@ const sortedTags = Object.entries(tags)
     <div class="flex flex-wrap gap-2">
       {sortedTags.map(({ tag, count }) => (
         <a
-          href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+          href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
           class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors"
         >
           {tag}
@@ -78,7 +79,7 @@ const sortedTags = Object.entries(tags)
     <nav class="inline-flex rounded shadow-sm" aria-label="Pagination">
       {currentPage > 1 && (
         <a
-          href={`/blog${currentPage > 2 ? '/' + (currentPage - 1) : ''}`}
+          href={getLink(`/blog${currentPage > 2 ? '/' + (currentPage - 1) : ''}`)}
           class="px-3 py-2 rounded-l-md border border-r-0 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
         >
           Previous
@@ -86,7 +87,7 @@ const sortedTags = Object.entries(tags)
       )}
       {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
         <a
-          href={`/blog${page > 1 ? '/' + page : ''}`}
+          href={getLink(`/blog${page > 1 ? '/' + page : ''}`)}
           class:list={[
             'px-3 py-2 border border-slate-300 dark:border-slate-600',
             page === currentPage
@@ -99,7 +100,7 @@ const sortedTags = Object.entries(tags)
       ))}
       {currentPage < lastPage && (
         <a
-          href={`/blog/${currentPage + 1}`}
+          href={getLink(`/blog/${currentPage + 1}`)}
           class="px-3 py-2 rounded-r-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
         >
           Next

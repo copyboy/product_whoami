@@ -5,6 +5,7 @@ import TagCloud from './TagCloud.astro';
 import RecentPosts from './RecentPosts.astro';
 import { isFeatureEnabled } from '@utils/config';
 import SidebarSearchIsland from './islands/SidebarSearchIsland';
+import { getLink } from '@utils/paths';
 
 const { class: className, toc } = Astro.props;
 
@@ -41,7 +42,7 @@ const isSearchEnabled = isFeatureEnabled('search');
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold">Top Tags(12)</h3>
         <a 
-          href="/tags" 
+          href={getLink('/tags')} 
           class="text-xs text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-300 font-medium transition-colors flex items-center"
         >
           View all

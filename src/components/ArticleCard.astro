@@ -1,6 +1,7 @@
 ---
 import type { ArticleCardProps as Props } from '@types/astro';
 import { Image } from 'astro:assets';
+import { getLink } from '@utils/paths';
 
 const { title, description, pubDate, updatedDate, heroImage, tags, author, slug } = Astro.props;
 
@@ -15,7 +16,7 @@ const hasUpdated = updatedDate && updatedDate > pubDate;
 
 <article class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
   {heroImage && (
-    <a href={`/blog/${slug}`} class="block">
+    <a href={getLink(`/blog/${slug}`)} class="block">
       {typeof heroImage === 'string' ? (
         <img 
           src={heroImage} 
@@ -45,7 +46,7 @@ const hasUpdated = updatedDate && updatedDate > pubDate;
     <!-- Title area -->
     <div class="mb-3">
       <h2 class="text-base font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors line-clamp-2">
-        <a href={`/blog/${slug}`}>{title}</a>
+        <a href={getLink(`/blog/${slug}`)}>{title}</a>
       </h2>
     </div>
     
@@ -61,7 +62,7 @@ const hasUpdated = updatedDate && updatedDate > pubDate;
       <div class="flex flex-wrap gap-1">
         {tags && tags.length > 0 && tags.slice(0, 3).map(tag => (
           <a
-            href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+            href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
             class="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
           >
             {tag}
