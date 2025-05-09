@@ -1,15 +1,35 @@
 ---
-import { Icon } from 'astro-icon/components';
-import ThemeToggle from '@components/ThemeToggle.astro';
-import { getSiteConfig } from '@utils/config';
+import ThemeToggle from './ThemeToggle.astro';
+import Icon from './Icon.astro';
+import { getCollection } from 'astro:content';
+import { getSiteConfig, getSocialConfig } from '@utils/config';
 import { getLink } from '@utils/paths';
 
-const siteConfig = getSiteConfig();
-const logo = siteConfig.logo || '/logo.svg';
-const brandTitle = siteConfig.brandTitle || siteConfig.title;
+// Get all blog posts
+const blogPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
 
-// 确保logo路径正确
-const logoPath = logo.startsWith('http') ? logo : getLink(logo);
+// Extract and count categories
+const categories = blogPosts.reduce((acc, post) => {
+  if (post.data.categories) {
+    post.data.categories.forEach(category => {
+      acc[category] = (acc[category] || 0) + 1;
+    });
+  }
+  return acc;
+}, {} as Record<string, number>);
+
+// Convert to array and sort alphabetically
+const sortedCategories = Object.entries(categories)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([name, count]) => ({ name, count }));
+
+const { class: className } = Astro.props;
+
+// Get site configuration
+const siteConfig = getSiteConfig();
+const socialConfig = getSocialConfig();
 
 // 当前路径
 const pathname = Astro.url.pathname;
@@ -17,91 +37,97 @@ const pathname = Astro.url.pathname;
 // 检查路径是否活跃
 function isActive(path: string): boolean {
   if (path === '/') {
-    return pathname === path;
+    return pathname === path || pathname === getLink('/');
   }
-  return pathname.startsWith(path);
+  return pathname.startsWith(path) || pathname.startsWith(getLink(path));
 }
 ---
 
-<header class="sticky top-0 z-50 w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-  <div class="container mx-auto px-4 sm:px-6">
-    <div class="flex h-16 items-center justify-between">
-      <!-- Logo and Site Title -->
-      <div class="flex">
-        <a href={getLink('/')} class="flex items-center gap-2 text-xl font-bold">
-          {
-            logoPath && (
-              <img src={logoPath} alt="Logo" class="h-8 w-8" />
-            )
-          }
-          <span class="hidden sm:inline-block">{brandTitle}</span>
-        </a>
+<nav class:list={["bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-full p-4 flex flex-col", className]}>
+  <div class="py-4">
+    <a href={getLink('/')} class="flex items-center gap-2 text-xl font-bold">
+      <Icon name="book" class="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+      <span>{siteConfig.brandTitle}</span>
+    </a>
+  </div>
+
+  <div class="mt-8 space-y-6 flex-1">
+    <div>
+      <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Navigation</h3>
+      <ul class="space-y-2">
+        <li>
+          <a 
+            href={getLink('/')} 
+            class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
+          >
+            <Icon name="home" class="w-5 h-5" />
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href={getLink('/blog')} 
+            class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/blog') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
+          >
+            <Icon name="file-text" class="w-5 h-5" />
+            <span>Blog</span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href={getLink('/projects')} 
+            class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/projects') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
+          >
+            <Icon name="box" class="w-5 h-5" />
+            <span>Projects</span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href={getLink('/about')} 
+            class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/about') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
+          >
+            <Icon name="user" class="w-5 h-5" />
+            <span>About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    {sortedCategories.length > 0 && (
+      <div>
+        <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Categories</h3>
+        <ul class="space-y-1">
+          {sortedCategories.map(({ name, count }) => (
+            <li>
+              <a 
+                href={getLink(`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`)} 
+                class="block p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex justify-between items-center"
+              >
+                <span>{name}</span>
+                <span class="text-xs bg-slate-200 dark:bg-slate-700 rounded-full px-2 py-0.5 text-slate-600 dark:text-slate-300">{count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
+    )}
+  </div>
 
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center gap-1">
-        <a 
-          href={getLink('/')} 
-          class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/') ? 'text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
-        >
-          <Icon name="heroicons:home" class="h-5 w-5" />
-          <span>Home</span>
+  <div class="mt-auto pt-4 border-t border-slate-200 dark:border-slate-800">
+    <div class="flex items-center justify-between">
+      <div class="flex space-x-2">
+        <a href={socialConfig.github} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="GitHub">
+          <Icon name="github" class="w-5 h-5" />
         </a>
-        <a 
-          href={getLink('/blog')} 
-          class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/blog') ? 'text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
-        >
-          <Icon name="heroicons:document-text" class="h-5 w-5" />
-          <span>Blog</span>
+        <a href={socialConfig.linkedin} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="LinkedIn">
+          <Icon name="linkedin" class="w-5 h-5" />
         </a>
-        <a 
-          href={getLink('/projects')} 
-          class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/projects') ? 'text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
-        >
-          <Icon name="heroicons:rectangle-stack" class="h-5 w-5" />
-          <span>Projects</span>
-        </a>
-        <a 
-          href={getLink('/about')} 
-          class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/about') ? 'text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
-        >
-          <Icon name="heroicons:user" class="h-5 w-5" />
-          <span>About</span>
-        </a>
-      </nav>
-
-      <!-- Right side controls -->
-      <div class="flex items-center gap-2">
-        <!-- RSS Feed -->
         <a href={getLink('/api/rss.xml')} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="RSS">
-          <Icon name="heroicons:rss" class="h-5 w-5" />
+          <Icon name="rss" class="w-5 h-5" />
         </a>
-
-        <!-- Theme Toggle -->
-        <ThemeToggle />
-
-        <!-- Mobile Menu Button -->
-        <button
-          id="mobile-menu-button"
-          class="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-          aria-label="Toggle Menu"
-        >
-          <Icon name="heroicons:bars-3" class="h-5 w-5" />
-        </button>
       </div>
+      <ThemeToggle />
     </div>
   </div>
-</header>
-
-<script>
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileNavElement = document.getElementById('mobile-nav');
-
-  if (mobileMenuButton && mobileNavElement) {
-    mobileMenuButton.addEventListener('click', () => {
-      const mobileNav = mobileNavElement as HTMLElement;
-      mobileNav.classList.toggle('hidden');
-      document.body.classList.toggle('overflow-hidden');
-    });
-  }
-</script>
+</nav>
