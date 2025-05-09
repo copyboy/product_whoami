@@ -20,21 +20,21 @@ const { title, description, image, article, toc } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} image={image} article={article}>
-  <div class="flex flex-col lg:flex-row min-h-screen">
-    <!-- Mobile Navigation (shown only on small screens) -->
-    <MobileNav />
+  <div class="flex flex-col min-h-screen">
+    <!-- 顶部导航栏 - 在所有设备上显示 -->
+    <Navigation class="z-50" />
 
-    <!-- Left Sidebar (hidden on mobile) -->
-    <Navigation class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 shrink-0" />
+    <div class="flex flex-1 relative pt-16">
+      <!-- Mobile Navigation (shown only on small screens) -->
+      <MobileNav />
 
-    <!-- Main Content -->
-    <main class="flex-1 w-full px-4 pt-16 lg:pt-0 lg:ml-64 xl:mr-72">
-      <div class="max-w-3xl mx-auto py-8">
+      <!-- Main Content -->
+      <main class="flex-1 w-full px-4 mx-auto max-w-4xl py-8">
         <slot />
-      </div>
-    </main>
+      </main>
 
-    <!-- Right Sidebar (hidden on mobile and tablet) -->
-    <Sidebar class="hidden xl:block xl:w-72 shrink-0 fixed right-0 top-0 bottom-0" toc={toc} />
+      <!-- Right Sidebar (hidden on mobile and tablet) -->
+      <Sidebar class="hidden xl:block xl:w-72 shrink-0 fixed right-0 top-16 bottom-0 overflow-y-auto" toc={toc} />
+    </div>
   </div>
 </BaseLayout>
