@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getLink } from '@utils/paths';
 
 // Get all blog posts
 const blogPosts = await getCollection('blog', ({ data }) => {
@@ -51,7 +52,7 @@ const topTags = tags.slice(0, 12);
 <div class="flex flex-wrap gap-2">
   {topTags.map(tag => (
     <a 
-      href={`/tags/${tag.name.toLowerCase().replace(/\s+/g, '-')}`}
+      href={getLink(`/tags/${tag.name.toLowerCase().replace(/\s+/g, '-')}`)}
       class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors"
     >
       {tag.name}

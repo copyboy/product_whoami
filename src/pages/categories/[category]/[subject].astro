@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import { getLink } from '@utils/paths';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog', ({ data }) => {
@@ -68,14 +69,14 @@ const displaySubject = subject.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUppe
       </div>
     </div>
     <div class="flex flex-wrap gap-2 items-center">
-      <a href="/categories" class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center text-sm">
+      <a href={getLink('/categories')} class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center text-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         All Categories
       </a>
       <span class="text-slate-400 mx-1">/</span>
-      <a href={`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`} class="text-indigo-600 dark:text-indigo-400 hover:underline text-sm">
+      <a href={getLink(`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`)} class="text-indigo-600 dark:text-indigo-400 hover:underline text-sm">
         {displayCategory}
       </a>
     </div>
@@ -91,7 +92,7 @@ const displaySubject = subject.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUppe
         </div>
         <h2 class="text-xl font-semibold mb-2">
           <a 
-            href={`/blog/${post.slug}`}
+            href={getLink(`/blog/${post.slug}`)}
             class="hover:text-indigo-600 dark:hover:text-indigo-400"
           >
             {post.data.title}
@@ -103,7 +104,7 @@ const displaySubject = subject.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUppe
         <div class="flex flex-wrap gap-2">
           {post.data.tags?.map(tag => (
             <a 
-              href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+              href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
               class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
             >
               {tag}

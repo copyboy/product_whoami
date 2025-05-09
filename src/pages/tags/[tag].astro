@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
 import ArticleCard from '@components/ArticleCard.astro';
+import { getLink } from '@utils/paths';
 
 export async function getStaticPaths() {
   // Get all blog posts
@@ -65,7 +66,7 @@ const totalItems = sortedPosts.length + sortedProjects.length;
       Showing {totalItems} item{totalItems !== 1 ? 's' : ''} tagged with "{displayTag}"
     </p>
     <div class="mt-4">
-      <a href="/tags" class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center">
+      <a href={getLink('/tags')} class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
@@ -111,7 +112,7 @@ const totalItems = sortedPosts.length + sortedProjects.length;
             )}
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">
-                <a href={`/projects/${project.slug}`} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <a href={getLink(`/projects/${project.slug}`)} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                   {project.data.title}
                 </a>
               </h3>
@@ -122,7 +123,7 @@ const totalItems = sortedPosts.length + sortedProjects.length;
               <div class="flex flex-wrap gap-2 mb-4">
                 {project.data.tags.map(t => (
                   <a 
-                    href={`/tags/${t.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={getLink(`/tags/${t.toLowerCase().replace(/\s+/g, '-')}`)}
                     class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
                   >
                     {t}

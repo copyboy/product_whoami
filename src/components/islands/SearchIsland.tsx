@@ -30,6 +30,28 @@ interface SearchIslandProps {
   initialQuery?: string;
 }
 
+// Helper function to get base path in client-side JavaScript
+const getBasePath = () => {
+  // In production, read from the global BASE_PATH variable if it exists
+  if (typeof window !== 'undefined') {
+    // @ts-ignore - global variable injected by Astro
+    if (window.BASE_PATH) {
+      // @ts-ignore
+      return window.BASE_PATH;
+    }
+  }
+  return import.meta.env.BASE_URL || '';
+};
+
+// Helper function to get a URL with the base path
+const getLink = (path: string) => {
+  const basePath = getBasePath();
+  // Ensure path starts with a slash
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  // Avoid double slashes when concatenating
+  return `${basePath}${normalizedPath}`;
+};
+
 // Extract search result card component to reduce rendering overhead
 const SearchResultCard = React.memo(({ post, formatDate }: { 
   post: SearchArticle; 
@@ -41,7 +63,7 @@ const SearchResultCard = React.memo(({ post, formatDate }: {
         {/* Title area */}
         <div className="mb-3">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors line-clamp-2">
-            <a href={`/blog/${post.slug}`}>{post.title}</a>
+            <a href={getLink(`/blog/${post.slug}`)}>{post.title}</a>
           </h2>
         </div>
         
@@ -58,7 +80,7 @@ const SearchResultCard = React.memo(({ post, formatDate }: {
             {post.tags && post.tags.slice(0, 3).map(tag => (
               <a
                 key={tag}
-                href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
                 className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
               >
                 {tag}

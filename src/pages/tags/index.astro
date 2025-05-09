@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import { getLink } from '@utils/paths';
 
 // Get all blog posts
 const allPosts = await getCollection('blog', ({ data }) => {
@@ -63,7 +64,7 @@ const sortedLetters = Object.keys(tagsByLetter).sort();
     <div class="flex flex-wrap gap-3">
       {sortedTags.map(({ tag, count }) => (
         <a
-          href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+          href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
           class="text-sm px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors flex items-center"
         >
           <span>{tag}</span>
@@ -86,7 +87,7 @@ const sortedLetters = Object.keys(tagsByLetter).sort();
             {tagsByLetter[letter].map(({ tag, count }) => (
               <li>
                 <a 
-                  href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                  href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
                   class="flex justify-between items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   <span>{tag}</span>

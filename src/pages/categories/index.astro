@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import { getLink } from '@utils/paths';
 
 // Get all blog posts
 const allPosts = await getCollection('blog', ({ data }) => {
@@ -34,7 +35,7 @@ const categories = Object.entries(categoryCount)
   <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     {categories.map(({ name, count }) => (
       <a 
-        href={`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`}
+        href={getLink(`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`)}
         class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-6 hover:shadow-md transition-shadow flex flex-col items-center text-center"
       >
         <h2 class="text-xl font-bold mb-2">{name}</h2>
