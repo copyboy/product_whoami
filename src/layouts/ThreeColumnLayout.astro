@@ -4,8 +4,6 @@ import Navigation from '@components/Navigation.astro';
 import Sidebar from '@components/Sidebar.astro';
 import MobileNav from '@components/MobileNav.astro';
 import { getLink } from '@utils/paths';
-import { Icon } from 'astro-icon/components';
-import { getSiteConfig } from '@utils/config';
 
 export interface Props {
   title?: string;
@@ -19,7 +17,6 @@ export interface Props {
   }[];
 }
 
-const siteConfig = getSiteConfig();
 const { title, description, image, article, toc } = Astro.props;
 
 // 当前路径
@@ -36,64 +33,75 @@ function isActive(path: string): boolean {
 
 <BaseLayout title={title} description={description} image={image} article={article}>
   <div class="flex flex-col min-h-screen">
-    <!-- 顶部导航栏 -->
+    <!-- Navigation header -->
     <Navigation />
     
     <div class="flex flex-1 pt-16">
-      <!-- 左侧边栏 (在移动设备上隐藏) -->
-      <aside class="hidden lg:block lg:w-64 lg:shrink-0 border-r border-slate-200 dark:border-slate-800 overflow-y-auto">
-        <div class="h-full py-8 px-4">
-          <nav class="space-y-1">
-            <a 
-              href={getLink('/')} 
-              class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
-            >
-              <Icon name="heroicons:home" class="h-5 w-5" />
-              <span>Home</span>
-            </a>
-            <a 
-              href={getLink('/blog')} 
-              class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/blog') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
-            >
-              <Icon name="heroicons:document-text" class="h-5 w-5" />
-              <span>Blog</span>
-            </a>
-            <a 
-              href={getLink('/projects')} 
-              class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/projects') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
-            >
-              <Icon name="heroicons:rectangle-stack" class="h-5 w-5" />
-              <span>Projects</span>
-            </a>
-            <a 
-              href={getLink('/about')} 
-              class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/about') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
-            >
-              <Icon name="heroicons:user" class="h-5 w-5" />
-              <span>About</span>
-            </a>
-          </nav>
-          
-          <div class="mt-8">
-            <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Categories</h3>
-            <a href={getLink('/categories')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">All Categories</a>
-            <a href={getLink('/tags')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">All Tags</a>
-          </div>
+      <!-- Mobile Navigation (shown only on small screens) -->
+      <MobileNav />
+
+      <!-- Left Sidebar (hidden on mobile) -->
+      <aside class="hidden lg:block lg:fixed lg:left-0 lg:top-16 lg:bottom-0 lg:w-64 overflow-y-auto border-r border-slate-200 dark:border-slate-800 py-6 px-4">
+        <nav class="space-y-1">
+          <a href={getLink('/')} class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            <span>Home</span>
+          </a>
+          <a href={getLink('/blog')} class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/blog') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd" />
+              <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
+            </svg>
+            <span>Blog</span>
+          </a>
+          <a href={getLink('/projects')} class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/projects') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+            </svg>
+            <span>Projects</span>
+          </a>
+          <a href={getLink('/about')} class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/about') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+            <span>About</span>
+          </a>
+        </nav>
+        
+        <div class="mt-8">
+          <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Categories</h3>
+          <a href={getLink('/categories')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">All Categories</a>
+          <a href={getLink('/tags')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">All Tags</a>
         </div>
       </aside>
 
-      <!-- 移动端导航 (只在小屏设备上显示) -->
-      <MobileNav />
-
-      <!-- 主内容区 -->
-      <main class="flex-1 px-4 xl:pr-72">
+      <!-- Main Content -->
+      <main class="flex-1 w-full px-4 lg:ml-64 xl:mr-72">
         <div class="max-w-3xl mx-auto py-8">
           <slot />
         </div>
       </main>
 
-      <!-- 右侧边栏 (在移动和平板设备上隐藏) -->
+      <!-- Right Sidebar (hidden on mobile and tablet) -->
       <Sidebar class="hidden xl:block xl:w-72 shrink-0 fixed right-0 top-16 bottom-0 border-l border-slate-200 dark:border-slate-800 overflow-y-auto" toc={toc} />
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  /* 确保左侧边栏始终占据固定宽度的空间 */
+  @media (min-width: 1024px) {
+    main {
+      margin-left: 16rem; /* 等同于 lg:w-64 */
+    }
+  }
+  
+  /* 确保右侧边栏始终占据固定宽度的空间 */
+  @media (min-width: 1280px) {
+    main {
+      margin-right: 18rem; /* 等同于 xl:w-72 */
+    }
+  }
+</style>
