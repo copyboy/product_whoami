@@ -3,6 +3,9 @@ import BaseLayout from './BaseLayout.astro';
 import Navigation from '@components/Navigation.astro';
 import Sidebar from '@components/Sidebar.astro';
 import MobileNav from '@components/MobileNav.astro';
+import { getLink } from '@utils/paths';
+import { Icon } from 'astro-icon/components';
+import { getSiteConfig } from '@utils/config';
 
 export interface Props {
   title?: string;
@@ -16,25 +19,81 @@ export interface Props {
   }[];
 }
 
+const siteConfig = getSiteConfig();
 const { title, description, image, article, toc } = Astro.props;
+
+// 当前路径
+const pathname = Astro.url.pathname;
+
+// 检查路径是否活跃
+function isActive(path: string): boolean {
+  if (path === '/') {
+    return pathname === path;
+  }
+  return pathname.startsWith(path);
+}
 ---
 
 <BaseLayout title={title} description={description} image={image} article={article}>
   <div class="flex flex-col min-h-screen">
-    <!-- 顶部导航栏 - 在所有设备上显示 -->
-    <Navigation class="z-50" />
+    <!-- 顶部导航栏 -->
+    <Navigation />
+    
+    <div class="flex flex-1 pt-16">
+      <!-- 左侧边栏 (在移动设备上隐藏) -->
+      <aside class="hidden lg:block lg:w-64 lg:shrink-0 border-r border-slate-200 dark:border-slate-800 overflow-y-auto">
+        <div class="h-full py-8 px-4">
+          <nav class="space-y-1">
+            <a 
+              href={getLink('/')} 
+              class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
+            >
+              <Icon name="heroicons:home" class="h-5 w-5" />
+              <span>Home</span>
+            </a>
+            <a 
+              href={getLink('/blog')} 
+              class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/blog') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
+            >
+              <Icon name="heroicons:document-text" class="h-5 w-5" />
+              <span>Blog</span>
+            </a>
+            <a 
+              href={getLink('/projects')} 
+              class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/projects') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
+            >
+              <Icon name="heroicons:rectangle-stack" class="h-5 w-5" />
+              <span>Projects</span>
+            </a>
+            <a 
+              href={getLink('/about')} 
+              class={`flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${isActive('/about') ? 'bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-medium' : ''}`}
+            >
+              <Icon name="heroicons:user" class="h-5 w-5" />
+              <span>About</span>
+            </a>
+          </nav>
+          
+          <div class="mt-8">
+            <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Categories</h3>
+            <a href={getLink('/categories')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">All Categories</a>
+            <a href={getLink('/tags')} class="block p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">All Tags</a>
+          </div>
+        </div>
+      </aside>
 
-    <div class="flex flex-1 relative pt-16">
-      <!-- Mobile Navigation (shown only on small screens) -->
+      <!-- 移动端导航 (只在小屏设备上显示) -->
       <MobileNav />
 
-      <!-- Main Content -->
-      <main class="flex-1 w-full px-4 mx-auto max-w-4xl py-8">
-        <slot />
+      <!-- 主内容区 -->
+      <main class="flex-1 px-4 xl:pr-72">
+        <div class="max-w-3xl mx-auto py-8">
+          <slot />
+        </div>
       </main>
 
-      <!-- Right Sidebar (hidden on mobile and tablet) -->
-      <Sidebar class="hidden xl:block xl:w-72 shrink-0 fixed right-0 top-16 bottom-0 overflow-y-auto" toc={toc} />
+      <!-- 右侧边栏 (在移动和平板设备上隐藏) -->
+      <Sidebar class="hidden xl:block xl:w-72 shrink-0 fixed right-0 top-16 bottom-0 border-l border-slate-200 dark:border-slate-800 overflow-y-auto" toc={toc} />
     </div>
   </div>
 </BaseLayout>
