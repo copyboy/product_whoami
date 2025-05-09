@@ -6,6 +6,7 @@ import Comments from '@components/Comments.astro';
 import { getCollection } from 'astro:content';
 import { getHeadings, calculateReadingTime } from '@utils/content';
 import { getSiteConfig, isFeatureEnabled } from '@utils/config';
+import { getLink } from '@utils/paths';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog', ({ data }) => {
@@ -77,7 +78,7 @@ const isReadingTimeEnabled = isFeatureEnabled('readingTime');
       <div class="flex flex-wrap gap-2 mb-4">
         {tags && tags.map(tag => (
           <a
-            href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+            href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
             class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors inline-flex items-center"
           >
             <Icon name="tag" class="w-4 h-4 mr-1" />

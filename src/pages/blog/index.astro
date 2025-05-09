@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
 import ArticleListItem from '@components/ArticleListItem.astro';
 import { formatPageTitle, getSiteConfig } from '@utils/config';
+import { getLink } from '@utils/paths';
 
 // Get all blog posts
 const allPosts = await getCollection('blog', ({ data }) => {
@@ -54,7 +55,7 @@ const siteConfig = getSiteConfig();
   <div class="mb-8">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold">Popular Tags</h2>
-      <a href="/tags" class="text-sm text-indigo-500 hover:text-indigo-600 flex items-center">
+      <a href={getLink('/tags')} class="text-sm text-indigo-500 hover:text-indigo-600 flex items-center">
         View all
         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
@@ -64,7 +65,7 @@ const siteConfig = getSiteConfig();
     <div class="flex flex-wrap gap-3">
       {topTags.map(({ tag, count }) => (
         <a
-          href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+          href={getLink(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
           class="text-md px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors shadow-sm"
         >
           {tag}
@@ -97,7 +98,7 @@ const siteConfig = getSiteConfig();
       <nav class="inline-flex rounded shadow-sm" aria-label="Pagination">
         {currentPage > 1 && (
           <a
-            href={`/blog${currentPage > 2 ? '/' + (currentPage - 1) : ''}`}
+            href={getLink(`/blog${currentPage > 2 ? '/' + (currentPage - 1) : ''}`)}
             class="px-3 py-2 rounded-l-md border border-r-0 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
           >
             Previous
@@ -105,7 +106,7 @@ const siteConfig = getSiteConfig();
         )}
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
           <a
-            href={`/blog${page > 1 ? '/' + page : ''}`}
+            href={getLink(`/blog${page > 1 ? '/' + page : ''}`)}
             class:list={[
               'px-3 py-2 border border-slate-300 dark:border-slate-600',
               page === currentPage
@@ -118,7 +119,7 @@ const siteConfig = getSiteConfig();
         ))}
         {currentPage < totalPages && (
           <a
-            href={`/blog/${currentPage + 1}`}
+            href={getLink(`/blog/${currentPage + 1}`)}
             class="px-3 py-2 rounded-r-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
           >
             Next
