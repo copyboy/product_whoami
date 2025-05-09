@@ -3,16 +3,14 @@ name: Deploy Demo to GitHub Pages
 on:
   push:
     branches:
-      - demo # 触发部署的 demo 分支
-  workflow_dispatch: # 允许手动触发
+      - demo
+  workflow_dispatch:
 
-# 指定 GitHub Actions 的权限，以便它可以部署到 GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 只允许一个并发部署，跳过在进行中的运行之间排队的运行。
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -21,10 +19,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DEPLOY_ENV: DEMO_GITHUB_PAGES # <--- 设置环境变量
-      # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GITHUB_TOKEN 是自动可用的
-      GITHUB_REPO_NAME: ${{ github.event.repository.name }} # 自动获取仓库名
-      GITHUB_ACTOR: ${{ github.actor }} # 自动获取触发工作流的用户名
+      DEPLOY_ENV: DEMO_GITHUB_PAGES
+      GITHUB_REPO_NAME: ${{ github.event.repository.name }}
+      GITHUB_ACTOR: ${{ github.actor }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,35 +29,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 推荐使用 LTS 版本，根据你的项目需要调整
-          cache: 'npm' # 或 'yarn', 'pnpm'
+          node-version: '20'
+          cache: 'npm'
 
-      - name: Debug environment variables
-        run: |
-          echo "DEPLOY_ENV: $DEPLOY_ENV"
-          echo "GITHUB_REPO_NAME: $GITHUB_REPO_NAME"
-          echo "GITHUB_ACTOR: $GITHUB_ACTOR"
-          echo "NODE_ENV: $NODE_ENV"
-          
       - name: Install dependencies
-        run: npm ci # 或者 yarn install --frozen-lockfile, pnpm install --frozen-lockfile
-
-      # 使用内联Node脚本直接输出环境变量，避免模块系统问题
-      - name: Debug Astro Environment
-        run: |
-          node -e "
-          console.log('Debug Astro Environment:');
-          console.log('NODE_ENV:', process.env.NODE_ENV || 'undefined');
-          console.log('DEPLOY_ENV:', process.env.DEPLOY_ENV || 'undefined');
-          console.log('GITHUB_REF:', process.env.GITHUB_REF || 'undefined');
-          console.log('GITHUB_REPO_NAME:', process.env.GITHUB_REPO_NAME || 'undefined');
-          console.log('GITHUB_ACTOR:', process.env.GITHUB_ACTOR || 'undefined');
-          "
+        run: npm ci
 
       - name: Build Astro site
         run: |
           export NODE_ENV=production
-          npm run build # Astro 的构建命令
+          npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -68,7 +46,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Astro 默认构建到 'dist' 目录
           path: './dist'
 
   deploy:
@@ -80,4 +57,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4 
