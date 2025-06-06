@@ -1,0 +1,11 @@
+# SPA fallback for dynamic routes
+/blog/* /index.html 200
+/projects/* /index.html 200
+/categories/* /index.html 200
+/tags/* /index.html 200
+
+# 404 handling
+/* /404.html 404
+
+# Redirect root to homepage
+/ /index.html 200 
