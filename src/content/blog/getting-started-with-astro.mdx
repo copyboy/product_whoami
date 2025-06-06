@@ -1,0 +1,205 @@
+---
+title: "基于Astro的现代个人博客"
+description: "这是一个关于基于Astro、React和Tailwind CSS构建的现代、快速、功能丰富的博客平台的综合指南。"
+pubDate: 2024-05-01
+updatedDate: 2024-05-01
+heroImage: "https://astro.build/assets/blog/astro-3/cover.jpeg"
+tags: ["Astro", "React", "Tailwind CSS", "Blog"]
+categories: ["documentation"]
+subject: "项目文档"
+location: "武汉，中国"
+---
+
+## 💡 项目概述
+
+欢迎使用我们的现代个人博客平台！该系统结合了前沿的Web技术，创建了一个高性能、功能丰富的内容管理系统，专为博主、开发者和内容创作者设计。
+
+### 主要特点
+
+**内容管理**
+- 基于MDX的博客文章，支持丰富的格式和代码高亮
+- 具有主类别和子主题的分层分类系统
+- 标签系统，支持相关内容发现
+- 精选文章和草稿模式
+
+**用户体验**
+- 响应式三栏布局，针对移动设备优化
+- 深色/浅色主题切换，带平滑过渡效果
+- 优化的文章列表，保持一致的对齐方式
+- 具有动态类别菜单的增强导航
+
+**性能**
+- 静态站点生成，实现闪电般的页面加载速度
+- 图片优化和懒加载
+- CSS/JS压缩和代码分割
+- 高PageSpeed和Core Web Vitals得分
+
+**开发者体验**
+- 基于组件的架构，易于维护
+- 使用Tailwind CSS进行快速样式设计
+- 内容集合，实现类型安全的内容管理
+- 清晰的约定和文档
+
+## 📚 内容管理
+
+### 创建博客文章
+
+博客文章以MDX文件格式存储在`src/content/blog/`目录中。每篇文章应遵循以下结构：
+
+```md
+---
+title: 文章标题
+description: 文章的简短描述
+pubDate: 2024-01-01
+updatedDate: 2024-01-02 # 可选
+heroImage: https://example.com/image.jpg # 可选
+tags: ['typescript', 'react', 'web development']
+categories: ['programming']
+subject: 'React' # 子类别
+draft: false
+featured: false
+author: 你的名字
+location: 城市，国家
+---
+
+你的内容在这里...
+```
+
+### 前置元数据字段
+
+#### 必填字段
+- `title`: 文章标题
+- `description`: 简短摘要（建议150-160个字符）
+- `pubDate`: 发布日期（YYYY-MM-DD）
+- `tags`: 相关标签数组
+- `categories`: 类别数组
+
+#### 可选字段
+- `updatedDate`: 最后更新日期
+- `heroImage`: 特色图片URL
+- `subject`: 主类别内的子类别
+- `draft`: 设置为`true`可在生产构建中排除
+- `featured`: 设置为`true`可在首页突出显示
+- `author`: 文章作者名
+- `location`: 作者所在地
+
+### 推荐标签
+- 技术: `web development`, `tools`, `software`
+- 编程: `javascript`, `typescript`, `react`, `node.js`
+- 设计: `ui`, `ux`, `css`, `design systems`
+- 通用: `tutorial`, `guide`, `opinion`, `career`
+
+## 🏗 项目架构
+
+该项目遵循一个组织良好的结构：
+
+```
+src/
+├── components/     # 可复用UI组件
+├── content/        # 博客文章和内容集合
+│   ├── blog/      # 博客文章(MDX)
+│   └── projects/  # 项目展示
+├── layouts/        # 页面布局
+├── pages/         # 路由页面
+│   ├── blog/      # 博客文章页面
+│   ├── categories/ # 类别页面及子主题页面
+│   └── tags/      # 标签页面
+└── styles/        # 全局样式
+```
+
+### 关键组件
+- `ThreeColumnLayout.astro`: 主博客布局
+- `ArticleCard.astro`: 博客文章预览卡
+- `ArticleListItem.astro`: 紧凑型文章列表项，优化对齐
+- `TableOfContents.astro`: 自动生成的文章目录
+- `Navigation.astro`: 主导航菜单，针对移动设备优化
+- `Sidebar.astro`: 右侧边栏，显示最近文章/标签
+
+## 💻 开始使用
+
+### 安装
+
+```bash
+# 克隆仓库
+git clone [repository-url]
+
+# 进入项目目录
+cd [project-directory]
+
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+```
+
+### 开发工作流程
+
+1. 开发服务器将在`http://localhost:3000`可用
+2. 在`src/content/blog/`中编辑或添加博客文章
+3. 根据需要修改`src/components/`中的组件
+4. 在`src/styles/global.css`中更新样式
+
+### 生产环境构建
+
+```bash
+# 生产环境构建
+npm run build
+
+# 预览生产构建
+npm run preview
+```
+
+## 📝 编写内容
+
+### Markdown功能
+- 标题: `# H1`到`###### H6`
+- 列表: 有序和无序列表
+- 代码块: 支持语法高亮
+- 图片: 支持图片说明
+- 引用块
+- 表格
+
+### 代码示例
+```md
+```typescript
+// 你的代码在这里
+```
+```
+
+### 图片
+```md
+![替代文本](图片链接)
+```
+
+## 🔧 自定义设置
+
+### Astro配置
+编辑`astro.config.mjs`来自定义:
+- 站点元数据
+- Markdown/MDX选项
+- 集成设置
+- 构建配置
+
+### Tailwind配置
+编辑`tailwind.config.js`来自定义:
+- 主题设置
+- 颜色调色板
+- 排版
+- 自定义工具类
+
+## 🚀 部署
+
+该站点可以部署到各种平台:
+
+- Netlify
+- Vercel
+- GitHub Pages
+- AWS/Azure/GCP
+
+只需将你的仓库连接到你偏好的托管提供商，或在运行`npm run build`后上传`dist/`目录中的构建文件。
+
+## �� 许可证
+
+MIT © 2025
+

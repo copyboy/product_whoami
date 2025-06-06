@@ -1,0 +1,74 @@
+---
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import { getCollection } from 'astro:content';
+import { getSiteConfig, isFeatureEnabled } from '@utils/config';
+import fs from 'node:fs';
+import path from 'node:path';
+import SearchIsland from '@components/islands/SearchIsland';
+
+// Check if search functionality is enabled
+const isSearchEnabled = isFeatureEnabled('search');
+
+// If search functionality is disabled, redirect to home page
+if (!isSearchEnabled) {
+  return Astro.redirect('/');
+}
+
+// Get all blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Sort by date
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Get search query from URL
+const query = Astro.url.searchParams.get('q') || '';
+
+// Get site configuration
+const siteConfig = getSiteConfig();
+
+// Prepare article data for client-side search
+const searchableArticles = sortedPosts.map(post => ({
+  title: post.data.title,
+  description: post.data.description,
+  slug: post.slug,
+  pubDate: post.data.pubDate.toISOString(),
+  tags: post.data.tags || [],
+  author: post.data.author || siteConfig.author,
+  categories: post.data.categories || []
+}));
+
+// Save search data to public directory for client-side use
+const publicDir = path.join(process.cwd(), 'public');
+const searchDataDir = path.join(publicDir, 'data');
+
+// Ensure directory exists
+if (!fs.existsSync(searchDataDir)) {
+  fs.mkdirSync(searchDataDir, { recursive: true });
+}
+
+// Write search data
+fs.writeFileSync(
+  path.join(searchDataDir, 'search-data.json'),
+  JSON.stringify(searchableArticles)
+);
+
+// Generate timestamp for data file to prevent caching
+const dataTimestamp = Date.now();
+---
+
+<ThreeColumnLayout title={query ? `Search: ${query} | ${siteConfig.title}` : `Search | ${siteConfig.title}`} description="Search blog posts">
+  <div class="mx-auto max-w-3xl">
+    <h1 class="text-3xl font-bold mb-8">Search</h1>
+    
+    <!-- Use client-side island component for on-demand search functionality -->
+    <SearchIsland 
+      client:visible 
+      dataTimestamp={dataTimestamp}
+      initialQuery={query}
+    />
+  </div>
+</ThreeColumnLayout> 

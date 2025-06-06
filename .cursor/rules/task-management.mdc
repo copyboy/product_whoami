@@ -1,0 +1,286 @@
+---
+description: CursorRIPER Framework - Task Management
+globs: 
+alwaysApply: false
+---
+date_created: "2025-06-05"
+last_updated: "2025-06-05"
+framework_component: "task-management"
+priority: "high"
+scope: "development_maintenance"
+---
+<!-- Note: Cursor will strip out all the other header information and only keep the first three. -->
+# CursorRIPER Framework - Task Management
+# Version 1.0.0
+
+## AI PROCESSING INSTRUCTIONS
+This component manages enterprise-level task iteration and planning within the CursorRIPER Framework. As an AI assistant, you MUST:
+- Only load this component when PROJECT_PHASE is "DEVELOPMENT" or "MAINTENANCE"
+- Follow strict task creation and management protocols
+- Maintain task documentation and progress tracking
+- Never modify active tasks without proper authorization
+- Integrate task management with the RIPER workflow
+
+## TASK MANAGEMENT OVERVIEW
+
+The Task Management system provides structured iteration tracking for enterprise development projects. It integrates seamlessly with the RIPER workflow to ensure proper planning, execution, and documentation of all development tasks.
+
+## TASK DIRECTORY STRUCTURE
+
+```
+.tasks/
+├── active/                    # Currently active tasks
+│   └── YYYY-MM-DD_X_task-name/
+│       ├── task.md           # Task definition and requirements
+│       ├── plan.md           # Detailed implementation plan
+│       ├── progress.md       # Implementation progress tracking
+│       └── notes.md          # Development notes and decisions
+├── completed/                 # Completed tasks
+│   └── YYYY-MM-DD_X_task-name/
+├── archived/                  # Archived tasks
+│   └── YYYY-MM-DD_X_task-name/
+└── templates/                 # Task templates
+    ├── feature.md
+    ├── bugfix.md
+    ├── enhancement.md
+    └── maintenance.md
+```
+
+## TASK NAMING CONVENTION
+
+Tasks follow the format: `YYYY-MM-DD_X_task-name`
+- YYYY-MM-DD: Creation date
+- X: Sequential number for tasks created on the same date (1, 2, 3, etc.)
+- task-name: Descriptive name using kebab-case
+
+Examples:
+- `2025-06-05_1_fix-jenkins-setting-validation`
+- `2025-06-05_2_add-kubernetes-operator-support`
+- `2025-06-06_1_enhance-devops-pipeline`
+
+## TASK LIFECYCLE WORKFLOW
+
+```mermaid
+flowchart TD
+    A[Task Request] --> B{Task Type?}
+    B -->|Feature| C[Create Feature Task]
+    B -->|Bug Fix| D[Create Bug Fix Task]
+    B -->|Enhancement| E[Create Enhancement Task]
+    B -->|Maintenance| F[Create Maintenance Task]
+    
+    C --> G[PLAN Mode]
+    D --> G
+    E --> G
+    F --> G
+    
+    G --> H[Create Task Directory]
+    H --> I[Generate Task Files]
+    I --> J[EXECUTE Mode]
+    J --> K[Implementation]
+    K --> L[Progress Tracking]
+    L --> M{Task Complete?}
+    M -->|No| K
+    M -->|Yes| N[REVIEW Mode]
+    N --> O[Validation]
+    O --> P{Review Pass?}
+    P -->|No| K
+    P -->|Yes| Q[Move to Completed]
+    Q --> R[Update State]
+    R --> S[Archive Task]
+```
+
+## TASK COMMANDS
+
+### Task Creation Commands
+- `/task create <type> <name>` - Create new task
+- `/task list` - List all tasks
+- `/task active` - Show active tasks
+- `/task switch <task-id>` - Switch to specific task
+- `/task complete` - Mark current task as complete
+- `/task pause` - Pause current task
+- `/task resume <task-id>` - Resume paused task
+
+### Task Types
+- `feature` - New feature development
+- `bugfix` - Bug fix and troubleshooting
+- `enhancement` - Improvement to existing functionality
+- `maintenance` - Code maintenance and refactoring
+
+## TASK TEMPLATE STRUCTURES
+
+### Feature Task Template
+```markdown
+# Feature Task: [Task Name]
+
+## Task Information
+- **Task ID**: [YYYY-MM-DD_X_task-name]
+- **Type**: Feature
+- **Priority**: [High/Medium/Low]
+- **Estimated Time**: [X hours/days]
+- **Assignee**: [Name/AI Assistant]
+- **Created**: [Date]
+- **Status**: [PLANNED/ACTIVE/PAUSED/COMPLETED/REVIEWED/ARCHIVED]
+
+## Requirements
+- [ ] Functional requirement 1
+- [ ] Functional requirement 2
+- [ ] Non-functional requirement 1
+
+## Acceptance Criteria
+- [ ] Criteria 1
+- [ ] Criteria 2
+- [ ] Criteria 3
+
+## Dependencies
+- [ ] Dependency 1
+- [ ] Dependency 2
+
+## Technical Considerations
+- Architecture impact
+- Security considerations
+- Performance implications
+- Testing requirements
+
+## Implementation Notes
+[Space for implementation details and decisions]
+```
+
+### Bug Fix Task Template
+```markdown
+# Bug Fix Task: [Task Name]
+
+## Task Information
+- **Task ID**: [YYYY-MM-DD_X_task-name]
+- **Type**: Bug Fix
+- **Priority**: [Critical/High/Medium/Low]
+- **Severity**: [Critical/Major/Minor]
+- **Assignee**: [Name/AI Assistant]
+- **Created**: [Date]
+- **Status**: [PLANNED/ACTIVE/PAUSED/COMPLETED/REVIEWED/ARCHIVED]
+
+## Bug Description
+[Detailed description of the bug]
+
+## Steps to Reproduce
+1. Step 1
+2. Step 2
+3. Step 3
+
+## Expected Behavior
+[What should happen]
+
+## Actual Behavior
+[What actually happens]
+
+## Root Cause Analysis
+[Analysis of the root cause]
+
+## Fix Strategy
+[Approach to fix the bug]
+
+## Test Plan
+- [ ] Unit tests
+- [ ] Integration tests
+- [ ] Regression tests
+
+## Verification Steps
+- [ ] Verification step 1
+- [ ] Verification step 2
+```
+
+## TASK INTEGRATION WITH RIPER WORKFLOW
+
+### RESEARCH Mode + Task Management
+- Analyze existing tasks and their relationships
+- Research similar implementations
+- Gather requirements and constraints
+- Document findings in task notes
+
+### INNOVATE Mode + Task Management
+- Brainstorm implementation approaches
+- Explore alternative solutions
+- Consider architectural implications
+- Update task plan with innovative approaches
+
+### PLAN Mode + Task Management
+- Create detailed implementation plan
+- Define task breakdown structure
+- Estimate effort and timeline
+- Document technical specifications
+
+### EXECUTE Mode + Task Management
+- Implement according to plan
+- Track progress in real-time
+- Update progress.md regularly
+- Handle unexpected issues and decisions
+
+### REVIEW Mode + Task Management
+- Validate implementation against requirements
+- Perform code review and testing
+- Document lessons learned
+- Prepare for task completion
+
+## TASK STATE MANAGEMENT
+
+### Active Task Operations
+```javascript
+// Current active task tracking
+CURRENT_TASK: {
+  id: "2025-06-05_1_fix-jenkins-setting-validation",
+  type: "bugfix",
+  status: "ACTIVE",
+  created: "2025-06-05T10:41:07+08:00",
+  lastUpdated: "2025-06-05T10:41:07+08:00",
+  estimatedHours: 4,
+  actualHours: 0,
+  priority: "HIGH"
+}
+```
+
+### Task Metrics
+- Total tasks created
+- Tasks completed per day/week/month
+- Average completion time
+- Task type distribution
+- Success rate and rework frequency
+
+## ENTERPRISE INTEGRATION FEATURES
+
+### Multi-Developer Support
+- Task assignment and ownership
+- Collaboration notes and handoffs
+- Conflict resolution procedures
+- Knowledge sharing mechanisms
+
+### Project Management Integration
+- Sprint planning support
+- Milestone tracking
+- Dependency management
+- Resource allocation
+
+### Quality Assurance
+- Code review integration
+- Testing requirements
+- Documentation standards
+- Compliance checks
+
+## AUTOMATION FEATURES
+
+### Auto-Archive
+- Automatically move completed tasks to archived folder after 30 days
+- Maintain task references and links
+- Preserve task history and metrics
+
+### Template Management
+- Dynamic template selection based on task type
+- Custom template creation and modification
+- Template versioning and updates
+
+### Progress Tracking
+- Automatic progress calculation based on checklist completion
+- Time tracking and estimation accuracy
+- Bottleneck identification and reporting
+
+---
+
+*This component extends the CursorRIPER Framework with enterprise-grade task management capabilities.*

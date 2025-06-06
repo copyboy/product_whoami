@@ -1,0 +1,13 @@
+---
+import { isFeatureEnabled } from '@utils/config';
+import ThemeToggleIsland from './islands/ThemeToggleIsland';
+
+// Check if dark mode functionality is enabled
+const isDarkModeEnabled = isFeatureEnabled('darkMode');
+
+// If the feature is disabled, return early
+if (!isDarkModeEnabled) return;
+---
+
+<!-- Use client-side island component with idle loading -->
+<ThemeToggleIsland client:idle /> 

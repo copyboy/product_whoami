@@ -1,0 +1,125 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+
+export async function getStaticPaths() {
+  const projectEntries = await getCollection('projects');
+  
+  return projectEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Extract metadata
+const { title, description, pubDate, updatedDate, heroImage, repoUrl, demoUrl, tags } = entry.data;
+
+// Format dates
+const formattedDate = pubDate.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const updatedFormatted = updatedDate?.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const hasUpdated = updatedDate && updatedDate > pubDate;
+---
+
+<ThreeColumnLayout title={`${title} | Projects`} description={description} image={heroImage}>
+  <article class="mx-auto">
+    <header class="mb-8">
+      {heroImage && (
+        <img 
+          src={heroImage} 
+          alt={title}
+          class="w-full h-64 object-cover rounded-lg mb-6"
+          width="1200"
+          height="600"
+        />
+      )}
+      
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tags && tags.map(tag => (
+          <a
+            href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+            class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors"
+          >
+            {tag}
+          </a>
+        ))}
+      </div>
+      
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">{title}</h1>
+      
+      <p class="text-lg text-slate-600 dark:text-slate-300 mb-4">{description}</p>
+      
+      <div class="flex flex-wrap items-center gap-6 mb-6">
+        <div class="flex items-center text-slate-600 dark:text-slate-300 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>Created: <time datetime={pubDate.toISOString()}>{formattedDate}</time></span>
+          {hasUpdated && (
+            <span class="ml-2">
+              (Updated: <time datetime={updatedDate.toISOString()}>{updatedFormatted}</time>)
+            </span>
+          )}
+        </div>
+        
+        <div class="flex gap-4">
+          {demoUrl && (
+            <a 
+              href={demoUrl} 
+              class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Live Demo
+            </a>
+          )}
+          
+          {repoUrl && (
+            <a 
+              href={repoUrl} 
+              class="inline-flex items-center px-4 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-700 dark:hover:bg-slate-600 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+              View Code
+            </a>
+          )}
+        </div>
+      </div>
+    </header>
+    
+    <div class="prose dark:prose-invert prose-lg prose-slate max-w-none">
+      <Content />
+    </div>
+    
+    <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+      <div class="flex justify-between">
+        <a href="/projects" class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Projects
+        </a>
+      </div>
+    </div>
+  </article>
+</ThreeColumnLayout> 

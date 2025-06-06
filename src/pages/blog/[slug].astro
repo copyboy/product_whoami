@@ -1,0 +1,416 @@
+---
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import TableOfContents from '@components/TableOfContents.astro';
+import Icon from '@components/Icon.astro';
+import Comments from '@components/Comments.astro';
+import { getCollection } from 'astro:content';
+import { getHeadings, calculateReadingTime } from '@utils/content';
+import { getSiteConfig, isFeatureEnabled } from '@utils/config';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Get site configuration
+const siteConfig = getSiteConfig();
+
+// Extract metadata from the blog post
+const { title, description, pubDate, updatedDate, heroImage, tags, author, location } = entry.data;
+
+// Format dates
+const formattedDate = pubDate.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const updatedFormatted = updatedDate?.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const hasUpdated = updatedDate && updatedDate > pubDate;
+
+// Get headings for table of contents
+const headings = await getHeadings(entry.body);
+
+// Calculate reading time
+const readingTime = calculateReadingTime(entry.body);
+
+// Current URL for sharing
+const url = Astro.url.href;
+
+// Check if features are enabled
+const isReadingTimeEnabled = isFeatureEnabled('readingTime');
+---
+
+<ThreeColumnLayout 
+  title={`${title} | ${siteConfig.title}`} 
+  description={description} 
+  image={heroImage} 
+  article={true}
+  toc={headings}
+>
+  <article class="mx-auto">
+    <header class="mb-8">
+      {heroImage && (
+        <img 
+          src={heroImage} 
+          alt={title}
+          class="w-full h-64 object-cover rounded-lg mb-6"
+          width="1200"
+          height="600"
+        />
+      )}
+      
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tags && tags.map(tag => (
+          <a
+            href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+            class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors inline-flex items-center"
+          >
+            <Icon name="tag" class="w-4 h-4 mr-1" />
+            {tag}
+          </a>
+        ))}
+      </div>
+      
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">{title}</h1>
+      
+      <p class="text-lg text-slate-600 dark:text-slate-300 mb-4">{description}</p>
+      
+      <div class="flex flex-wrap items-center text-slate-600 dark:text-slate-300 text-sm gap-4 mb-4">
+        <div class="flex items-center">
+          <Icon name="user" class="w-4 h-4 mr-1" />
+          <span>{author || siteConfig.author}</span>
+        </div>
+        
+        <div class="flex items-center">
+          <Icon name="map-pin" class="w-4 h-4 mr-1" />
+          <span>{location || "Beijing, China"}</span>
+        </div>
+        
+        <div class="flex items-center">
+          <Icon name="calendar" class="w-4 h-4 mr-1" />
+          <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+          {hasUpdated && (
+            <span class="ml-1">
+              (Updated: <time datetime={updatedDate.toISOString()}>{updatedFormatted}</time>)
+            </span>
+          )}
+        </div>
+        
+        {isReadingTimeEnabled && (
+          <div class="flex items-center">
+            <Icon name="clock" class="w-4 h-4 mr-1" />
+            <span>{readingTime}</span>
+          </div>
+        )}
+        
+        <div class="relative">
+          <button id="shareButton" class="flex items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors" aria-label="Share this article">
+            <Icon name="share" class="w-4 h-4 mr-1" />
+          <span>Share</span>
+        </button>
+          <div id="shareMenu" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-10">
+            <div class="py-1" role="menu" aria-orientation="vertical">
+              <button class="share-twitter w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center">
+                <Icon name="twitter" class="w-4 h-4 mr-2" /> Twitter | X
+              </button>
+              <button class="share-facebook w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center">
+                <Icon name="facebook" class="w-4 h-4 mr-2" /> Facebook
+              </button>
+              <button class="share-linkedin w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center">
+                <Icon name="linkedin" class="w-4 h-4 mr-2" /> LinkedIn
+              </button>
+              <button class="share-wechat w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center">
+                <Icon name="wechat" class="w-4 h-4 mr-2" />
+                WeChat
+              </button>
+              <button class="copy-link w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center">
+                <Icon name="link" class="w-4 h-4 mr-2" /> Copy Link
+              </button>
+            </div>
+          </div>
+          <!-- WeChat QR Code Modal -->
+          <div id="wechatQRModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg max-w-sm w-full flex flex-col items-center">
+              <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Share to WeChat</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Please scan the QR code below with WeChat</p>
+              <div id="qrcode" class="mb-4 w-[200px] h-[200px] flex items-center justify-center bg-white"></div>
+              <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Or copy the link to share manually</p>
+              <div class="flex w-full">
+                <input 
+                  type="text" 
+                  value={url}
+                  readonly
+                  class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm"
+                />
+                <button id="copyInModal" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-r-md text-sm">
+                  Copy
+                </button>
+              </div>
+              <button id="closeModal" class="mt-4 text-indigo-600 dark:text-indigo-400 hover:underline">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Mobile Table of Contents (only visible on mobile and tablet) -->
+    <div class="xl:hidden mb-8">
+        <TableOfContents headings={headings} />
+      </div>
+      
+      <!-- Article Content -->
+      <div class="prose dark:prose-invert prose-lg prose-slate prose-headings:scroll-mt-20">
+      <Content />
+    </div>
+    
+    <!-- Comments section -->
+    <Comments slug={entry.slug} />
+    
+  </article>
+
+  <!-- Copy success notification -->
+  <div id="copyNotification" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg transform translate-y-16 transition-transform duration-300 z-50">
+    Link copied to clipboard!
+  </div>
+</ThreeColumnLayout>
+
+<script>
+  // Import qrcode.js library
+  import QRCode from 'qrcode';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const shareButton = document.getElementById('shareButton');
+    const shareMenu = document.getElementById('shareMenu');
+    const wechatQRModal = document.getElementById('wechatQRModal');
+    const closeModal = document.getElementById('closeModal');
+    const copyNotification = document.getElementById('copyNotification');
+    const copyInModal = document.getElementById('copyInModal');
+    const currentUrl = window.location.href;
+    const pageTitle = document.title;
+    const pageDescription = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+    
+    // Generate QR code
+    const generateQRCode = async () => {
+      try {
+        const qrcodeElement = document.getElementById('qrcode');
+        
+        if (qrcodeElement) {
+          qrcodeElement.innerHTML = 'Generating QR code...';
+          
+          // Generate QR code with a slight delay to ensure DOM is ready
+          setTimeout(async () => {
+            try {
+              qrcodeElement.innerHTML = ''; // Remove loading text
+              
+              // Use toDataURL method directly, skip toCanvas attempt
+              const dataUrl = await QRCode.toDataURL(currentUrl, {
+                width: 200,
+                margin: 1
+              });
+              
+              const img = document.createElement('img');
+              img.src = dataUrl;
+              img.alt = 'WeChat QR Code';
+              img.width = 200;
+              img.height = 200;
+              
+              qrcodeElement.innerHTML = '';
+              qrcodeElement.appendChild(img);
+            } catch (err) {
+              console.error('QR generation failed:', err);
+              qrcodeElement.textContent = 'Failed to generate QR code. Please copy the link instead.';
+            }
+          }, 100);
+        }
+      } catch (err) {
+        console.error('Failed to generate QR code:', err);
+        const qrcodeElement = document.getElementById('qrcode');
+        if (qrcodeElement) {
+          qrcodeElement.textContent = 'Failed to generate QR code. Please copy the link instead.';
+        }
+      }
+    };
+
+    // Show copy success notification
+    const showCopyNotification = () => {
+      if (!copyNotification) return;
+      
+      console.log('Showing notification');
+      
+      // Force the element to be visible
+      copyNotification.style.display = 'block';
+      
+      // Trigger the animation
+      copyNotification.classList.remove('translate-y-16');
+      copyNotification.classList.add('translate-y-0');
+      
+      // Reset after delay
+      setTimeout(() => {
+        copyNotification.classList.remove('translate-y-0');
+        copyNotification.classList.add('translate-y-16');
+      }, 2000);
+    };
+
+    // Copy link to clipboard
+    const copyToClipboard = async (text) => {
+      try {
+        // Check if Clipboard API is available
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          showCopyNotification();
+          return true;
+        } else {
+          // Fallback for browsers that don't support clipboard API
+          const textArea = document.createElement('textarea');
+          textArea.value = text;
+          
+          // Make the textarea out of viewport
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-999999px';
+          textArea.style.top = '-999999px';
+          document.body.appendChild(textArea);
+          
+          textArea.focus();
+          textArea.select();
+          
+          let success = false;
+          try {
+            // Execute the copy command
+            success = document.execCommand('copy');
+            if (success) {
+              showCopyNotification();
+            } else {
+              console.error('Failed to copy with execCommand');
+            }
+          } catch (err) {
+            console.error('Error using execCommand: ', err);
+            success = false;
+          }
+          
+          // Remove the temporary element
+          document.body.removeChild(textArea);
+          
+          return success;
+        }
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+        return false;
+      }
+    };
+
+    // Click share button - Remove Web Share API, directly show custom menu
+    shareButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      // Toggle share menu display/hidden
+      shareMenu.classList.toggle('hidden');
+    });
+
+    // Click Twitter share
+    document.querySelector('.share-twitter').addEventListener('click', () => {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(pageTitle)}&url=${encodeURIComponent(currentUrl)}`, '_blank');
+      shareMenu.classList.add('hidden');
+    });
+
+    // Click Facebook share
+    document.querySelector('.share-facebook').addEventListener('click', () => {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`, '_blank');
+      shareMenu.classList.add('hidden');
+    });
+
+    // Click LinkedIn share
+    document.querySelector('.share-linkedin').addEventListener('click', () => {
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`, '_blank');
+      shareMenu.classList.add('hidden');
+    });
+
+    // Click WeChat share
+    document.querySelector('.share-wechat').addEventListener('click', () => {
+      wechatQRModal.classList.remove('hidden');
+      // Ensure the modal is visible before generating QR code
+      setTimeout(generateQRCode, 100);
+      shareMenu.classList.add('hidden');
+    });
+
+    // Click copy link
+    document.querySelector('.copy-link').addEventListener('click', () => {
+      const button = document.querySelector('.copy-link');
+      const originalContent = button.innerHTML;
+      
+      // Copy the URL to clipboard
+      copyToClipboard(currentUrl).then(success => {
+        if (success) {
+          // Change button text to show success
+          button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+          
+          // Change button background color for visual feedback
+          button.classList.add('bg-green-600', 'text-white');
+          button.classList.remove('hover:bg-gray-100', 'dark:hover:bg-slate-700');
+          
+          // Return button to original state after a delay
+          setTimeout(() => {
+            button.innerHTML = originalContent;
+            button.classList.remove('bg-green-600', 'text-white');
+            button.classList.add('hover:bg-gray-100', 'dark:hover:bg-slate-700');
+            
+            // Hide the share menu after showing success
+            setTimeout(() => {
+              shareMenu.classList.add('hidden');
+            }, 200);
+          }, 1500);
+        }
+      });
+    });
+
+    // Close WeChat QR code modal
+    closeModal.addEventListener('click', () => {
+      wechatQRModal.classList.add('hidden');
+    });
+
+    // Click copy button in WeChat modal
+    copyInModal.addEventListener('click', () => {
+      const input = wechatQRModal.querySelector('input');
+      if (input) {
+        copyToClipboard(input.value);
+        
+        // Visual feedback on the button itself
+        const originalText = copyInModal.textContent;
+        copyInModal.textContent = 'Copied!';
+        copyInModal.classList.add('bg-green-600');
+        
+        setTimeout(() => {
+          copyInModal.textContent = originalText;
+          copyInModal.classList.remove('bg-green-600');
+        }, 1500);
+      }
+    });
+
+    // Click outside to close share menu
+    document.addEventListener('click', (event) => {
+      if (!shareButton.contains(event.target) && !shareMenu.contains(event.target)) {
+        shareMenu.classList.add('hidden');
+      }
+    });
+
+    // Click outside WeChat QR code modal to close it
+    wechatQRModal.addEventListener('click', (event) => {
+      if (event.target === wechatQRModal) {
+        wechatQRModal.classList.add('hidden');
+      }
+    });
+  });
+</script>

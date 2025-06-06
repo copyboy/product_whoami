@@ -1,0 +1,68 @@
+---
+import { isFeatureEnabled, getGiscusConfig } from '@utils/config';
+
+// Define props interface
+interface Props {
+  slug?: string;
+}
+const { slug } = Astro.props;
+
+// Check if comments functionality is enabled
+const isCommentsEnabled = isFeatureEnabled('comments');
+
+// If the feature is disabled, return early
+if (!isCommentsEnabled) return;
+
+// Get Giscus configuration
+const giscusConfig = getGiscusConfig();
+
+// If giscus is not enabled, return early
+if (!giscusConfig.enabled) return;
+
+// Theme detection
+const theme = "preferred_color_scheme";
+
+// Get the current URL path to use for discussion mapping
+const currentPath = Astro.url.pathname;
+---
+
+<section class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
+  <h3 class="text-xl font-bold mb-4">Comments</h3>
+  
+  <!-- Create a dedicated container with giscus class for the comments to be loaded -->
+  <div class="giscus"></div>
+  
+  <!-- Direct giscus script tag implementation -->
+  <script
+    src="https://giscus.app/client.js"
+    data-repo={giscusConfig.repo}
+    data-repo-id={giscusConfig.repoId}
+    data-category={giscusConfig.category}
+    data-category-id={giscusConfig.categoryId}
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled={giscusConfig.reactionsEnabled ? "1" : "0"}
+    data-emit-metadata="0"
+    data-input-position={giscusConfig.inputPosition}
+    data-theme={giscusConfig.theme || theme}
+    data-lang={giscusConfig.lang}
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+  >
+  </script>
+  
+  <!-- Theme toggle support for giscus -->
+  <script is:inline>
+    document.addEventListener('theme-change', (e) => {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (!iframe) return;
+      
+      const theme = e.detail.theme === 'dark' ? 'dark' : 'light';
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: theme === 'dark' ? 'dark' : 'light' } } },
+        'https://giscus.app'
+      );
+    });
+  </script>
+</section> 

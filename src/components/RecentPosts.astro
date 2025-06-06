@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+
+// Get all blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Sort posts by date in descending order (newest first)
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Get the 4 most recent posts
+const recentPosts = sortedPosts.slice(0, 4);
+
+// Format date function
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-us', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+---
+
+<ul class="space-y-4">
+  {recentPosts.map(post => (
+    <li>
+      <a href={`/blog/${post.slug}`} class="block">
+        <h4 class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{post.data.title}</h4>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{formatDate(post.data.pubDate)}</p>
+      </a>
+    </li>
+  ))}
+</ul>

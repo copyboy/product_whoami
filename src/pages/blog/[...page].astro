@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import ArticleListItem from '@components/ArticleListItem.astro';
+
+export async function getStaticPaths({ paginate }) {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  // Sort posts by date in descending order (newest first)
+  const sortedPosts = allPosts.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
+  return paginate(sortedPosts, { pageSize: 10 });
+}
+
+const { page } = Astro.props;
+const { data: posts, currentPage, lastPage } = page;
+
+// Extract and count all tags
+const allBlogPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+const tags = allBlogPosts.reduce((acc, post) => {
+  post.data.tags.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// Sort tags by count
+const sortedTags = Object.entries(tags)
+  .sort(([, a], [, b]) => b - a)
+  .map(([tag, count]) => ({ tag, count }));
+---
+
+<ThreeColumnLayout title={`Blog - Page ${currentPage} | Modern Blog`}>
+  <header class="pb-8 border-b border-slate-200 dark:border-slate-800 mb-8">
+    <h1 class="text-4xl font-bold mb-4">Blog</h1>
+    <p class="text-lg text-slate-600 dark:text-slate-300">
+      Thoughts, ideas, and knowledge on technology, programming, and design.
+    </p>
+  </header>
+
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">Popular Tags</h2>
+    <div class="flex flex-wrap gap-2">
+      {sortedTags.map(({ tag, count }) => (
+        <a
+          href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+          class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors"
+        >
+          {tag}
+          <span class="ml-1 text-slate-500 dark:text-slate-400">({count})</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="divide-y divide-slate-200 dark:divide-slate-700">
+    {posts.map(post => (
+      <ArticleListItem
+        title={post.data.title}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        updatedDate={post.data.updatedDate}
+        tags={post.data.tags}
+        author={post.data.author}
+        slug={post.slug}
+      />
+    ))}
+  </div>
+
+  <div class="mt-12 flex justify-center">
+    <nav class="inline-flex rounded shadow-sm" aria-label="Pagination">
+      {currentPage > 1 && (
+        <a
+          href={`/blog${currentPage > 2 ? '/' + (currentPage - 1) : ''}`}
+          class="px-3 py-2 rounded-l-md border border-r-0 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
+        >
+          Previous
+        </a>
+      )}
+      {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
+        <a
+          href={`/blog${page > 1 ? '/' + page : ''}`}
+          class:list={[
+            'px-3 py-2 border border-slate-300 dark:border-slate-600',
+            page === currentPage
+              ? 'bg-indigo-600 text-white font-medium hover:bg-indigo-700'
+              : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
+          ]}
+        >
+          {page}
+        </a>
+      ))}
+      {currentPage < lastPage && (
+        <a
+          href={`/blog/${currentPage + 1}`}
+          class="px-3 py-2 rounded-r-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
+        >
+          Next
+        </a>
+      )}
+    </nav>
+  </div>
+</ThreeColumnLayout>

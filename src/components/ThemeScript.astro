@@ -1,0 +1,19 @@
+<!-- This script prevents theme flash by applying the theme immediately before page rendering -->
+<script is:inline>
+  // Execute immediately, avoiding DOMContentLoaded wait
+  (function() {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const storedTheme = localStorage.getItem('theme');
+    
+    // If there's a saved theme setting, use it
+    if (storedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (storedTheme === 'light') {
+      document.documentElement.classList.add('light');
+    } else if (prefersDark) {
+      // If no saved setting but system prefers dark mode
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  })();
+</script>

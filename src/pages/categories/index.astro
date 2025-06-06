@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+
+// Get all blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Extract and count categories
+const categoryCount = allPosts.reduce((acc, post) => {
+  if (post.data.categories) {
+    post.data.categories.forEach(category => {
+      acc[category] = (acc[category] || 0) + 1;
+    });
+  }
+  return acc;
+}, {} as Record<string, number>);
+
+// Convert to array and sort by count (descending)
+const categories = Object.entries(categoryCount)
+  .sort(([, a], [, b]) => b - a)
+  .map(([name, count]) => ({ name, count }));
+---
+
+<ThreeColumnLayout title="Categories | Modern Blog">
+  <header class="pb-8 border-b border-slate-200 dark:border-slate-800 mb-8">
+    <h1 class="text-4xl font-bold mb-4">Categories</h1>
+    <p class="text-lg text-slate-600 dark:text-slate-300">
+      Browse blog posts by category
+    </p>
+  </header>
+
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {categories.map(({ name, count }) => (
+      <a 
+        href={`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`}
+        class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-6 hover:shadow-md transition-shadow flex flex-col items-center text-center"
+      >
+        <h2 class="text-xl font-bold mb-2">{name}</h2>
+        <p class="text-slate-500 dark:text-slate-400">
+          {count} post{count !== 1 ? 's' : ''}
+        </p>
+      </a>
+    ))}
+  </div>
+
+  {categories.length === 0 && (
+    <div class="text-center py-12">
+      <p class="text-xl text-slate-600 dark:text-slate-300">No categories found.</p>
+    </div>
+  )}
+</ThreeColumnLayout> 

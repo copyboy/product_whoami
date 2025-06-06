@@ -1,0 +1,69 @@
+---
+import { SEO } from 'astro-seo';
+import ThemeScript from '@components/ThemeScript.astro';
+import '../styles/global.css';
+import { getSiteConfig } from '@utils/config';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+// Get site configuration
+const siteConfig = getSiteConfig();
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  image = '/images/default-social.png',
+  article = false
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Apply theme as early as possible to prevent flash -->
+    <ThemeScript />
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonicalURL.toString()}
+      openGraph={{
+        basic: {
+          title: title,
+          type: article ? 'article' : 'website',
+          image: image
+        },
+        optional: {
+          description: description
+        }
+      }}
+      twitter={{
+        card: 'summary_large_image',
+        title: title,
+        description: description,
+        image: image
+      }}
+    />
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 transition-colors duration-300">
+    <slot />
+  </body>
+</html>

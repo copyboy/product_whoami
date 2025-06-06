@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+
+// Get all blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Get all projects
+const allProjects = await getCollection('projects');
+
+// Extract and count all tags from blog posts
+const blogTagCounts = allPosts.reduce((acc, post) => {
+  post.data.tags.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// Extract and count all tags from projects
+const projectTagCounts = allProjects.reduce((acc, project) => {
+  project.data.tags.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// Merge blog and project tag counts
+const tagCounts = { ...blogTagCounts };
+Object.entries(projectTagCounts).forEach(([tag, count]) => {
+  tagCounts[tag] = (tagCounts[tag] || 0) + count;
+});
+
+// Sort tags by count in descending order
+const sortedTags = Object.entries(tagCounts)
+  .sort(([, a], [, b]) => b - a)
+  .map(([tag, count]) => ({ tag, count }));
+
+// Group tags alphabetically
+const tagsByLetter = sortedTags.reduce((acc, { tag, count }) => {
+  const firstLetter = tag.charAt(0).toUpperCase();
+  if (!acc[firstLetter]) {
+    acc[firstLetter] = [];
+  }
+  acc[firstLetter].push({ tag, count });
+  return acc;
+}, {} as Record<string, Array<{ tag: string; count: number }>>);
+
+// Sort the letters
+const sortedLetters = Object.keys(tagsByLetter).sort();
+---
+
+<ThreeColumnLayout title="Tags | Modern Blog">
+  <header class="pb-8 border-b border-slate-200 dark:border-slate-800 mb-8">
+    <h1 class="text-4xl font-bold mb-4">Tags</h1>
+    <p class="text-lg text-slate-600 dark:text-slate-300">
+      Browse all topics and subject areas covered in this blog and projects.
+    </p>
+  </header>
+
+  <div class="mb-8">
+    <div class="flex flex-wrap gap-3">
+      {sortedTags.map(({ tag, count }) => (
+        <a
+          href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+          class="text-sm px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors flex items-center"
+        >
+          <span>{tag}</span>
+          <span class="ml-2 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full px-2 py-0.5 text-xs">
+            {count}
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div>
+    <h2 class="text-2xl font-bold mb-6">Browse Tags Alphabetically</h2>
+    
+    <div class="grid gap-8 md:grid-cols-2">
+      {sortedLetters.map(letter => (
+        <div>
+          <h3 class="text-xl font-bold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">{letter}</h3>
+          <ul class="space-y-2">
+            {tagsByLetter[letter].map(({ tag, count }) => (
+              <li>
+                <a 
+                  href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                  class="flex justify-between items-center hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                >
+                  <span>{tag}</span>
+                  <span class="text-sm text-slate-500 dark:text-slate-400">{count} items</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</ThreeColumnLayout> 

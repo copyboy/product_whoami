@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+  
+  // Get all category-subject combinations
+  const pathsData = [];
+  
+  // Group posts by category and subject
+  const postsByCategory = allPosts.reduce((acc, post) => {
+    if (post.data.categories) {
+      post.data.categories.forEach(category => {
+        if (!acc[category]) {
+          acc[category] = {};
+        }
+        
+        const subject = post.data.subject || 'General';
+        if (!acc[category][subject]) {
+          acc[category][subject] = [];
+        }
+        
+        acc[category][subject].push(post);
+      });
+    }
+    return acc;
+  }, {});
+  
+  // Generate paths for each category-subject combination
+  Object.entries(postsByCategory).forEach(([category, subjects]) => {
+    Object.entries(subjects).forEach(([subject, posts]) => {
+      if (posts.length > 0) {
+        pathsData.push({
+          params: {
+            category: category.toLowerCase().replace(/\s+/g, '-'),
+            subject: subject.toLowerCase().replace(/\s+/g, '-')
+          },
+          props: { category, subject, posts }
+        });
+      }
+    });
+  });
+  
+  return pathsData;
+}
+
+const { category, subject, posts } = Astro.props;
+
+// Sort posts by date in descending order
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Format the category and subject for display
+const displayCategory = category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+const displaySubject = subject.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+---
+
+<ThreeColumnLayout title={`${displaySubject} | ${displayCategory} | Modern Blog`}>
+  <header class="pb-5 border-b border-slate-200 dark:border-slate-800 mb-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+      <h1 class="text-3xl font-bold">{displaySubject}</h1>
+      <div class="mt-2 md:mt-0 text-slate-500 dark:text-slate-400">
+        {sortedPosts.length} post{sortedPosts.length !== 1 ? 's' : ''}
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2 items-center">
+      <a href="/categories" class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        All Categories
+      </a>
+      <span class="text-slate-400 mx-1">/</span>
+      <a href={`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`} class="text-indigo-600 dark:text-indigo-400 hover:underline text-sm">
+        {displayCategory}
+      </a>
+    </div>
+  </header>
+
+  <div class="space-y-4">
+    {sortedPosts.map(post => (
+      <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4 hover:shadow-md transition-shadow">
+        <div class="flex items-center text-slate-500 dark:text-slate-400 text-sm mb-2">
+          <span class="whitespace-nowrap">
+            {post.data.pubDate.toISOString().slice(0, 10).replace(/-/g, '/')}
+          </span>
+        </div>
+        <h2 class="text-xl font-semibold mb-2">
+          <a 
+            href={`/blog/${post.slug}`}
+            class="hover:text-indigo-600 dark:hover:text-indigo-400"
+          >
+            {post.data.title}
+          </a>
+        </h2>
+        <p class="text-slate-600 dark:text-slate-300 line-clamp-2 text-sm mb-3">
+          {post.data.description}
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {post.data.tags?.map(tag => (
+            <a 
+              href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+              class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</ThreeColumnLayout> 

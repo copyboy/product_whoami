@@ -1,0 +1,55 @@
+---
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import { getSiteConfig } from '@utils/config';
+
+const siteConfig = getSiteConfig();
+---
+
+<ThreeColumnLayout title={`404 - Page Not Found | ${siteConfig.title}`} description="The page you are looking for does not exist">
+  <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
+    <div class="text-2xl mb-4">404</div>
+    
+    <h1 class="text-4xl font-bold mb-6">Oops! Page Not Found</h1>
+    
+    <p class="text-lg text-slate-600 dark:text-slate-300 mb-10">
+      The page you're looking for seems to have wandered off.
+    </p>
+    
+    <p class="text-slate-500 dark:text-slate-400 mb-10">
+      Path: <code class="bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">{Astro.url.pathname}</code>
+    </p>
+    
+    <div class="w-full max-w-md space-y-4">
+      <a 
+        href="/" 
+        class="block w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg text-center transition-colors"
+      >
+        Return to Homepage
+      </a>
+      
+      <a 
+        href="/blog" 
+        class="block w-full bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-lg text-center transition-colors border border-slate-700"
+      >
+        Browse Blog
+      </a>
+      
+      <a 
+        href="/categories" 
+        class="block w-full bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-lg text-center transition-colors border border-slate-700"
+      >
+        Explore Categories
+      </a>
+    </div>
+    
+    <div class="mt-16 text-slate-500 dark:text-slate-400">
+      <p>Looking for something specific? Try these popular links:</p>
+      <div class="flex justify-center gap-4 mt-4">
+        <a href="/tags/javascript" class="text-indigo-600 dark:text-indigo-400 hover:underline">JavaScript</a>
+        <a href="/tags/css" class="text-indigo-600 dark:text-indigo-400 hover:underline">CSS</a>
+        <a href="/tags/react" class="text-indigo-600 dark:text-indigo-400 hover:underline">React</a>
+        <a href="/tags/web-development" class="text-indigo-600 dark:text-indigo-400 hover:underline">Web Development</a>
+      </div>
+    </div>
+  </div>
+</ThreeColumnLayout> 

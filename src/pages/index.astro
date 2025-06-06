@@ -1,0 +1,117 @@
+---
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import ArticleCard from '@components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+import { getSiteConfig } from '@utils/config';
+
+// Get all blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Get featured blog posts
+const featuredPosts = allPosts
+  .filter(post => post.data.featured)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+// If we don't have enough featured posts, get the most recent ones
+if (featuredPosts.length < 3) {
+  const recentPosts = allPosts
+    .filter(post => !post.data.featured)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 3 - featuredPosts.length);
+  
+  featuredPosts.push(...recentPosts);
+}
+
+// Get projects
+const allProjects = await getCollection('projects', ({ data }) => {
+  return import.meta.env.PROD ? true : true;
+});
+
+// Get featured or recent projects
+const featuredProjects = allProjects
+  .filter(project => project.data.featured)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
+
+// If we don't have enough featured projects, get the most recent ones
+if (featuredProjects.length < 2) {
+  const recentProjects = allProjects
+    .filter(project => !project.data.featured)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 2 - featuredProjects.length);
+  
+  featuredProjects.push(...recentProjects);
+}
+
+// Get site configuration
+const siteConfig = getSiteConfig();
+---
+
+<ThreeColumnLayout title={`Home | ${siteConfig.title}`}>
+  <header class="pb-8 border-b border-slate-200 dark:border-slate-800 mb-8">
+    <h1 class="text-4xl font-bold mb-6">{siteConfig.homeTitle}</h1>
+    <p class="text-xl text-slate-600 dark:text-slate-300 max-w-2xl">
+      {siteConfig.homeSubtitle}
+    </p>
+  </header>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Featured Posts</h2>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {featuredPosts.map(post => (
+        <ArticleCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          updatedDate={post.data.updatedDate}
+          heroImage={post.data.heroImage}
+          tags={post.data.tags}
+          author={post.data.author}
+          slug={post.slug}
+        />
+      ))}
+    </div>
+    <div class="mt-8 text-center">
+      <a href="/blog" class="inline-block px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors">
+        View All Posts
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold mb-6">Recent Projects</h2>
+    <div class="grid gap-6 md:grid-cols-2">
+      {featuredProjects.map(project => (
+      <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-lg">
+          <h3 class="text-xl font-bold mb-2">{project.data.title}</h3>
+        <p class="text-slate-600 dark:text-slate-300 mb-4">
+            {project.data.description}
+        </p>
+        <div class="flex gap-2">
+            {project.data.tags.map(tag => (
+              <a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`} class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-full transition-colors">
+                {tag}
+          </a>
+            ))}
+        </div>
+          <div class="mt-4 flex gap-3">
+            {project.data.repoUrl && (
+              <a href={project.data.repoUrl} class="text-sm text-indigo-600 hover:underline">GitHub</a>
+            )}
+            {project.data.demoUrl && (
+              <a href={project.data.demoUrl} class="text-sm text-indigo-600 hover:underline">Live Demo</a>
+            )}
+      </div>
+        </div>
+      ))}
+    </div>
+    <div class="mt-8 text-center">
+      <a href="/projects" class="inline-block px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors">
+        View All Projects
+      </a>
+    </div>
+  </section>
+</ThreeColumnLayout>

@@ -1,0 +1,144 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import ArticleCard from '@components/ArticleCard.astro';
+
+export async function getStaticPaths() {
+  // Get all blog posts
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+  
+  // Get all projects
+  const allProjects = await getCollection('projects');
+  
+  // Get unique tags from both blogs and projects
+  const blogTags = [...new Set(allPosts.flatMap(post => post.data.tags))];
+  const projectTags = [...new Set(allProjects.flatMap(project => project.data.tags))];
+  const allTags = [...new Set([...blogTags, ...projectTags])];
+  
+  // Create a path for each tag
+  return allTags.map(tag => {
+    // Filter posts and projects that contain this tag
+    const filteredPosts = allPosts.filter(post => 
+      post.data.tags.includes(tag)
+    );
+    
+    const filteredProjects = allProjects.filter(project =>
+      project.data.tags.includes(tag)
+    );
+    
+    return {
+      params: { tag: tag.toLowerCase().replace(/\s+/g, '-') },
+      props: { 
+        tag, 
+        posts: filteredPosts, 
+        projects: filteredProjects 
+      },
+    };
+  });
+}
+
+const { tag, posts, projects } = Astro.props;
+
+// Sort posts by date in descending order
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Sort projects by date in descending order
+const sortedProjects = projects.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Format the tag for display
+const displayTag = tag.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+// Total count of items with this tag
+const totalItems = sortedPosts.length + sortedProjects.length;
+---
+
+<ThreeColumnLayout title={`${displayTag} | Modern Blog`}>
+  <header class="pb-8 border-b border-slate-200 dark:border-slate-800 mb-8">
+    <h1 class="text-4xl font-bold mb-4">{displayTag}</h1>
+    <p class="text-lg text-slate-600 dark:text-slate-300">
+      Showing {totalItems} item{totalItems !== 1 ? 's' : ''} tagged with "{displayTag}"
+    </p>
+    <div class="mt-4">
+      <a href="/tags" class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        All Tags
+      </a>
+    </div>
+  </header>
+
+  {sortedPosts.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6">Blog Posts</h2>
+      <div class="grid gap-8 md:grid-cols-2">
+        {sortedPosts.map(post => (
+          <ArticleCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            updatedDate={post.data.updatedDate}
+            heroImage={post.data.heroImage}
+            tags={post.data.tags}
+            author={post.data.author}
+            slug={post.slug}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {sortedProjects.length > 0 && (
+    <section>
+      <h2 class="text-2xl font-bold mb-6">Projects</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        {sortedProjects.map(project => (
+          <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            {project.data.heroImage && (
+              <img 
+                src={project.data.heroImage}
+                alt={project.data.title}
+                class="w-full h-48 object-cover"
+                width="600"
+                height="300"
+              />
+            )}
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">
+                <a href={`/projects/${project.slug}`} class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                  {project.data.title}
+                </a>
+              </h3>
+              <p class="text-slate-600 dark:text-slate-300 mb-4">
+                {project.data.description}
+              </p>
+              
+              <div class="flex flex-wrap gap-2 mb-4">
+                {project.data.tags.map(t => (
+                  <a 
+                    href={`/tags/${t.toLowerCase().replace(/\s+/g, '-')}`}
+                    class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+                  >
+                    {t}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {totalItems === 0 && (
+    <div class="text-center py-12">
+      <p class="text-xl text-slate-600 dark:text-slate-300">No items found with this tag.</p>
+    </div>
+  )}
+</ThreeColumnLayout> 

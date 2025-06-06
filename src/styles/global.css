@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Apply transition to HTML element for smoother theme switching */
+  html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Apply dark mode styles at the highest level to reduce FOUC */
+  html.dark {
+    background-color: theme('colors.slate.900');
+    color: theme('colors.slate.50');
+  }
+  
+  html.light {
+    background-color: theme('colors.white');
+    color: theme('colors.slate.900');
+  }
+
+  :root {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
+  }
+
+  body {
+    @apply font-sans antialiased text-slate-900 dark:text-slate-50 bg-white dark:bg-slate-900;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Giscus styles */
+  .giscus {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .giscus-frame {
+    width: 100%;
+    border: none;
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    @apply flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors;
+  }
+
+  .nav-link.active {
+    @apply bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-slate-900 dark:text-white;
+  }
+
+  h1 { @apply text-4xl mb-6; }
+  h2 { @apply text-3xl mb-4; }
+  h3 { @apply text-2xl mb-3; }
+  h4 { @apply text-xl mb-2; }
+
+  p { @apply mb-4 leading-relaxed; }
+
+  /* Links */
+  a {
+    @apply text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors;
+  }
+
+  /* Tags */
+  .tag {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-indigo-600 hover:bg-indigo-700 text-white;
+  }
+
+  .btn-secondary {
+    @apply bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white;
+  }
+
+  /* Form elements */
+  input, select, textarea {
+    @apply block w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors;
+  }
+
+  /* Prose content */
+  .prose {
+    @apply max-w-none text-slate-700 dark:text-slate-300;
+  }
+
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    @apply text-slate-900 dark:text-white scroll-mt-20;
+  }
+
+  .prose a {
+    @apply text-indigo-600 dark:text-indigo-400 no-underline hover:underline;
+  }
+
+  .prose code {
+    @apply px-1 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300;
+  }
+
+  .prose pre {
+    @apply bg-slate-900 dark:bg-slate-950 text-slate-200 dark:text-slate-100 p-4 rounded-lg overflow-x-auto;
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-inherit p-0;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-indigo-300 dark:border-indigo-700 pl-4 py-1 italic;
+  }
+
+  .prose img {
+    @apply rounded-lg mx-auto my-6;
+  }
+
+  /* Layout utilities */
+  .container-narrow {
+    @apply max-w-2xl mx-auto px-4;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto px-4;
+  }
+}

@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import { formatPageTitle, getSiteConfig } from '@utils/config';
+
+// Get all projects
+const allProjects = await getCollection('projects', ({ data }) => {
+  return import.meta.env.PROD ? true : true;
+});
+
+// Sort projects by date in descending order
+const sortedProjects = allProjects.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Extract all unique tags
+const allTags = [...new Set(sortedProjects.flatMap(project => project.data.tags))];
+
+// Get site configuration
+const siteConfig = getSiteConfig();
+---
+
+<ThreeColumnLayout title={formatPageTitle('Projects')}>
+  <header class="pb-8 border-b border-slate-200 dark:border-slate-800 mb-8">
+    <h1 class="text-4xl font-bold mb-4">Projects</h1>
+    <p class="text-lg text-slate-600 dark:text-slate-300">
+      {siteConfig.projectSubtitle}
+    </p>
+  </header>
+
+  <div class="grid gap-6 md:grid-cols-2">
+    {sortedProjects.map(project => (
+      <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        {project.data.heroImage && (
+          <img 
+            src={project.data.heroImage}
+            alt={project.data.title}
+            class="w-full h-48 object-cover"
+            width="600"
+            height="300"
+          />
+        )}
+        <div class="p-6">
+          <h2 class="text-xl font-bold mb-2">{project.data.title}</h2>
+          <p class="text-slate-600 dark:text-slate-300 mb-4">
+            {project.data.description}
+          </p>
+          
+          <div class="flex flex-wrap gap-2 mb-4">
+            {project.data.tags.map(tag => (
+              <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">
+                {tag}
+              </span>
+            ))}
+          </div>
+          
+          <div class="flex gap-4">
+            {project.data.demoUrl && (
+              <a 
+                href={project.data.demoUrl} 
+                class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                Live Demo
+              </a>
+            )}
+            
+            {project.data.repoUrl && (
+              <a 
+                href={project.data.repoUrl} 
+                class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                View Code
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</ThreeColumnLayout> 

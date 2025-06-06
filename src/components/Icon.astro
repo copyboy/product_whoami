@@ -1,0 +1,81 @@
+---
+// Import all SVG icon components
+import Tag from '../icons/tag.svg?raw';
+import User from '../icons/user.svg?raw';
+import MapPin from '../icons/map-pin.svg?raw';
+import Calendar from '../icons/calendar.svg?raw';
+import Clock from '../icons/clock.svg?raw';
+import Share from '../icons/share.svg?raw';
+import Twitter from '../icons/twitter.svg?raw';
+import Facebook from '../icons/facebook.svg?raw';
+import Linkedin from '../icons/linkedin.svg?raw';
+import Wechat from '../icons/wechat.svg?raw';
+import Link from '../icons/link.svg?raw';
+import Search from '../icons/search.svg?raw';
+import Sun from '../icons/sun.svg?raw';
+import Moon from '../icons/moon.svg?raw';
+import Book from '../icons/book.svg?raw';
+import Menu from '../icons/menu.svg?raw';
+import X from '../icons/x.svg?raw';
+import Github from '../icons/github.svg?raw';
+import FileText from '../icons/file-text.svg?raw';
+import Box from '../icons/box.svg?raw';
+import Home from '../icons/home.svg?raw';
+import Rss from '../icons/rss.svg?raw';
+
+// Use auto-generated Icon type
+import type { Icon as IconType } from 'virtual:astro-icon';
+
+interface Props {
+  name: IconType;
+  class?: string;
+  size?: number;
+  id?: string;
+}
+
+const { name, class: className = "", size = 24, id } = Astro.props;
+
+// Icon mapping table
+const icons = {
+  'tag': Tag,
+  'user': User,
+  'map-pin': MapPin,
+  'calendar': Calendar,
+  'clock': Clock,
+  'share': Share,
+  'twitter': Twitter,
+  'facebook': Facebook,
+  'linkedin': Linkedin,
+  'wechat': Wechat,
+  'link': Link,
+  'search': Search,
+  'sun': Sun,
+  'moon': Moon,
+  'book': Book,
+  'menu': Menu,
+  'x': X,
+  'github': Github,
+  'file-text': FileText,
+  'box': Box,
+  'home': Home,
+  'rss': Rss
+};
+
+// Set styles
+const styles = size ? `width: ${size}px; height: ${size}px;` : undefined;
+
+// Get corresponding icon
+const iconSvg = icons[name] || null;
+---
+
+<span id={id} class={className} style={styles}>
+  {iconSvg ? (
+    <Fragment set:html={iconSvg} />
+  ) : (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class={className}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="8" y1="12" x2="16" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="16" />
+    </svg>
+  )}
+</span> 

@@ -1,0 +1,159 @@
+---
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatPageTitle, getSiteConfig, getSocialConfig } from '@utils/config';
+
+// Get all blog posts and projects to extract existing tags
+const allPosts = await getCollection('blog');
+const allProjects = await getCollection('projects');
+
+// Extract all existing tags
+const blogTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))];
+const projectTags = [...new Set(allProjects.flatMap(project => project.data.tags || []))];
+const existingTags = [...new Set([...blogTags, ...projectTags])].map(tag => tag.toLowerCase());
+
+// Function to check if a skill has a matching tag
+function hasMatchingTag(skill) {
+  const normalizedSkill = skill.toLowerCase().replace(/\s+/g, '-');
+  return existingTags.includes(normalizedSkill) || existingTags.includes(skill.toLowerCase());
+}
+
+// Function to create a tag URL
+function getTagUrl(skill) {
+  const normalizedSkill = skill.toLowerCase().replace(/\s+/g, '-');
+  return `/tags/${normalizedSkill}`;
+}
+
+// Technical skills grouped by category
+const skillsData = [
+  {
+    category: "Programming Languages",
+    skills: ["Java", "SQL", "JavaScript", "Python"]
+  },
+  {
+    category: "Frameworks/Libraries",
+    skills: ["Spring Boot", "Spring Cloud", "MyBatis", "Hibernate", "React"]
+  },
+  {
+    category: "Databases",
+    skills: ["MySQL", "Oracle", "Redis", "MongoDB", "ElasticSearch"]
+  },
+  {
+    category: "Middleware",
+    skills: ["Kafka", "RabbitMQ", "Nginx", "Zuul", "Gateway"]
+  },
+  {
+    category: "Tools/Platforms",
+    skills: ["Docker", "Kubernetes", "Jenkins", "Git", "Maven", "Jira"]
+  },
+  {
+    category: "Architecture/Methodologies",
+    skills: ["Microservice Architecture", "Distributed Systems", "DDD Design", "Agile Development", "CI/CD"]
+  },
+  {
+    category: "Payment Domain",
+    skills: ["Payment Gateway", "Clearing & Settlement Systems", "Smart Routing", "Risk Control Systems", "Cross-border Payments", "Multi-currency Payments"]
+  }
+];
+
+const siteConfig = getSiteConfig();
+const socialConfig = getSocialConfig();
+---
+
+<ThreeColumnLayout title={formatPageTitle('About')}>
+  <header class="pb-8 border-b border-slate-200 dark:border-slate-800 mb-8">
+    <h1 class="text-4xl font-bold mb-4">About Me</h1>
+  </header>
+  
+  <div class="prose dark:prose-invert prose-lg max-w-none">
+    <p>
+      Welcome to my blog! This is my personal space where I share my thoughts, insights, and experiences in payment technology, system architecture, and software development.
+    </p>
+    
+    <h2>Personal Profile</h2>
+    <p>
+      I'm Zhang Qingdong, a Senior Java Engineer and Team Leader with 9 years of experience in payment system development, specializing in cross-border payment solutions.
+      As a "Bridge Builder between Technology and Business," I combine deep fintech expertise with excellent engineering practices to create secure and reliable cross-border payment infrastructure.
+    </p>
+    
+    <h2>Technical Skills</h2>
+    <ul>
+      {skillsData.map(category => (
+        <li>
+          <strong>{category.category}</strong>: 
+          {category.skills.map((skill, index) => (
+            <>
+              {hasMatchingTag(skill) ? (
+                <a href={getTagUrl(skill)} class="text-indigo-600 dark:text-indigo-400 hover:underline">{skill}</a>
+              ) : (
+                <span>{skill}</span>
+              )}
+              {index < category.skills.length - 1 && (skill === "Java" ? " (core), " : ", ")}
+            </>
+          ))}
+        </li>
+      ))}
+    </ul>
+    
+    <h2>Work Experience</h2>
+    <h3>Wuhan Ronghan Technology Co., Ltd. | Team Leader | Nov 2019-Present</h3>
+    <p>
+      Led the technical planning and architectural design for the company's cross-border payment product line, ensuring high availability and scalability.
+      Designed and implemented a microservice architecture cross-border acquiring system based on Spring Cloud, using DDD design methods to define clear domain boundaries.
+      The system supports 15 currencies and 8 international card schemes, processing over 100,000 transactions daily.
+      Built an intelligent routing decision engine based on rule engines and machine learning, reducing overall transaction costs by 18%, with 99.95% system availability during peak periods.
+    </p>
+    
+    <h3>Shanghai Kaixer Software Co., Ltd. | Senior Java Developer | Feb 2018-Nov 2019</h3>
+    <p>
+      Participated in the design and development of core modules for financial payment systems, including transaction processing, risk control, and account management.
+      Led the implementation of microservice architecture for card issuance business system reconstruction, reducing card application processing time by 40% and improving system throughput by 65%.
+      Designed and implemented a token authorization system based on OAuth2.0 and JWT for mobile payment scenarios.
+    </p>
+    
+    <h3>Beijing Csii Software Systems Co., Ltd. | Java Developer | Jul 2016-Feb 2018</h3>
+    <p>
+      Involved in the development of SPD Bank's rural B2C express payment system, new merchant express payment signing system, B2C fee settlement system, and unified cashier system.
+      Reconstructed core payment and cancellation functional modules, achieving seamless integration between rural banks and headquarters systems, handling request peaks of 200 TPS,
+      improving transaction success rate by 15% and reducing system response time by 30%.
+    </p>
+    
+    <h2>Project Experience</h2>
+    <p>
+      I've led several significant projects, including:
+    </p>
+    <ul>
+      <li><strong>Onerway Cross-border Acquiring</strong>: Built cross-border payment acquiring solutions for global e-commerce and SaaS service providers, supporting multi-currency, multi-channel, and multi-scenario payment processing</li>
+      <li><strong>Onerway Cross-border Collection</strong>: Provided overseas collection solutions for cross-border e-commerce sellers registered in mainland China/Hong Kong</li>
+      <li><strong>UnionPay International Virtual Card Project</strong>: Designed and implemented globally applicable virtual credit card standards and card issuance system for UnionPay International</li>
+      <li><strong>Unified Cashier</strong>: Integrated and reconstructed SPD Bank's online payment system, unifying multi-channel payment entry points</li>
+    </ul>
+    
+    <h2>Education</h2>
+    <p>
+      Anhui University | Bachelor's Degree | Network Engineering | 2012-2016
+    </p>
+    <ul>
+      <li>Major courses: Computer Networks, Data Structures and Algorithms, Operating Systems, Database Systems, Java Programming, Software Engineering</li>
+      <li>Received Outstanding Student Award and Outstanding Graduate honors</li>
+      <li>Selected for the Network Engineering Excellence Program, receiving small-class teaching and enterprise training</li>
+    </ul>
+    
+    <h2>Contact Information</h2>
+    <ul>
+      <li><a href={socialConfig.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href={socialConfig.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li class="relative group">
+        <span class="cursor-pointer text-indigo-600 dark:text-indigo-400">WeChat</span>
+        <div class="absolute left-20 top-0 -mt-64 opacity-0 group-hover:opacity-100 transition-opacity invisible group-hover:visible z-10">
+          <img src="/wechat.png" alt="WeChat QR Code" class="w-64 h-64 border-2 border-slate-200 dark:border-slate-700 rounded-lg bg-white shadow-lg" />
+        </div>
+      </li>
+      <li>Email: <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></li>
+    </ul>
+    
+    <p>
+      Thank you for visiting my blog. I hope you find valuable content here!
+    </p>
+  </div>
+</ThreeColumnLayout> 

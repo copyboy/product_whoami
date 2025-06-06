@@ -1,0 +1,52 @@
+{
+  "site": {
+    "title": "Product WhoAmI",
+    "description": "Personal portfolio website combining blog functionality with product showcase capabilities",
+    "url": "https://i.zhangqingdong.cn",
+    "author": "Gerrad Zhang",
+    "email": "gerrad.zhang@hotmail.com",
+    "logo": "/logo.svg",
+    "homeTitle": "Product WhoAmI",
+    "homeSubtitle": "Welcome to my digital space. Discover my projects, read my thoughts on technology, and explore my professional journey.",
+    "blogSubtitle": "Insights, experiences, and knowledge sharing on technology, development, and innovation.",
+    "projectSubtitle": "A curated showcase of my personal projects, open source contributions, and product development journey.",
+    "brandTitle": "Gerrad Zhang"
+  },
+  "giscus": {
+    "enabled": true,
+    "repo": "copyboy/whoami_blog_comment",
+    "repoId": "R_kgDOOl9Jtw",
+    "category": "General",
+    "categoryId": "DIC_kwDOOl9Jt84Cp3pA",
+    "mapping": "pathname",
+    "strict": "0",
+    "theme": "preferred_color_scheme",
+    "reactionsEnabled": true,
+    "emitMetadata": false,
+    "inputPosition": "top",
+    "lang": "en",
+    "loading": "lazy"
+  },
+  "seo": {
+    "openGraph": {
+      "twitterCreator": "@yourusername",
+      "defaultImageWidth": 1200,
+      "defaultImageHeight": 630
+    },
+    "analytics": {
+      "googleAnalyticsId": "",
+      "baiduAnalyticsId": ""
+    }
+  },
+  "social": {
+    "github": "https://github.com/copyboy",
+    "linkedin": "https://www.linkedin.com/in/gerrad-zhang-452a15216/"
+  },
+  "features": {
+    "darkMode": true,
+    "tableOfContents": true,
+    "readingTime": true,
+    "search": true,
+    "comments": true
+  }
+} 

@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+
+// Get all blog posts
+const blogPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Get all projects - using try/catch to prevent errors
+let projects = [];
+try {
+  projects = await getCollection('projects');
+} catch (error) {
+  console.error('Error loading projects collection:', error);
+  // If error occurs, use empty array
+  projects = [];
+}
+
+// Extract tags from blog posts
+const blogTagCounts = blogPosts.reduce((acc, post) => {
+  post.data.tags?.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// Extract tags from projects
+const projectTagCounts = projects.reduce((acc, project) => {
+  project.data.tags?.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// Merge blog and project tag counts
+const combinedTagCounts = { ...blogTagCounts };
+Object.entries(projectTagCounts).forEach(([tag, count]) => {
+  combinedTagCounts[tag] = (combinedTagCounts[tag] || 0) + count;
+});
+
+// Convert to array of objects
+const tags = Object.entries(combinedTagCounts).map(([name, count]) => ({ name, count }));
+
+// Sort by count (descending)
+tags.sort((a, b) => b.count - a.count);
+
+// Limit to top 15 tags
+const topTags = tags.slice(0, 12);
+---
+
+<div class="flex flex-wrap gap-2">
+  {topTags.map(tag => (
+    <a 
+      href={`/tags/${tag.name.toLowerCase().replace(/\s+/g, '-')}`}
+      class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors"
+    >
+      {tag.name}
+      <span class="ml-1 text-slate-500 dark:text-slate-400 text-xs">({tag.count})</span>
+    </a>
+  ))}
+</div>

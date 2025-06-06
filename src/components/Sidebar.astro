@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+import TableOfContents from './TableOfContents.astro';
+import TagCloud from './TagCloud.astro';
+import RecentPosts from './RecentPosts.astro';
+import { isFeatureEnabled } from '@utils/config';
+import SidebarSearchIsland from './islands/SidebarSearchIsland';
+
+const { class: className, toc } = Astro.props;
+
+// Check if search functionality is enabled
+const isSearchEnabled = isFeatureEnabled('search');
+---
+
+<aside class:list={["bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 h-full p-4 overflow-y-auto", className]}>
+  <div class="sticky top-4 space-y-8">
+    <!-- Search -->
+    {isSearchEnabled && (
+      <div>
+        <SidebarSearchIsland client:idle placeholder="Search" />
+      </div>
+    )}
+    
+    <!-- Table of Contents (only shown on article pages) -->
+    {toc && toc.length > 0 && (
+      <div>
+        <TableOfContents headings={toc} />
+      </div>
+    )}
+    
+    <!-- Recent Posts (only shown on non-article pages) -->
+    {!toc && (
+      <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+        <h3 class="text-lg font-semibold mb-4">Recent Posts</h3>
+        <RecentPosts />
+      </div>
+    )}
+    
+    <!-- Tag Cloud -->
+    <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Top Tags(12)</h3>
+        <a 
+          href="/tags" 
+          class="text-xs text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-300 font-medium transition-colors flex items-center"
+        >
+          View all
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
+      <TagCloud />
+    </div>
+  </div>
+</aside>
