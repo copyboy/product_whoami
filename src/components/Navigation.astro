@@ -29,6 +29,23 @@ const { class: className } = Astro.props;
 // Get site configuration
 const siteConfig = getSiteConfig();
 const socialConfig = getSocialConfig();
+
+// Get current path for active state detection
+const currentPath = Astro.url.pathname;
+
+// Helper function to determine if a link is active
+function isActiveLink(linkPath: string): boolean {
+  if (linkPath === '/') {
+    return currentPath === '/';
+  }
+  return currentPath.startsWith(linkPath);
+}
+
+// Helper function to determine if a category is active
+function isActiveCategory(categoryName: string): boolean {
+  const categoryPath = `/categories/${categoryName.toLowerCase().replace(/\s+/g, '-')}`;
+  return currentPath.startsWith(categoryPath);
+}
 ---
 
 <nav class:list={["bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-full p-4 flex flex-col", className]}>
@@ -44,26 +61,58 @@ const socialConfig = getSocialConfig();
       <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Navigation</h3>
       <ul class="space-y-2">
         <li>
-          <a href="/" class="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Icon name="home" class="w-5 h-5" />
+          <a href="/" class:list={[
+            "flex items-center gap-2 p-2 rounded-lg transition-colors",
+            isActiveLink('/') 
+              ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium" 
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
+          ]}>
+            <Icon name="home" class:list={[
+              "w-5 h-5",
+              isActiveLink('/') ? "text-indigo-600 dark:text-indigo-400" : ""
+            ]} />
             <span>Home</span>
           </a>
         </li>
         <li>
-          <a href="/blog" class="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Icon name="file-text" class="w-5 h-5" />
+          <a href="/blog" class:list={[
+            "flex items-center gap-2 p-2 rounded-lg transition-colors",
+            isActiveLink('/blog') 
+              ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium" 
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
+          ]}>
+            <Icon name="file-text" class:list={[
+              "w-5 h-5",
+              isActiveLink('/blog') ? "text-indigo-600 dark:text-indigo-400" : ""
+            ]} />
             <span>Blog</span>
           </a>
         </li>
         <li>
-          <a href="/projects" class="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Icon name="box" class="w-5 h-5" />
+          <a href="/projects" class:list={[
+            "flex items-center gap-2 p-2 rounded-lg transition-colors",
+            isActiveLink('/projects') 
+              ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium" 
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
+          ]}>
+            <Icon name="box" class:list={[
+              "w-5 h-5",
+              isActiveLink('/projects') ? "text-indigo-600 dark:text-indigo-400" : ""
+            ]} />
             <span>Projects</span>
           </a>
         </li>
         <li>
-          <a href="/about" class="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <Icon name="user" class="w-5 h-5" />
+          <a href="/about" class:list={[
+            "flex items-center gap-2 p-2 rounded-lg transition-colors",
+            isActiveLink('/about') 
+              ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium" 
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
+          ]}>
+            <Icon name="user" class:list={[
+              "w-5 h-5",
+              isActiveLink('/about') ? "text-indigo-600 dark:text-indigo-400" : ""
+            ]} />
             <span>About</span>
           </a>
         </li>
@@ -78,10 +127,20 @@ const socialConfig = getSocialConfig();
             <li>
               <a 
                 href={`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`} 
-                class="block p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex justify-between items-center"
+                class:list={[
+                  "block p-2 rounded-lg transition-colors flex justify-between items-center",
+                  isActiveCategory(name)
+                    ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium"
+                    : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                ]}
               >
                 <span>{name}</span>
-                <span class="text-xs bg-slate-200 dark:bg-slate-700 rounded-full px-2 py-0.5 text-slate-600 dark:text-slate-300">{count}</span>
+                <span class:list={[
+                  "text-xs rounded-full px-2 py-0.5",
+                  isActiveCategory(name)
+                    ? "bg-indigo-200 dark:bg-indigo-800 text-indigo-800 dark:text-indigo-200"
+                    : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                ]}>{count}</span>
               </a>
             </li>
           ))}
