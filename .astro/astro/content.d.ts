@@ -175,13 +175,6 @@ declare module 'astro:content' {
   collection: "projects";
   data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
-"portfolio-website.mdx": {
-	id: "portfolio-website.mdx";
-  slug: "portfolio-website";
-  body: string;
-  collection: "projects";
-  data: InferEntrySchema<"projects">
-} & { render(): Render[".mdx"] };
 };
 
 	};

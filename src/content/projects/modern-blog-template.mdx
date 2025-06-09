@@ -1,68 +1,124 @@
 ---
 title: "Modern Blog Template"
-description: "A customizable blog template built with Astro, React, and Tailwind CSS."
+description: "A modern, fast, and feature-rich blog platform built with Astro, React, and Tailwind CSS."
 pubDate: 2023-04-10
-updatedDate: 2023-05-05
+updatedDate: 2025-06-09
 heroImage: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg"
-tags: ["Astro", "React", "Tailwind CSS"]
-repoUrl: "https://github.com/example/modern-blog-template"
-demoUrl: "https://modern-blog-template.example.com"
+tags: ["Astro", "React", "Tailwind CSS", "TypeScript", "Blog"]
+repoUrl: "https://github.com/copyboy/product_whoami"
+demoUrl: "https://copyboy.github.io/product_whoami/"
 featured: true
 ---
 
 # Modern Blog Template
 
-This is a highly customizable, modern blog template built with Astro, React, and Tailwind CSS. It's designed to be fast, accessible, and easy to customize.
+This is a modern, fast, and feature-rich blog platform built with Astro, React, and Tailwind CSS. It combines the best of static site generation with dynamic features, creating a performant content management system perfect for personal blogs, portfolios, and project showcases.
 
-## Features
+## Key Features
 
-- **Fast**: Built with Astro for exceptional performance
-- **Responsive**: Looks great on all devices
-- **Customizable**: Easy to modify and extend
-- **Dark Mode**: Built-in light and dark theme support
-- **SEO Friendly**: Optimized for search engines
-- **Accessible**: WCAG 2.1 compliant
-- **Content Management**: Uses Astro's content collections
-- **Markdown Support**: Write your content in Markdown or MDX
+### Content Management
+- **MDX Support**: Rich text formatting with React components in markdown
+- **Hierarchical Organization**: Categories and subjects for content structure
+- **Tagging System**: Related content discovery through tags
+- **Featured Posts**: Highlight important content
+- **Draft Mode**: Work on posts before publishing
+- **Multi-language Support**: Chinese and English content support
 
-## Technologies Used
+### User Experience
+- **Responsive Design**: Three-column desktop layout with mobile optimization
+- **Dark/Light Theme**: Smooth theme transitions with user preference
+- **Table of Contents**: Auto-generated navigation for long posts
+- **Search & Filter**: Find content by tags, categories, and keywords
+- **Optimized Navigation**: Dynamic category menus and breadcrumbs
 
-- **Astro**: For static site generation
-- **React**: For interactive components
-- **Tailwind CSS**: For styling
-- **TypeScript**: For type safety
-- **MDX**: For enhanced Markdown support
+### Performance & Technical
+- **Static Site Generation**: Lightning-fast page loads
+- **Image Optimization**: Automatic image optimization and lazy loading
+- **SEO Optimized**: Meta tags, Open Graph, JSON-LD, sitemap, and RSS
+- **Type Safety**: Full TypeScript support throughout the codebase
+- **Modern Build Tools**: Vite-powered development and build process
+
+## Technology Stack
+
+- **Astro 4.0**: Modern static site generator with Islands Architecture
+- **React 18**: Interactive components and client-side functionality
+- **Tailwind CSS**: Utility-first CSS framework for rapid styling
+- **TypeScript**: Type-safe development experience
+- **MDX**: Enhanced Markdown with component support
+- **Vite**: Fast build tooling and development server
 
 ## Getting Started
 
-To use this template, follow these steps:
+To use this blog template, follow these steps:
 
 ```bash
 # Clone the repository
-git clone https://github.com/example/modern-blog-template.git
+git clone https://github.com/copyboy/product_whoami.git
 
 # Navigate to the project directory
-cd modern-blog-template
+cd product_whoami
 
 # Install dependencies
 npm install
 
 # Start the development server
 npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
+
+## Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── content/        # Blog posts and content collections
+│   ├── blog/      # Blog posts (MDX)
+│   └── projects/  # Project showcases
+├── layouts/        # Page layouts
+├── pages/         # Route pages
+│   ├── blog/      # Blog post pages
+│   ├── categories/ # Category pages with subject sub-pages
+│   └── tags/      # Tag pages
+├── styles/        # Global styles
+└── utils/         # Utility functions
+```
+
+## Content Management
+
+### Blog Posts
+Blog posts are stored as MDX files in `src/content/blog/`. Each post supports:
+- Rich frontmatter with categories, tags, and metadata
+- MDX content with React components
+- Automatic slug generation and routing
+- Multi-language support (Chinese/English)
+
+### Project Showcases
+Project information is stored in `src/content/projects/` with support for:
+- Project descriptions and technical details
+- Repository and demo links
+- Technology stack information
+- Featured project highlighting
 
 ## Customization
 
-The template is designed to be easily customizable. You can modify the following:
+### Site Configuration
+Edit `src/config/site.json` to customize:
+- Site metadata and branding
+- Author information and location
+- Social media links
+- Feature toggles
 
-### Theme
+### Styling
+- **Tailwind CSS**: Modify `tailwind.config.js` for theme customization
+- **Global Styles**: Edit `src/styles/global.css` for custom styles
+- **Components**: Customize UI components in `src/components/`
 
-Edit the `tailwind.config.js` file to change colors, fonts, and other design elements.
-
-### Layout
-
-Modify the layout components in the `src/layouts` directory.
-
-### Content
-
-Add your own content in the `src/content` directory. 
+### Content Organization
+- **Categories**: Organize posts by main categories
+- **Tags**: Add descriptive tags for content discovery
+- **Featured Content**: Mark important posts and projects 
