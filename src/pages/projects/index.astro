@@ -41,16 +41,20 @@ const siteConfig = getSiteConfig();
           />
         )}
         <div class="p-6">
-          <h2 class="text-xl font-bold mb-2">{project.data.title}</h2>
+          <h2 class="text-xl font-bold mb-2">
+            <a href={`/projects/${project.slug}`} class="text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+              {project.data.title}
+            </a>
+          </h2>
           <p class="text-slate-600 dark:text-slate-300 mb-4">
             {project.data.description}
           </p>
           
           <div class="flex flex-wrap gap-2 mb-4">
             {project.data.tags.map(tag => (
-              <span class="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">
+              <a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`} class="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
                 {tag}
-              </span>
+              </a>
             ))}
           </div>
           
