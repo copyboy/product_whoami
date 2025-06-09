@@ -1,6 +1,7 @@
 ---
 import type { ArticleCardProps as Props } from '@types/astro';
 import { Image } from 'astro:assets';
+import SmartPlaceholder from '@components/SmartPlaceholder.astro';
 
 const { title, description, pubDate, updatedDate, heroImage, tags, author, slug } = Astro.props;
 
@@ -14,7 +15,7 @@ const hasUpdated = updatedDate && updatedDate > pubDate;
 ---
 
 <article class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
-  {heroImage && (
+  {heroImage ? (
     <a href={`/blog/${slug}`} class="block">
       {typeof heroImage === 'string' ? (
         <img 
@@ -39,6 +40,14 @@ const hasUpdated = updatedDate && updatedDate > pubDate;
           quality={80}
         />
       )}
+    </a>
+  ) : (
+    <a href={`/blog/${slug}`} class="block">
+      <SmartPlaceholder 
+        tags={tags || []} 
+        title={title} 
+        class="w-full h-40"
+      />
     </a>
   )}
   <div class="p-5 flex flex-col flex-grow">

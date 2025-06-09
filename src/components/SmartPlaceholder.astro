@@ -1,0 +1,37 @@
+---
+import { generatePlaceholder, iconNames } from '@utils/placeholder';
+import Icon from '@components/Icon.astro';
+
+interface Props {
+  tags: string[];
+  title: string;
+  class?: string;
+}
+
+const { tags, title, class: className = '' } = Astro.props;
+const placeholder = generatePlaceholder(tags, title);
+const iconName = iconNames[placeholder.icon] || 'document';
+---
+
+<div class={`relative overflow-hidden ${className}`}>
+  <!-- 渐变背景 -->
+  <div class={`w-full h-full bg-gradient-to-br ${placeholder.gradient} flex items-center justify-center relative`}>
+    <!-- 装饰性图案 -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-4 right-4 w-16 h-16 border border-white rounded-full"></div>
+      <div class="absolute bottom-4 left-4 w-12 h-12 border border-white rounded-lg rotate-45"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-white rounded-full opacity-30"></div>
+    </div>
+    
+    <!-- 主图标和标签 -->
+    <div class="text-center z-10 relative">
+      <Icon name={iconName} class="w-16 h-16 text-white mx-auto mb-3 drop-shadow-lg" />
+      <p class="text-white text-sm font-medium drop-shadow-md px-4">
+        {placeholder.label}
+      </p>
+    </div>
+    
+    <!-- 光泽效果 -->
+    <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white to-transparent opacity-5"></div>
+  </div>
+</div> 
