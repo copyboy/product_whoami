@@ -1,126 +1,243 @@
-# CursorRIPER Framework - Public Template
+# Modern Personal Blog with Astro
 
-## 📋 Template Overview
+A modern, fast, and feature-rich blog platform built with Astro, React, and Tailwind CSS.
 
-This is the public template for the **CursorRIPER Framework** - an enterprise-grade development framework integrated with Cursor IDE, designed to provide structured workflows and comprehensive task management for development teams.
+## 💡 System Overview
 
-## 🚀 Quick Start
+This blog platform combines modern web technologies to create a performant, feature-rich content management system. Key capabilities include:
 
-### For New Projects
+**Content Management**
+- MDX-powered blog posts with rich formatting and code highlighting
+- Hierarchical categorization with main categories and subjects
+- Tagging system with related content discovery
+- Featured posts and draft mode
 
-1. **Copy this template** to your project directory
-2. **Initialize the framework** by executing:
-   ```bash
-   /start
-   ```
-3. **Follow the START phase** guidance to complete project setup
-4. **Begin development** using the RIPER workflow and task management system
+**User Experience**
+- Responsive three-column layout with mobile optimization
+- Dark/light mode theming with smooth transitions
+- Optimized article listings with consistent alignment
+- Enhanced navigation with dynamic category menus
 
-### Framework Status
+**Performance**
+- Static site generation for lightning-fast page loads
+- Image optimization and lazy loading
+- CSS/JS minification and code splitting
+- High PageSpeed and Core Web Vitals scores
 
-- **Current State**: `UNINITIATED` (Ready for initialization)
-- **Version**: `1.0.3`
-- **Task Management**: Enabled
-- **Components**: Core, State, Task Management, Templates
+**Developer Experience**
+- Component-based architecture for maintainability
+- Tailwind CSS for rapid styling
+- Content collections for type-safe content management
+- Clear conventions and documentation
 
-## 🏗️ Framework Components
+## 📚 Content Management
 
-### Core Features
-- **RIPER Workflow**: Research → Innovate → Plan → Execute → Review
-- **Task Management**: Enterprise-level task iteration tracking
-- **Memory Bank**: Cross-session project knowledge preservation
-- **START Phase**: Guided project initialization
+### Blog Posts
+Blog posts are stored in `src/content/blog/` as MDX files. Each post should follow this structure:
 
-### Directory Structure
+```md
+---
+title: Your Post Title
+description: A brief description of your post
+pubDate: 2024-01-01
+updatedDate: 2024-01-02 # Optional
+heroImage: https://example.com/image.jpg # Optional
+tags: ['typescript', 'react', 'web development']
+categories: ['programming']
+subject: 'React' # For sub-categorization
+draft: false
+featured: false
+author: Your Name
+location: City, Country
+---
+
+Your content here...
 ```
-├── .cursor/rules/              # Framework configuration
-│   ├── core.mdc               # Core framework logic
-│   ├── state.mdc              # Project state management
-│   ├── riper-workflow.mdc     # RIPER workflow definitions
-│   ├── start-phase.mdc        # Project initialization guide
-│   ├── task-management.mdc    # Task management system
-│   └── customization.mdc      # User customization options
-├── .tasks/                    # Task management directory
-│   ├── active/                # Currently active tasks
-│   ├── completed/             # Completed tasks
-│   ├── archived/              # Archived tasks
-│   └── templates/             # Task templates
-└── memory-bank/               # Project knowledge base (created during initialization)
+
+### Frontmatter Fields
+
+#### Required
+- `title`: Post title
+- `description`: Brief summary (150-160 characters recommended)
+- `pubDate`: Publication date (YYYY-MM-DD)
+- `tags`: Array of relevant tags
+- `categories`: Array of categories
+
+#### Optional
+- `updatedDate`: Last update date
+- `heroImage`: Featured image URL
+- `subject`: Sub-category within main category
+- `draft`: Set to `true` to exclude from production build
+- `featured`: Set to `true` to highlight on homepage
+- `author`: Post author name
+- `location`: Author's location
+
+### Available Tags
+- Technology: `web development`, `tools`, `software`
+- Programming: `javascript`, `typescript`, `react`, `node.js`
+- Design: `ui`, `ux`, `css`, `design systems`
+- General: `tutorial`, `guide`, `opinion`, `career`
+
+## 🏗 Project Architecture
+
+```
+src/
+├── components/     # Reusable UI components
+├── content/        # Blog posts and content collections
+│   ├── blog/      # Blog posts (MDX)
+│   └── projects/  # Project showcases
+├── layouts/        # Page layouts
+├── pages/         # Route pages
+│   ├── blog/      # Blog post pages
+│   ├── categories/ # Category pages with subject sub-pages
+│   └── tags/      # Tag pages
+└── styles/        # Global styles
 ```
 
-## 🎯 Use Cases
+### Key Components
+- `ThreeColumnLayout.astro`: Main blog layout
+- `ArticleCard.astro`: Blog post preview card
+- `ArticleListItem.astro`: Compact article listing with optimized alignment
+- `TableOfContents.astro`: Auto-generated post ToC
+- `Navigation.astro`: Main navigation menu with mobile optimization
+- `Sidebar.astro`: Right sidebar with recent posts/tags
 
-### Enterprise Development Teams
-- **DevOps Projects**: Kubernetes operators, CI/CD pipelines
-- **Web Applications**: Full-stack development with structured workflows
-- **Data Engineering**: Pipeline development and data processing systems
-- **Infrastructure**: Cloud infrastructure and automation projects
+## 🚀 Features
 
-### Key Benefits
-- **Structured Workflows**: Prevent unauthorized modifications and ensure proper planning
-- **Task Iteration**: Enterprise-level task tracking and progress monitoring
-- **Knowledge Preservation**: Maintain project context across sessions and team members
-- **Quality Assurance**: Built-in review processes and documentation standards
+### Content
+- ✍️ MDX Support
+  - Rich text formatting
+  - React components in markdown
+  - Code syntax highlighting
+  - Auto-generated table of contents
 
-## 📖 Documentation
+- 🏷 Content Organization
+  - Tags and categories
+  - Subject-based sub-categorization
+  - Category pages with two-column layout
+  - "View All" functionality for subject pages
+  - Related posts
+  - Featured posts
+  - Draft posts
 
-### Framework Documentation
-- **Core Concepts**: Located in `.cursor/rules/core.mdc`
-- **Task Management**: Comprehensive guide in `.tasks/README.md`
-- **RIPER Workflow**: Detailed workflow definitions in `.cursor/rules/riper-workflow.mdc`
+### Design
+- 🎨 Theming
+  - Dark/light mode
+  - Responsive design
+  - Custom typography
+  - Tailwind CSS utilities
 
-### Getting Started
-After executing `/start`, you'll be guided through:
-1. **Requirements Gathering**: Define project goals and constraints
-2. **Technology Stack**: Choose and configure development technologies
-3. **Architecture Planning**: Design system architecture and patterns
-4. **Project Scaffolding**: Set up initial project structure
-5. **Environment Setup**: Configure development and deployment environments
-6. **Task Management**: Initialize task tracking and planning systems
-7. **Memory Bank**: Create project knowledge base
+- 📱 Layout
+  - Three-column desktop layout
+  - Mobile-friendly navigation
+  - Optimized date and title alignment
+  - Sticky sidebar
+  - Smooth animations
 
-## 🔧 Customization
+### Performance
+- ⚡️ Fast by Default
+  - Static site generation
+  - Image optimization
+  - CSS/JS minification
+  - Lazy loading
 
-The framework supports customization through:
-- **Custom Templates**: Modify task templates to match your organization's needs
-- **Workflow Adaptations**: Customize RIPER workflow steps for your processes
-- **Integration Points**: Connect with external tools and systems
-- **Team Standards**: Implement organization-specific coding and documentation standards
+### SEO
+- 🔍 SEO Optimized
+  - Meta tags
+  - Open Graph
+  - JSON-LD
+  - Sitemap
+  - RSS feed
+
+## 💻 Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+### Adding New Features
+1. Components: Add to `src/components/`
+2. Styles: Modify `src/styles/global.css`
+3. Routes: Create in `src/pages/`
+4. Content: Add to `src/content/`
+
+### Content Collections
+Content is managed through Astro's Content Collections:
+
+```typescript
+// src/content/config.ts
+export const collections = {
+  blog: defineCollection({
+    schema: blogSchema
+  }),
+  projects: defineCollection({
+    schema: projectSchema
+  })
+}
+```
+
+## 🔧 Configuration
+
+### Astro Config
+Edit `astro.config.mjs` for:
+- Site metadata
+- Markdown/MDX options
+- Integration settings
+- Build configuration
+
+### Tailwind Config
+Edit `tailwind.config.js` for:
+- Theme customization
+- Color palette
+- Typography
+- Custom utilities
+
+## 📝 Writing Guidelines
+
+### Post Structure
+1. Clear title and description
+2. Engaging introduction
+3. Well-organized sections with headings
+4. Relevant code examples
+5. Conclusion or call-to-action
+
+### Markdown Features
+- Headers: `# H1` through `###### H6`
+- Lists: Ordered and unordered
+- Code blocks with language syntax
+- Images with captions
+- Blockquotes
+- Tables
+
+### Code Examples
+````md
+```typescript
+// Your code here
+```
+````
+
+### Images
+```md
+![Alt text](image-url)
+```
 
 ## 🤝 Contributing
 
-This is a public template designed to be:
-- **Copied and adapted** for individual projects
-- **Customized** to meet specific organizational needs
-- **Extended** with additional components and integrations
-
-### Template Updates
-- Framework core components are versioned
-- Template improvements are backward-compatible
-- Organizations can maintain their own template variations
-
-## 🆘 Support
-
-### Common Issues
-- **Initialization Problems**: Ensure proper permissions and Cursor IDE setup
-- **State Inconsistencies**: Framework includes automatic state detection and repair
-- **Task Management**: Comprehensive troubleshooting in task system documentation
-
-### Best Practices
-1. **Always start with `/start`** for new projects
-2. **Follow RIPER workflow** for all significant changes
-3. **Use task management** for tracking development iterations
-4. **Maintain memory bank** for project knowledge preservation
-5. **Regular reviews** using REVIEW mode for quality assurance
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## 📄 License
 
-This framework template is designed for enterprise use and can be freely adapted for organizational needs.
-
----
-
-**Version**: 1.0.3  
-**Last Updated**: 2025-06-05  
-**Framework Status**: Ready for Project Initialization
-
-*Execute `/start` to begin your project journey with the CursorRIPER Framework* 
+MIT © 2025
