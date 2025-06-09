@@ -85,26 +85,34 @@ const siteConfig = getSiteConfig();
     <h2 class="text-2xl font-bold mb-6">Recent Projects</h2>
     <div class="grid gap-6 md:grid-cols-2">
       {featuredProjects.map(project => (
-      <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-lg">
-          <h3 class="text-xl font-bold mb-2">{project.data.title}</h3>
-        <p class="text-slate-600 dark:text-slate-300 mb-4">
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-lg">
+          <h3 class="text-xl font-bold mb-2">
+            <a href={`/projects/${project.slug}`} class="text-slate-900 dark:text-slate-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+              {project.data.title}
+            </a>
+          </h3>
+          <p class="text-slate-600 dark:text-slate-300 mb-4">
             {project.data.description}
-        </p>
-        <div class="flex gap-2">
+          </p>
+          <div class="flex gap-2 flex-wrap mb-4">
             {project.data.tags.map(tag => (
-              <a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`} class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-full transition-colors">
+              <a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`} class="transition-colors rounded-full bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 hover:bg-slate-200 px-3 py-1 text-sm">
                 {tag}
-          </a>
+              </a>
             ))}
-        </div>
-          <div class="mt-4 flex gap-3">
+          </div>
+          <div class="flex gap-3">
             {project.data.repoUrl && (
-              <a href={project.data.repoUrl} class="text-sm text-indigo-600 hover:underline">GitHub</a>
+              <a href={project.data.repoUrl} class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline" target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
             )}
             {project.data.demoUrl && (
-              <a href={project.data.demoUrl} class="text-sm text-indigo-600 hover:underline">Live Demo</a>
+              <a href={project.data.demoUrl} class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline" target="_blank" rel="noopener noreferrer">
+                Live Demo
+              </a>
             )}
-      </div>
+          </div>
         </div>
       ))}
     </div>
