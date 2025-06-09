@@ -40,7 +40,8 @@ const toc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 )}
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Table of Contents functionality
+  function initTableOfContents() {
     const observerOptions = {
       root: null,
       rootMargin: '0px',
@@ -68,5 +69,31 @@ const toc = headings.filter(h => h.depth >= 2 && h.depth <= 3);
     document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
       observer.observe(heading);
     });
-  });
+
+    // Add smooth scroll behavior to TOC links
+    document.querySelectorAll('.toc a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          
+          // Update URL without jumping
+          history.pushState(null, null, `#${targetId}`);
+        }
+      });
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTableOfContents);
+  } else {
+    initTableOfContents();
+  }
 </script>

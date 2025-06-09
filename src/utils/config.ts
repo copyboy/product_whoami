@@ -12,6 +12,7 @@ export interface SiteConfig {
     description: string;
     url: string;
     author: string;
+    location: string;
     email: string;
     logo: string;
     homeTitle: string;

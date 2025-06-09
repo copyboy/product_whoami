@@ -12,11 +12,21 @@ export async function getHeadings(content: string) {
   while ((match = headingRegex.exec(content)) !== null) {
     const depth = match[1].length;
     const text = match[2].trim();
-    const slug = text
+    
+    // Improved slug generation for Chinese characters
+    let slug = text
       .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/[\s_-]+/g, '-')
+      // Keep Chinese characters, alphanumeric, and hyphens
+      .replace(/[^\u4e00-\u9fa5\w\s-]/g, '')
+      // Replace spaces and underscores with hyphens
+      .replace(/[\s_]+/g, '-')
+      // Remove leading/trailing hyphens
       .replace(/^-+|-+$/g, '');
+    
+    // If slug is empty or too short, use a fallback
+    if (!slug || slug.length < 1) {
+      slug = `heading-${depth}-${headings.length}`;
+    }
 
     headings.push({
       depth,
