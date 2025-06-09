@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
 import { formatPageTitle, getSiteConfig } from '@utils/config';
-import SmartPlaceholder from '@components/SmartPlaceholder.astro';
 
 // Get all projects
 const allProjects = await getCollection('projects', ({ data }) => {
@@ -41,11 +40,17 @@ const siteConfig = getSiteConfig();
             height="300"
           />
         ) : (
-          <SmartPlaceholder 
-            tags={project.data.tags || []} 
-            title={project.data.title} 
-            class="w-full h-48"
-          />
+          <div class="w-full h-48 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 dark:from-emerald-600 dark:via-teal-600 dark:to-cyan-600 flex items-center justify-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-white/20 dark:from-transparent dark:via-black/10 dark:to-black/20"></div>
+            <div class="relative z-10 text-center">
+              <div class="w-16 h-16 mx-auto mb-3 text-white/80">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-full h-full">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                </svg>
+              </div>
+              <p class="text-sm text-white/80 font-medium">项目展示</p>
+            </div>
+          </div>
         )}
         <div class="p-6">
           <h2 class="text-xl font-bold mb-2">
