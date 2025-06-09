@@ -96,7 +96,7 @@ const siteConfig = getSiteConfig();
           </p>
           <div class="flex gap-2 flex-wrap mb-4">
             {project.data.tags.map(tag => (
-              <a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`} class="transition-colors rounded-full bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 hover:bg-slate-200 px-3 py-1 text-sm">
+              <a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`} class="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
                 {tag}
               </a>
             ))}
