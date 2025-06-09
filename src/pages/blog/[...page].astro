@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
 import ArticleListItem from '@components/ArticleListItem.astro';
+import { formatPageTitle, getSiteConfig } from '@utils/config';
 
 export async function getStaticPaths({ paginate }) {
   const allPosts = await getCollection('blog', ({ data }) => {
@@ -13,7 +14,10 @@ export async function getStaticPaths({ paginate }) {
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 
-  return paginate(sortedPosts, { pageSize: 10 });
+  return paginate(sortedPosts, { 
+    pageSize: 10,
+    route: '/blog/[...page]'
+  });
 }
 
 const { page } = Astro.props;
@@ -35,23 +39,37 @@ const tags = allBlogPosts.reduce((acc, post) => {
 const sortedTags = Object.entries(tags)
   .sort(([, a], [, b]) => b - a)
   .map(([tag, count]) => ({ tag, count }));
+
+// Get the top 5 most popular tags
+const topTags = sortedTags.slice(0, 5);
+
+// Get site configuration
+const siteConfig = getSiteConfig();
 ---
 
-<ThreeColumnLayout title={`Blog - Page ${currentPage} | Modern Blog`}>
+<ThreeColumnLayout title={currentPage === 1 ? formatPageTitle('Blog') : `Blog - Page ${currentPage} | Modern Blog`}>
   <header class="pb-8 border-b border-slate-200 dark:border-slate-800 mb-8">
     <h1 class="text-4xl font-bold mb-4">Blog</h1>
     <p class="text-lg text-slate-600 dark:text-slate-300">
-      Thoughts, ideas, and knowledge on technology, programming, and design.
+      {siteConfig.blogSubtitle}
     </p>
   </header>
 
   <div class="mb-8">
-    <h2 class="text-lg font-semibold mb-4">Popular Tags</h2>
-    <div class="flex flex-wrap gap-2">
-      {sortedTags.map(({ tag, count }) => (
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">Popular Tags</h2>
+      <a href="/tags" class="text-sm text-indigo-500 hover:text-indigo-600 flex items-center">
+        View all
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      {topTags.map(({ tag, count }) => (
         <a
           href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-          class="text-sm px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors"
+          class="text-md px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors shadow-sm"
         >
           {tag}
           <span class="ml-1 text-slate-500 dark:text-slate-400">({count})</span>
@@ -59,6 +77,9 @@ const sortedTags = Object.entries(tags)
       ))}
     </div>
   </div>
+
+  <!-- Divider -->
+  <hr class="border-t border-slate-200 dark:border-slate-700 mb-8" />
 
   <div class="divide-y divide-slate-200 dark:divide-slate-700">
     {posts.map(post => (
@@ -74,37 +95,39 @@ const sortedTags = Object.entries(tags)
     ))}
   </div>
 
-  <div class="mt-12 flex justify-center">
-    <nav class="inline-flex rounded shadow-sm" aria-label="Pagination">
-      {currentPage > 1 && (
-        <a
-          href={`/blog${currentPage > 2 ? '/' + (currentPage - 1) : ''}`}
-          class="px-3 py-2 rounded-l-md border border-r-0 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
-        >
-          Previous
-        </a>
-      )}
-      {Array.from({ length: lastPage }, (_, i) => i + 1).map(page => (
-        <a
-          href={`/blog${page > 1 ? '/' + page : ''}`}
-          class:list={[
-            'px-3 py-2 border border-slate-300 dark:border-slate-600',
-            page === currentPage
-              ? 'bg-indigo-600 text-white font-medium hover:bg-indigo-700'
-              : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
-          ]}
-        >
-          {page}
-        </a>
-      ))}
-      {currentPage < lastPage && (
-        <a
-          href={`/blog/${currentPage + 1}`}
-          class="px-3 py-2 rounded-r-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
-        >
-          Next
-        </a>
-      )}
-    </nav>
-  </div>
+  {lastPage > 1 && (
+    <div class="mt-12 flex justify-center">
+      <nav class="inline-flex rounded shadow-sm" aria-label="Pagination">
+        {currentPage > 1 && (
+          <a
+            href={currentPage === 2 ? '/blog' : `/blog/${currentPage - 1}`}
+            class="px-3 py-2 rounded-l-md border border-r-0 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
+          >
+            Previous
+          </a>
+        )}
+        {Array.from({ length: lastPage }, (_, i) => i + 1).map(pageNum => (
+          <a
+            href={pageNum === 1 ? '/blog' : `/blog/${pageNum}`}
+            class:list={[
+              'px-3 py-2 border border-slate-300 dark:border-slate-600',
+              pageNum === currentPage
+                ? 'bg-indigo-600 text-white font-medium hover:bg-indigo-700'
+                : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
+            ]}
+          >
+            {pageNum}
+          </a>
+        ))}
+        {currentPage < lastPage && (
+          <a
+            href={`/blog/${currentPage + 1}`}
+            class="px-3 py-2 rounded-r-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
+          >
+            Next
+          </a>
+        )}
+      </nav>
+    </div>
+  )}
 </ThreeColumnLayout>
