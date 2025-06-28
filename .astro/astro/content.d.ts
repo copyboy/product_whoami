@@ -243,6 +243,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"mysql-performance-monitoring.mdx": {
+	id: "mysql-performance-monitoring.mdx";
+  slug: "mysql-performance-monitoring";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "mysql-query-optimization-explain.mdx": {
 	id: "mysql-query-optimization-explain.mdx";
   slug: "mysql-query-optimization-explain";
@@ -253,6 +260,20 @@ declare module 'astro:content' {
 "mysql-transaction-isolation-levels.mdx": {
 	id: "mysql-transaction-isolation-levels.mdx";
   slug: "mysql-transaction-isolation-levels";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"rabbitmq-message-reliability.mdx": {
+	id: "rabbitmq-message-reliability.mdx";
+  slug: "rabbitmq-message-reliability";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"redis-cache-design-patterns.mdx": {
+	id: "redis-cache-design-patterns.mdx";
+  slug: "redis-cache-design-patterns";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
