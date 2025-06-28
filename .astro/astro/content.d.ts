@@ -215,6 +215,20 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"mysql-mvcc-mechanism.mdx": {
+	id: "mysql-mvcc-mechanism.mdx";
+  slug: "mysql-mvcc-mechanism";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"mysql-transaction-isolation-levels.mdx": {
+	id: "mysql-transaction-isolation-levels.mdx";
+  slug: "mysql-transaction-isolation-levels";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "synchronized-deep-dive.mdx": {
 	id: "synchronized-deep-dive.mdx";
   slug: "synchronized-deep-dive";
