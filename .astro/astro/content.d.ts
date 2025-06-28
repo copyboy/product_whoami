@@ -229,9 +229,37 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"mysql-query-optimization-explain.mdx": {
+	id: "mysql-query-optimization-explain.mdx";
+  slug: "mysql-query-optimization-explain";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "mysql-transaction-isolation-levels.mdx": {
 	id: "mysql-transaction-isolation-levels.mdx";
   slug: "mysql-transaction-isolation-levels";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"redis-cluster-high-availability.mdx": {
+	id: "redis-cluster-high-availability.mdx";
+  slug: "redis-cluster-high-availability";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"redis-data-structures-memory-optimization.mdx": {
+	id: "redis-data-structures-memory-optimization.mdx";
+  slug: "redis-data-structures-memory-optimization";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"redis-persistence-rdb-aof.mdx": {
+	id: "redis-persistence-rdb-aof.mdx";
+  slug: "redis-persistence-rdb-aof";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
