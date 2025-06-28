@@ -215,6 +215,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"jmm-memory-model-deep-dive.mdx": {
+	id: "jmm-memory-model-deep-dive.mdx";
+  slug: "jmm-memory-model-deep-dive";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "jvm-memory-structure-analysis.mdx": {
 	id: "jvm-memory-structure-analysis.mdx";
   slug: "jvm-memory-structure-analysis";
