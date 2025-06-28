@@ -355,6 +355,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"spring-singleton-thread-safety.mdx": {
+	id: "spring-singleton-thread-safety.mdx";
+  slug: "spring-singleton-thread-safety";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "synchronized-deep-dive.mdx": {
 	id: "synchronized-deep-dive.mdx";
   slug: "synchronized-deep-dive";
