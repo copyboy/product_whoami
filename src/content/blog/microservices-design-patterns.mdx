@@ -1,0 +1,1103 @@
+---
+title: "微服务设计模式与最佳实践深度解析"
+description: "深入探讨微服务架构的核心设计模式、实现原理和最佳实践，结合实际项目经验分享微服务系统设计和治理要点。"
+pubDate: 2024-12-28
+updatedDate: 2024-12-28
+tags: ["microservices", "design-patterns", "architecture", "spring-cloud", "distributed", "interview", "best-practices"]
+categories: ["microservices"]
+subject: "微服务架构"
+draft: false
+featured: true
+author: "Gerrad Zhang"
+location: "武汉，中国"
+---
+
+## 🤔 问题背景与技术演进
+
+### 我们要解决什么问题？
+
+随着业务复杂度的增长，单体应用面临诸多挑战，微服务架构应运而生：
+
+- **单体应用瓶颈**：代码库庞大，部署困难，技术栈固化
+- **团队协作问题**：多团队开发同一个应用，代码冲突频繁
+- **扩展性限制**：无法针对特定模块进行独立扩展
+- **技术债务积累**：历史代码难以重构，新技术难以引入
+- **故障影响范围大**：一个模块的问题可能导致整个系统崩溃
+
+### 没有微服务架构时是怎么做的？
+
+传统单体应用的典型架构：
+
+```java
+// 传统单体应用：所有功能在一个应用中
+@SpringBootApplication
+public class MonolithApplication {
+    
+    @RestController
+    public class OrderController {
+        
+        @Autowired
+        private OrderService orderService;
+        
+        @Autowired
+        private InventoryService inventoryService;
+        
+        @Autowired
+        private PaymentService paymentService;
+        
+        @PostMapping("/orders")
+        public ResponseEntity<Order> createOrder(@RequestBody CreateOrderRequest request) {
+            // 所有业务逻辑在同一个应用中
+            Order order = orderService.createOrder(request);
+            inventoryService.deductStock(request.getProductId(), request.getQuantity());
+            paymentService.processPayment(order.getPaymentInfo());
+            
+            return ResponseEntity.ok(order);
+        }
+    }
+}
+```
+
+**单体架构的问题**：
+- 代码耦合度高，难以维护
+- 部署必须整体进行
+- 技术栈统一，无法灵活选择
+- 单点故障风险
+- 团队开发效率低
+
+### 技术演进的历史脉络
+
+微服务架构的发展历程：
+
+1. **SOA时代**（2000-2005）：面向服务架构，重量级ESB
+2. **Web服务兴起**（2005-2010）：SOAP、REST API标准化
+3. **微服务概念形成**（2010-2015）：Netflix、Amazon等公司实践
+4. **生态工具完善**（2015-2020）：Spring Cloud、Kubernetes等
+5. **Service Mesh时代**（2020至今）：Istio、Linkerd等基础设施层
+
+## 🎯 核心概念与原理
+
+### 微服务架构核心原则
+
+微服务架构遵循以下核心原则：
+
+```java
+/**
+ * 微服务设计原则
+ */
+public class MicroservicesPrinciples {
+    
+    /**
+     * 单一职责原则 - 每个服务只负责一个业务领域
+     */
+    public void singleResponsibility() {
+        // 用户服务只处理用户相关业务
+        // 订单服务只处理订单相关业务
+        // 支付服务只处理支付相关业务
+    }
+    
+    /**
+     * 服务自治原则 - 服务拥有独立的数据存储和业务逻辑
+     */
+    public void serviceAutonomy() {
+        // 每个服务有自己的数据库
+        // 服务间通过API通信，不直接访问其他服务的数据库
+    }
+    
+    /**
+     * 去中心化原则 - 避免单点故障和性能瓶颈
+     */
+    public void decentralization() {
+        // 数据管理去中心化
+        // 治理去中心化
+        // 技术栈去中心化
+    }
+    
+    /**
+     * 故障隔离原则 - 一个服务的故障不应该影响其他服务
+     */
+    public void faultIsolation() {
+        // 服务间通过网络通信
+        // 实现熔断、降级机制
+        // 异步处理减少依赖
+    }
+}
+```
+
+### 微服务拆分策略
+
+如何合理拆分微服务是架构设计的关键：
+
+```java
+/**
+ * 微服务拆分策略
+ */
+public class ServiceDecomposition {
+    
+    /**
+     * 按业务能力拆分 (Business Capability)
+     */
+    public void byBusinessCapability() {
+        // 用户管理服务：注册、登录、个人信息
+        // 商品管理服务：商品信息、库存管理
+        // 订单管理服务：订单创建、状态跟踪
+        // 支付服务：支付处理、账单管理
+    }
+    
+    /**
+     * 按数据拆分 (Data-driven)
+     */
+    public void byData() {
+        // 每个服务管理自己的数据
+        // 避免跨服务的数据事务
+    }
+    
+    /**
+     * 按团队拆分 (Team-oriented)
+     */
+    public void byTeam() {
+        // 康威定律：组织架构决定系统架构
+        // 一个团队负责一个或几个相关服务
+    }
+    
+    /**
+     * 按技术栈拆分 (Technology-driven)
+     */
+    public void byTechnology() {
+        // 不同服务可以使用不同技术栈
+        // Java、Python、Go等混合使用
+    }
+}
+```
+
+## 🔧 实现原理与源码分析
+
+### 服务注册与发现
+
+服务注册与发现是微服务架构的基础：
+
+```java
+/**
+ * 服务注册与发现实现
+ */
+@SpringBootApplication
+@EnableEurekaServer
+public class ServiceRegistryApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceRegistryApplication.class, args);
+    }
+}
+
+@RestController
+@EnableEurekaClient
+public class UserServiceController {
+    
+    @Autowired
+    private DiscoveryClient discoveryClient;
+    
+    @Autowired
+    private LoadBalancerClient loadBalancer;
+    
+    /**
+     * 服务发现示例
+     */
+    @GetMapping("/user/{id}/orders")
+    public List<Order> getUserOrders(@PathVariable Long id) {
+        // 1. 通过服务发现获取订单服务实例
+        ServiceInstance instance = loadBalancer.choose("order-service");
+        
+        if (instance == null) {
+            throw new ServiceUnavailableException("Order service not available");
+        }
+        
+        // 2. 构建请求URL
+        String url = String.format("http://%s:%d/orders/user/%d", 
+            instance.getHost(), instance.getPort(), id);
+        
+        // 3. 发起HTTP请求
+        RestTemplate restTemplate = new RestTemplate();
+        List<Order> orders = restTemplate.exchange(url, HttpMethod.GET, null, 
+            new ParameterizedTypeReference<List<Order>>() {}).getBody();
+        
+        return orders;
+    }
+    
+    /**
+     * 使用Feign简化服务调用
+     */
+    @Autowired
+    private OrderServiceClient orderServiceClient;
+    
+    @GetMapping("/user/{id}/orders/feign")
+    public List<Order> getUserOrdersWithFeign(@PathVariable Long id) {
+        return orderServiceClient.getOrdersByUserId(id);
+    }
+}
+
+/**
+ * Feign客户端定义
+ */
+@FeignClient(name = "order-service", fallback = OrderServiceFallback.class)
+public interface OrderServiceClient {
+    
+    @GetMapping("/orders/user/{userId}")
+    List<Order> getOrdersByUserId(@PathVariable("userId") Long userId);
+    
+    @PostMapping("/orders")
+    Order createOrder(@RequestBody CreateOrderRequest request);
+}
+
+/**
+ * 服务降级实现
+ */
+@Component
+public class OrderServiceFallback implements OrderServiceClient {
+    
+    @Override
+    public List<Order> getOrdersByUserId(Long userId) {
+        // 返回空列表或缓存数据
+        return Collections.emptyList();
+    }
+    
+    @Override
+    public Order createOrder(CreateOrderRequest request) {
+        // 返回默认响应或抛出异常
+        throw new ServiceUnavailableException("Order service is currently unavailable");
+    }
+}
+```
+
+### API网关模式
+
+API网关作为微服务的统一入口：
+
+```java
+/**
+ * Spring Cloud Gateway配置
+ */
+@Configuration
+public class GatewayConfig {
+    
+    @Bean
+    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+        return builder.routes()
+            // 用户服务路由
+            .route("user-service", r -> r.path("/api/users/**")
+                .filters(f -> f
+                    .stripPrefix(1)
+                    .addRequestHeader("X-Gateway", "Spring-Cloud-Gateway")
+                    .circuitBreaker(config -> config
+                        .setName("user-service-cb")
+                        .setFallbackUri("forward:/fallback/user")))
+                .uri("lb://user-service"))
+            
+            // 订单服务路由
+            .route("order-service", r -> r.path("/api/orders/**")
+                .filters(f -> f
+                    .stripPrefix(1)
+                    .retry(config -> config
+                        .setRetries(3)
+                        .setMethods(HttpMethod.GET)
+                        .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2, true)))
+                .uri("lb://order-service"))
+            
+            // 支付服务路由
+            .route("payment-service", r -> r.path("/api/payments/**")
+                .filters(f -> f
+                    .stripPrefix(1)
+                    .requestRateLimiter(config -> config
+                        .setRateLimiter(redisRateLimiter())
+                        .setKeyResolver(userKeyResolver())))
+                .uri("lb://payment-service"))
+            
+            .build();
+    }
+    
+    @Bean
+    public RedisRateLimiter redisRateLimiter() {
+        return new RedisRateLimiter(10, 20, 1);
+    }
+    
+    @Bean
+    public KeyResolver userKeyResolver() {
+        return exchange -> {
+            String userId = exchange.getRequest().getHeaders().getFirst("X-User-ID");
+            return Mono.just(userId != null ? userId : "anonymous");
+        };
+    }
+}
+
+/**
+ * 全局过滤器 - 认证授权
+ */
+@Component
+public class AuthenticationGlobalFilter implements GlobalFilter, Ordered {
+    
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        ServerHttpRequest request = exchange.getRequest();
+        
+        // 跳过认证的路径
+        if (isPublicPath(request.getPath().value())) {
+            return chain.filter(exchange);
+        }
+        
+        // 提取JWT token
+        String token = extractToken(request);
+        if (token == null) {
+            return unauthorizedResponse(exchange);
+        }
+        
+        try {
+            // 验证token
+            Claims claims = jwtTokenUtil.parseToken(token);
+            
+            // 添加用户信息到请求头
+            ServerHttpRequest modifiedRequest = request.mutate()
+                .header("X-User-ID", claims.getSubject())
+                .header("X-User-Roles", String.join(",", getRoles(claims)))
+                .build();
+            
+            return chain.filter(exchange.mutate().request(modifiedRequest).build());
+            
+        } catch (Exception e) {
+            return unauthorizedResponse(exchange);
+        }
+    }
+    
+    @Override
+    public int getOrder() {
+        return -100; // 高优先级
+    }
+    
+    private boolean isPublicPath(String path) {
+        return path.startsWith("/api/auth/") || path.startsWith("/api/public/");
+    }
+}
+```
+
+### 分布式配置管理
+
+配置中心实现动态配置管理：
+
+```java
+/**
+ * Spring Cloud Config Server
+ */
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+
+/**
+ * 配置客户端使用
+ */
+@RestController
+@RefreshScope
+public class ConfigClientController {
+    
+    @Value("${app.feature.enabled:false}")
+    private boolean featureEnabled;
+    
+    @Value("${app.message:Hello}")
+    private String message;
+    
+    @GetMapping("/config")
+    public Map<String, Object> getConfig() {
+        Map<String, Object> config = new HashMap<>();
+        config.put("featureEnabled", featureEnabled);
+        config.put("message", message);
+        return config;
+    }
+}
+
+/**
+ * 配置变更监听
+ */
+@Component
+public class ConfigChangeListener {
+    
+    @EventListener
+    public void handleConfigChange(RefreshRemoteApplicationEvent event) {
+        log.info("Configuration changed for services: {}", event.getDestinationService());
+        
+        // 可以在这里执行配置变更后的逻辑
+        // 比如刷新缓存、重新初始化组件等
+    }
+    
+    @EventListener
+    public void handleEnvironmentChange(EnvironmentChangeEvent event) {
+        log.info("Environment properties changed: {}", event.getKeys());
+        
+        // 处理环境变量变更
+        for (String key : event.getKeys()) {
+            log.info("Property {} changed", key);
+        }
+    }
+}
+```
+
+### 分布式链路追踪
+
+实现请求的全链路追踪：
+
+```java
+/**
+ * Sleuth配置
+ */
+@Configuration
+public class TracingConfig {
+    
+    @Bean
+    public Sender sender() {
+        return OkHttpSender.create("http://zipkin-server:9411/api/v2/spans");
+    }
+    
+    @Bean
+    public AsyncReporter<Span> spanReporter() {
+        return AsyncReporter.create(sender());
+    }
+    
+    @Bean
+    public Tracing tracing() {
+        return Tracing.newBuilder()
+            .localServiceName("user-service")
+            .spanReporter(spanReporter())
+            .sampler(Sampler.create(1.0f)) // 100%采样
+            .build();
+    }
+}
+
+/**
+ * 自定义链路追踪
+ */
+@Service
+public class UserService {
+    
+    @Autowired
+    private Tracing tracing;
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private OrderServiceClient orderServiceClient;
+    
+    @NewSpan("user-service-get-user-with-orders")
+    public UserWithOrders getUserWithOrders(@SpanTag("userId") Long userId) {
+        // 1. 获取用户信息
+        Span userSpan = tracing.tracer().nextSpan()
+            .name("get-user-from-db")
+            .tag("userId", String.valueOf(userId))
+            .start();
+        
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(userSpan)) {
+            User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found: " + userId));
+            
+            userSpan.tag("user.found", "true");
+            
+            // 2. 获取用户订单
+            List<Order> orders = getUserOrders(userId);
+            
+            return new UserWithOrders(user, orders);
+            
+        } catch (Exception e) {
+            userSpan.tag("error", e.getMessage());
+            throw e;
+        } finally {
+            userSpan.end();
+        }
+    }
+    
+    @NewSpan("get-user-orders")
+    private List<Order> getUserOrders(@SpanTag("userId") Long userId) {
+        // 这个方法的调用会自动创建新的span
+        return orderServiceClient.getOrdersByUserId(userId);
+    }
+}
+
+/**
+ * 链路追踪拦截器
+ */
+@Component
+public class TracingInterceptor implements HandlerInterceptor {
+    
+    @Autowired
+    private Tracing tracing;
+    
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        Span span = tracing.tracer().nextSpan()
+            .name(request.getMethod() + " " + request.getRequestURI())
+            .tag("http.method", request.getMethod())
+            .tag("http.url", request.getRequestURL().toString())
+            .tag("user.agent", request.getHeader("User-Agent"))
+            .start();
+        
+        request.setAttribute("currentSpan", span);
+        
+        try (Tracer.SpanInScope ws = tracing.tracer().withSpanInScope(span)) {
+            return true;
+        }
+    }
+    
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, 
+                               Object handler, Exception ex) {
+        Span span = (Span) request.getAttribute("currentSpan");
+        if (span != null) {
+            span.tag("http.status_code", String.valueOf(response.getStatus()));
+            if (ex != null) {
+                span.tag("error", ex.getMessage());
+            }
+            span.end();
+        }
+    }
+}
+```
+
+## 💡 实战案例与代码示例
+
+### 电商微服务架构设计
+
+设计一个完整的电商微服务系统：
+
+```java
+/**
+ * 用户服务
+ */
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    
+    @Autowired
+    private UserService userService;
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok(user);
+    }
+    
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody @Valid CreateUserRequest request) {
+        User user = userService.createUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, 
+                                          @RequestBody @Valid UpdateUserRequest request) {
+        User user = userService.updateUser(id, request);
+        return ResponseEntity.ok(user);
+    }
+}
+
+/**
+ * 商品服务
+ */
+@RestController
+@RequestMapping("/products")
+public class ProductController {
+    
+    @Autowired
+    private ProductService productService;
+    
+    @GetMapping
+    public ResponseEntity<Page<Product>> getProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String keyword) {
+        
+        ProductSearchCriteria criteria = ProductSearchCriteria.builder()
+            .category(category)
+            .keyword(keyword)
+            .build();
+        
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> products = productService.searchProducts(criteria, pageable);
+        
+        return ResponseEntity.ok(products);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
+        Product product = productService.findById(id);
+        return ResponseEntity.ok(product);
+    }
+    
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid CreateProductRequest request) {
+        Product product = productService.createProduct(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+}
+
+/**
+ * 订单服务
+ */
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+    
+    @Autowired
+    private OrderService orderService;
+    
+    @PostMapping
+    public ResponseEntity<OrderResponse> createOrder(
+            @RequestBody @Valid CreateOrderRequest request,
+            @RequestHeader("X-User-ID") Long userId) {
+        
+        OrderResponse response = orderService.createOrder(userId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Order>> getUserOrders(@PathVariable Long userId) {
+        List<Order> orders = orderService.getOrdersByUserId(userId);
+        return ResponseEntity.ok(orders);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
+        Order order = orderService.findById(id);
+        return ResponseEntity.ok(order);
+    }
+    
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Void> updateOrderStatus(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateOrderStatusRequest request) {
+        
+        orderService.updateOrderStatus(id, request.getStatus());
+        return ResponseEntity.noContent().build();
+    }
+}
+```
+
+### 微服务间通信模式
+
+实现不同的服务间通信方式：
+
+```java
+/**
+ * 同步通信 - REST API
+ */
+@Service
+public class OrderService {
+    
+    @Autowired
+    private UserServiceClient userServiceClient;
+    
+    @Autowired
+    private ProductServiceClient productServiceClient;
+    
+    @Autowired
+    private InventoryServiceClient inventoryServiceClient;
+    
+    @Transactional
+    public OrderResponse createOrder(Long userId, CreateOrderRequest request) {
+        // 1. 验证用户
+        User user = userServiceClient.getUser(userId);
+        if (user == null) {
+            throw new UserNotFoundException("User not found: " + userId);
+        }
+        
+        // 2. 验证商品
+        Product product = productServiceClient.getProduct(request.getProductId());
+        if (product == null) {
+            throw new ProductNotFoundException("Product not found: " + request.getProductId());
+        }
+        
+        // 3. 检查库存
+        boolean stockAvailable = inventoryServiceClient.checkStock(
+            request.getProductId(), request.getQuantity());
+        if (!stockAvailable) {
+            throw new InsufficientStockException("Insufficient stock");
+        }
+        
+        // 4. 创建订单
+        Order order = Order.builder()
+            .userId(userId)
+            .productId(request.getProductId())
+            .quantity(request.getQuantity())
+            .amount(product.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())))
+            .status(OrderStatus.CREATED)
+            .build();
+        
+        order = orderRepository.save(order);
+        
+        // 5. 扣减库存
+        inventoryServiceClient.deductStock(request.getProductId(), request.getQuantity());
+        
+        return OrderResponse.from(order);
+    }
+}
+
+/**
+ * 异步通信 - 消息队列
+ */
+@Service
+public class EventDrivenOrderService {
+    
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+    
+    @Autowired
+    private OrderRepository orderRepository;
+    
+    public OrderResponse createOrderAsync(Long userId, CreateOrderRequest request) {
+        // 1. 创建订单（待处理状态）
+        Order order = Order.builder()
+            .userId(userId)
+            .productId(request.getProductId())
+            .quantity(request.getQuantity())
+            .status(OrderStatus.PENDING)
+            .build();
+        
+        order = orderRepository.save(order);
+        
+        // 2. 发布订单创建事件
+        OrderCreatedEvent event = OrderCreatedEvent.builder()
+            .orderId(order.getId())
+            .userId(userId)
+            .productId(request.getProductId())
+            .quantity(request.getQuantity())
+            .build();
+        
+        rabbitTemplate.convertAndSend("order.exchange", "order.created", event);
+        
+        return OrderResponse.from(order);
+    }
+    
+    /**
+     * 处理库存扣减结果
+     */
+    @RabbitListener(queues = "inventory.deducted")
+    public void handleInventoryDeducted(InventoryDeductedEvent event) {
+        Order order = orderRepository.findById(event.getOrderId())
+            .orElseThrow(() -> new OrderNotFoundException("Order not found"));
+        
+        if (event.isSuccess()) {
+            order.setStatus(OrderStatus.CONFIRMED);
+            
+            // 发布订单确认事件
+            OrderConfirmedEvent confirmedEvent = OrderConfirmedEvent.builder()
+                .orderId(order.getId())
+                .userId(order.getUserId())
+                .amount(order.getAmount())
+                .build();
+            
+            rabbitTemplate.convertAndSend("order.exchange", "order.confirmed", confirmedEvent);
+        } else {
+            order.setStatus(OrderStatus.CANCELLED);
+            order.setCancelReason("Insufficient stock");
+        }
+        
+        orderRepository.save(order);
+    }
+}
+```
+
+### 微服务监控与治理
+
+实现全面的微服务监控：
+
+```java
+/**
+ * 健康检查
+ */
+@Component
+public class CustomHealthIndicator implements HealthIndicator {
+    
+    @Autowired
+    private DataSource dataSource;
+    
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+    
+    @Override
+    public Health health() {
+        Health.Builder builder = Health.up();
+        
+        // 检查数据库连接
+        try {
+            Connection connection = dataSource.getConnection();
+            connection.close();
+            builder.withDetail("database", "UP");
+        } catch (Exception e) {
+            builder.down().withDetail("database", "DOWN: " + e.getMessage());
+        }
+        
+        // 检查Redis连接
+        try {
+            redisTemplate.opsForValue().get("health-check");
+            builder.withDetail("redis", "UP");
+        } catch (Exception e) {
+            builder.withDetail("redis", "DOWN: " + e.getMessage());
+        }
+        
+        // 检查外部服务依赖
+        builder.withDetail("external-services", checkExternalServices());
+        
+        return builder.build();
+    }
+    
+    private Map<String, String> checkExternalServices() {
+        Map<String, String> services = new HashMap<>();
+        
+        // 检查用户服务
+        try {
+            userServiceClient.healthCheck();
+            services.put("user-service", "UP");
+        } catch (Exception e) {
+            services.put("user-service", "DOWN");
+        }
+        
+        // 检查支付服务
+        try {
+            paymentServiceClient.healthCheck();
+            services.put("payment-service", "UP");
+        } catch (Exception e) {
+            services.put("payment-service", "DOWN");
+        }
+        
+        return services;
+    }
+}
+
+/**
+ * 性能监控
+ */
+@Component
+public class PerformanceMonitor {
+    
+    private final MeterRegistry meterRegistry;
+    private final Timer.Sample sample;
+    
+    public PerformanceMonitor(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        this.sample = Timer.start(meterRegistry);
+    }
+    
+    @EventListener
+    public void handleHttpRequest(HttpRequestEvent event) {
+        Timer.builder("http.requests")
+            .tag("method", event.getMethod())
+            .tag("uri", event.getUri())
+            .tag("status", String.valueOf(event.getStatus()))
+            .register(meterRegistry)
+            .record(event.getDuration(), TimeUnit.MILLISECONDS);
+    }
+    
+    @EventListener
+    public void handleServiceCall(ServiceCallEvent event) {
+        Timer.builder("service.calls")
+            .tag("service", event.getServiceName())
+            .tag("method", event.getMethodName())
+            .tag("success", String.valueOf(event.isSuccess()))
+            .register(meterRegistry)
+            .record(event.getDuration(), TimeUnit.MILLISECONDS);
+    }
+    
+    @Scheduled(fixedRate = 60000)
+    public void collectSystemMetrics() {
+        // JVM内存使用情况
+        Runtime runtime = Runtime.getRuntime();
+        long totalMemory = runtime.totalMemory();
+        long freeMemory = runtime.freeMemory();
+        long usedMemory = totalMemory - freeMemory;
+        
+        Gauge.builder("jvm.memory.used")
+            .register(meterRegistry, () -> usedMemory);
+        
+        Gauge.builder("jvm.memory.total")
+            .register(meterRegistry, () -> totalMemory);
+        
+        // 线程数
+        ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
+        Gauge.builder("jvm.threads.live")
+            .register(meterRegistry, () -> threadBean.getThreadCount());
+    }
+}
+```
+
+## 🎯 面试高频问题精讲
+
+### 1. 微服务架构有哪些优缺点？
+
+**标准答案**：
+**优点**：
+- 技术栈多样化，团队自主选择
+- 独立部署，快速迭代
+- 故障隔离，提高系统可用性
+- 团队独立开发，提高效率
+
+**缺点**：
+- 分布式系统复杂性
+- 网络延迟和故障
+- 数据一致性挑战
+- 运维复杂度增加
+
+### 2. 如何拆分微服务？有哪些原则？
+
+**标准答案**：
+拆分原则：
+- **单一职责**：每个服务只负责一个业务领域
+- **高内聚低耦合**：服务内部紧密相关，服务间松散耦合
+- **数据独立**：每个服务管理自己的数据
+- **团队规模**：遵循康威定律，按团队组织拆分
+
+**面试技巧**：结合DDD领域驱动设计说明。
+
+### 3. 微服务间如何通信？各有什么优缺点？
+
+**标准答案**：
+- **同步通信**：REST API、RPC
+  - 优点：简单直观，实时性好
+  - 缺点：耦合度高，性能影响大
+- **异步通信**：消息队列、事件驱动
+  - 优点：解耦，性能好，可靠性高
+  - 缺点：复杂性增加，最终一致性
+
+### 4. 如何保证微服务的数据一致性？
+
+**标准答案**：
+- **分布式事务**：2PC、TCC、Saga
+- **事件驱动**：最终一致性
+- **补偿机制**：业务层面的数据修复
+- **幂等设计**：防止重复操作
+
+### 5. 微服务的服务治理包括哪些方面？
+
+**标准答案**：
+- **服务注册发现**：Eureka、Consul
+- **负载均衡**：Ribbon、客户端负载均衡
+- **熔断降级**：Hystrix、Resilience4j
+- **API网关**：统一入口、认证授权
+- **配置管理**：集中配置、动态更新
+- **监控告警**：链路追踪、性能监控
+
+### 6. 如何处理微服务的故障和降级？
+
+**标准答案**：
+- **熔断器模式**：防止故障传播
+- **舱壁模式**：资源隔离
+- **超时控制**：避免长时间等待
+- **重试机制**：指数退避重试
+- **降级策略**：提供备用方案
+
+### 7. 微服务的部署策略有哪些？
+
+**标准答案**：
+- **蓝绿部署**：零停机部署
+- **滚动部署**：逐步替换实例
+- **金丝雀部署**：小流量验证
+- **容器化部署**：Docker + Kubernetes
+
+### 8. 如何设计微服务的API？
+
+**标准答案**：
+- **RESTful设计**：遵循REST原则
+- **版本管理**：API版本兼容性
+- **幂等性**：确保操作可重复
+- **错误处理**：统一错误码和格式
+- **文档化**：Swagger/OpenAPI
+
+## ⚡ 性能优化与注意事项
+
+### 微服务性能优化策略
+
+```java
+@Component
+public class MicroserviceOptimizer {
+    
+    /**
+     * 连接池优化
+     */
+    @Bean
+    public RestTemplate restTemplate() {
+        HttpComponentsClientHttpRequestFactory factory = 
+            new HttpComponentsClientHttpRequestFactory();
+        factory.setConnectTimeout(5000);
+        factory.setReadTimeout(10000);
+        
+        // 连接池配置
+        PoolingHttpClientConnectionManager connectionManager = 
+            new PoolingHttpClientConnectionManager();
+        connectionManager.setMaxTotal(200);
+        connectionManager.setDefaultMaxPerRoute(20);
+        
+        CloseableHttpClient httpClient = HttpClients.custom()
+            .setConnectionManager(connectionManager)
+            .build();
+        
+        factory.setHttpClient(httpClient);
+        return new RestTemplate(factory);
+    }
+    
+    /**
+     * 缓存优化
+     */
+    @Cacheable(value = "users", key = "#id")
+    public User getUser(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+    
+    /**
+     * 异步处理优化
+     */
+    @Async
+    public CompletableFuture<Void> processOrderAsync(Order order) {
+        // 异步处理非关键业务
+        return CompletableFuture.runAsync(() -> {
+            sendOrderNotification(order);
+            updateAnalytics(order);
+        });
+    }
+}
+```
+
+### 常见问题和解决方案
+
+1. **服务雪崩**：实现熔断器和限流
+2. **数据一致性**：使用事件驱动架构
+3. **性能瓶颈**：优化服务调用链路
+4. **运维复杂**：使用容器化和自动化部署
+
+## 📚 总结与技术对比
+
+### 核心要点回顾
+
+微服务架构是现代分布式系统的重要模式：
+
+1. **合理拆分**：基于业务领域和团队结构
+2. **服务治理**：完善的注册发现、监控告警
+3. **通信机制**：选择合适的同步/异步通信方式
+4. **容错设计**：实现熔断、降级、重试机制
+
+### 架构模式对比
+
+| 架构 | 复杂度 | 可扩展性 | 开发效率 | 运维成本 |
+|------|--------|----------|----------|----------|
+| 单体应用 | 低 | 低 | 高（初期） | 低 |
+| 微服务 | 高 | 高 | 中 | 高 |
+| 服务网格 | 很高 | 很高 | 中 | 很高 |
+
+### 持续学习建议
+
+1. **深入理解分布式系统理论**：CAP、BASE等
+2. **实践微服务技术栈**：Spring Cloud、Kubernetes等
+3. **关注服务网格发展**：Istio、Linkerd等新技术
+4. **学习DevOps实践**：CI/CD、监控运维等
+
+微服务架构不是银弹，需要根据业务规模和团队能力选择合适的架构模式。 

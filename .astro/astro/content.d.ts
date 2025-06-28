@@ -159,6 +159,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"cache-consistency-strategies.mdx": {
+	id: "cache-consistency-strategies.mdx";
+  slug: "cache-consistency-strategies";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "cloudflare-pages-deployment-guide-zh.mdx": {
 	id: "cloudflare-pages-deployment-guide-zh.mdx";
   slug: "cloudflare-pages-deployment-guide-zh";
@@ -169,6 +176,20 @@ declare module 'astro:content' {
 "concurrenthashmap-concurrent-mechanism.mdx": {
 	id: "concurrenthashmap-concurrent-mechanism.mdx";
   slug: "concurrenthashmap-concurrent-mechanism";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"distributed-transaction-patterns.mdx": {
+	id: "distributed-transaction-patterns.mdx";
+  slug: "distributed-transaction-patterns";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"elasticsearch-distributed-search.mdx": {
+	id: "elasticsearch-distributed-search.mdx";
+  slug: "elasticsearch-distributed-search";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
@@ -201,9 +222,23 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"kafka-high-throughput-architecture.mdx": {
+	id: "kafka-high-throughput-architecture.mdx";
+  slug: "kafka-high-throughput-architecture";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "linkedlist-source-analysis.mdx": {
 	id: "linkedlist-source-analysis.mdx";
   slug: "linkedlist-source-analysis";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"microservices-design-patterns.mdx": {
+	id: "microservices-design-patterns.mdx";
+  slug: "microservices-design-patterns";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
@@ -264,6 +299,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"performance-optimization-practices.mdx": {
+	id: "performance-optimization-practices.mdx";
+  slug: "performance-optimization-practices";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "rabbitmq-message-reliability.mdx": {
 	id: "rabbitmq-message-reliability.mdx";
   slug: "rabbitmq-message-reliability";
@@ -295,6 +337,13 @@ declare module 'astro:content' {
 "redis-persistence-rdb-aof.mdx": {
 	id: "redis-persistence-rdb-aof.mdx";
   slug: "redis-persistence-rdb-aof";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"service-mesh-istio-analysis.mdx": {
+	id: "service-mesh-istio-analysis.mdx";
+  slug: "service-mesh-istio-analysis";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
