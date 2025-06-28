@@ -222,9 +222,23 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"mysql-master-slave-replication.mdx": {
+	id: "mysql-master-slave-replication.mdx";
+  slug: "mysql-master-slave-replication";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "mysql-mvcc-mechanism.mdx": {
 	id: "mysql-mvcc-mechanism.mdx";
   slug: "mysql-mvcc-mechanism";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"mysql-partitioning-sharding.mdx": {
+	id: "mysql-partitioning-sharding.mdx";
+  slug: "mysql-partitioning-sharding";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
