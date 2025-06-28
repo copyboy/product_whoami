@@ -152,6 +152,13 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"blog": {
+"arraylist-source-analysis-optimization.mdx": {
+	id: "arraylist-source-analysis-optimization.mdx";
+  slug: "arraylist-source-analysis-optimization";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "cloudflare-pages-deployment-guide-zh.mdx": {
 	id: "cloudflare-pages-deployment-guide-zh.mdx";
   slug: "cloudflare-pages-deployment-guide-zh";
@@ -159,9 +166,72 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"concurrenthashmap-concurrent-mechanism.mdx": {
+	id: "concurrenthashmap-concurrent-mechanism.mdx";
+  slug: "concurrenthashmap-concurrent-mechanism";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"gc-algorithms-tuning-practice.mdx": {
+	id: "gc-algorithms-tuning-practice.mdx";
+  slug: "gc-algorithms-tuning-practice";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "getting-started-with-astro.mdx": {
 	id: "getting-started-with-astro.mdx";
   slug: "getting-started-with-astro";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"hashmap-source-analysis-optimization.mdx": {
+	id: "hashmap-source-analysis-optimization.mdx";
+  slug: "hashmap-source-analysis-optimization";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"jvm-memory-structure-analysis.mdx": {
+	id: "jvm-memory-structure-analysis.mdx";
+  slug: "jvm-memory-structure-analysis";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"linkedlist-source-analysis.mdx": {
+	id: "linkedlist-source-analysis.mdx";
+  slug: "linkedlist-source-analysis";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"synchronized-deep-dive.mdx": {
+	id: "synchronized-deep-dive.mdx";
+  slug: "synchronized-deep-dive";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"threadlocal-memory-leak-prevention.mdx": {
+	id: "threadlocal-memory-leak-prevention.mdx";
+  slug: "threadlocal-memory-leak-prevention";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"threadpool-principles-best-practices.mdx": {
+	id: "threadpool-principles-best-practices.mdx";
+  slug: "threadpool-principles-best-practices";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"volatile-memory-visibility.mdx": {
+	id: "volatile-memory-visibility.mdx";
+  slug: "volatile-memory-visibility";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
