@@ -215,6 +215,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"mysql-innodb-lock-mechanism.mdx": {
+	id: "mysql-innodb-lock-mechanism.mdx";
+  slug: "mysql-innodb-lock-mechanism";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "mysql-mvcc-mechanism.mdx": {
 	id: "mysql-mvcc-mechanism.mdx";
   slug: "mysql-mvcc-mechanism";
