@@ -13,15 +13,24 @@ export async function getHeadings(content: string) {
     const depth = match[1].length;
     const text = match[2].trim();
     
-    // Improved slug generation for Chinese characters
+    // Generate slug to match Astro's behavior
     let slug = text
       .toLowerCase()
-      // Keep Chinese characters, alphanumeric, and hyphens
+      // Remove emojis and other special characters, keep Chinese characters, alphanumeric, and hyphens
       .replace(/[^\u4e00-\u9fa5\w\s-]/g, '')
       // Replace spaces and underscores with hyphens
       .replace(/[\s_]+/g, '-')
       // Remove leading/trailing hyphens
       .replace(/^-+|-+$/g, '');
+    
+    // If the original text starts with non-alphanumeric characters (like emojis)
+    // and the slug doesn't start with alphanumeric, Astro adds a dash prefix
+    const startsWithNonAlphanumeric = /^[^\w\u4e00-\u9fa5]/.test(text);
+    const slugStartsWithNonAlphanumeric = /^[^\w\u4e00-\u9fa5]/.test(slug);
+    
+    if (startsWithNonAlphanumeric && !slugStartsWithNonAlphanumeric && slug) {
+      slug = '-' + slug;
+    }
     
     // If slug is empty or too short, use a fallback
     if (!slug || slug.length < 1) {
