@@ -208,6 +208,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"mysql-btree-index-principle.mdx": {
+	id: "mysql-btree-index-principle.mdx";
+  slug: "mysql-btree-index-principle";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "synchronized-deep-dive.mdx": {
 	id: "synchronized-deep-dive.mdx";
   slug: "synchronized-deep-dive";
