@@ -1,0 +1,12 @@
+---
+import MermaidDiagram from './islands/MermaidDiagram.tsx';
+
+interface Props {
+  chart: string;
+  id?: string;
+}
+
+const { chart, id } = Astro.props;
+---
+
+<MermaidDiagram chart={chart} id={id} client:load />

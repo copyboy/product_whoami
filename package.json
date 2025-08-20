@@ -34,6 +34,7 @@
     "astro-robots-txt": "^1.0.0",
     "astro-seo": "^0.8.3",
     "fuse.js": "^7.1.0",
+    "mermaid": "^11.10.0",
     "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

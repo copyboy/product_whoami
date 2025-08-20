@@ -152,6 +152,13 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"blog": {
+"agile-project-management.mdx": {
+	id: "agile-project-management.mdx";
+  slug: "agile-project-management";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "arraylist-source-analysis-optimization.mdx": {
 	id: "arraylist-source-analysis-optimization.mdx";
   slug: "arraylist-source-analysis-optimization";
@@ -180,9 +187,23 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"digital-tools-integration.mdx": {
+	id: "digital-tools-integration.mdx";
+  slug: "digital-tools-integration";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "distributed-transaction-patterns.mdx": {
 	id: "distributed-transaction-patterns.mdx";
   slug: "distributed-transaction-patterns";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"effective-meeting-management.mdx": {
+	id: "effective-meeting-management.mdx";
+  slug: "effective-meeting-management";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
@@ -306,9 +327,44 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"okr-goal-management.mdx": {
+	id: "okr-goal-management.mdx";
+  slug: "okr-goal-management";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"pdca-continuous-improvement.mdx": {
+	id: "pdca-continuous-improvement.mdx";
+  slug: "pdca-continuous-improvement";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"pdca-knowledge-management.mdx": {
+	id: "pdca-knowledge-management.mdx";
+  slug: "pdca-knowledge-management";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "performance-optimization-practices.mdx": {
 	id: "performance-optimization-practices.mdx";
   slug: "performance-optimization-practices";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"problem-solving-5w2h.mdx": {
+	id: "problem-solving-5w2h.mdx";
+  slug: "problem-solving-5w2h";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"pyramid-principle-communication.mdx": {
+	id: "pyramid-principle-communication.mdx";
+  slug: "pyramid-principle-communication";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
@@ -362,9 +418,30 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"star-behavioral-interview.mdx": {
+	id: "star-behavioral-interview.mdx";
+  slug: "star-behavioral-interview";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"swot-strategic-analysis.mdx": {
+	id: "swot-strategic-analysis.mdx";
+  slug: "swot-strategic-analysis";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "synchronized-deep-dive.mdx": {
 	id: "synchronized-deep-dive.mdx";
   slug: "synchronized-deep-dive";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"team-performance-management.mdx": {
+	id: "team-performance-management.mdx";
+  slug: "team-performance-management";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
@@ -383,9 +460,23 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"time-management-prioritization.mdx": {
+	id: "time-management-prioritization.mdx";
+  slug: "time-management-prioritization";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "volatile-memory-visibility.mdx": {
 	id: "volatile-memory-visibility.mdx";
   slug: "volatile-memory-visibility";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"workplace-sop-overview.mdx": {
+	id: "workplace-sop-overview.mdx";
+  slug: "workplace-sop-overview";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
