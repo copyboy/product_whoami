@@ -187,6 +187,20 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"constraint-based-management.mdx": {
+	id: "constraint-based-management.mdx";
+  slug: "constraint-based-management";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"creators-alchemy-system.mdx": {
+	id: "creators-alchemy-system.mdx";
+  slug: "creators-alchemy-system";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "digital-tools-integration.mdx": {
 	id: "digital-tools-integration.mdx";
   slug: "digital-tools-integration";
@@ -211,6 +225,13 @@ declare module 'astro:content' {
 "elasticsearch-distributed-search.mdx": {
 	id: "elasticsearch-distributed-search.mdx";
   slug: "elasticsearch-distributed-search";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"evolution-heartbeat-system.mdx": {
+	id: "evolution-heartbeat-system.mdx";
+  slug: "evolution-heartbeat-system";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
