@@ -53,6 +53,21 @@ const url = Astro.url.href;
 
 // Check if features are enabled
 const isReadingTimeEnabled = isFeatureEnabled('readingTime');
+
+const schema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "image": heroImage ? new URL(heroImage, Astro.site || siteConfig.url).toString() : undefined,
+  "datePublished": pubDate.toISOString(),
+  "dateModified": updatedDate?.toISOString() || pubDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": author || siteConfig.author,
+    "url": siteConfig.url
+  },
+  "description": description
+});
 ---
 
 <ThreeColumnLayout 
@@ -62,6 +77,8 @@ const isReadingTimeEnabled = isFeatureEnabled('readingTime');
   article={true}
   toc={headings}
 >
+  <script type="application/ld+json" set:html={schema} slot="head" />
+
   <article class="mx-auto">
     <header class="mb-8">
       {heroImage && (

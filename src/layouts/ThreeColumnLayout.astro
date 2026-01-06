@@ -20,6 +20,7 @@ const { title, description, image, article, toc } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} image={image} article={article}>
+  <slot name="head" slot="head" />
   <div class="flex flex-col lg:flex-row min-h-screen">
     <!-- Mobile Navigation (shown only on small screens) -->
     <MobileNav />
