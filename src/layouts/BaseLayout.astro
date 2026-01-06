@@ -40,6 +40,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
     <link rel="canonical" href={canonicalURL} />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+    <meta name="author" content={siteConfig.author} />
+    <meta name="template-id" content="product-whoami" />
 
     <SEO
       title={title}
@@ -52,16 +54,32 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
           image: image.startsWith('http') ? image : new URL(image, Astro.site).toString()
         },
         optional: {
-          description: description
-        }
+          description: description,
+          siteName: siteConfig.title,
+        },
+        article: article ? {
+          authors: [siteConfig.author],
+        } : undefined
       }}
       twitter={{
         card: 'summary_large_image',
         title: title,
         description: description,
-        image: image.startsWith('http') ? image : new URL(image, Astro.site).toString()
+        image: image.startsWith('http') ? image : new URL(image, Astro.site).toString(),
+        creator: siteConfig.seo.openGraph.twitterCreator
       }}
     />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org/",
+      "@type": "WebSite",
+      "name": siteConfig.title,
+      "url": siteConfig.url,
+      "author": {
+        "@type": "Person",
+        "name": siteConfig.author
+      }
+    })} />
 
     <slot name="head" />
   </head>
