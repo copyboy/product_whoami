@@ -115,6 +115,13 @@
 
 ---
 
+## 🌿 Branch Guide
+
+- **`demo` (Recommended)**: The clean template branch. Contains minimal sample content and placeholder configurations. **Use this branch to build your site.**
+- **`main`**: The author's personal blog source code. Contains personal articles and specific configurations.
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -127,11 +134,11 @@ npm, pnpm, or yarn
 ### 1️⃣ Create New Project
 
 ```bash
-# Using npm
-npm create astro@latest -- --template copyboy/product_whoami
+# Using npm (Recommended)
+npm create astro@latest -- --template copyboy/product_whoami#demo
 
-# Or clone directly
-git clone https://github.com/copyboy/product_whoami.git my-blog
+# Or clone the demo branch manually
+git clone -b demo https://github.com/copyboy/product_whoami.git my-blog
 cd my-blog
 npm install
 ```

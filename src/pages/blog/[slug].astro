@@ -6,6 +6,7 @@ import Comments from '@components/Comments.astro';
 import { getCollection } from 'astro:content';
 import { getHeadings, calculateReadingTime } from '@utils/content';
 import { getSiteConfig, isFeatureEnabled } from '@utils/config';
+import { generateBreadcrumbSchema } from '@utils/seo';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog', ({ data }) => {
@@ -54,6 +55,12 @@ const url = Astro.url.href;
 // Check if features are enabled
 const isReadingTimeEnabled = isFeatureEnabled('readingTime');
 
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', item: siteConfig.url },
+  { name: 'Blog', item: `${siteConfig.url}/blog` },
+  { name: title, item: Astro.url.href }
+]);
+
 const schema = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -66,7 +73,19 @@ const schema = JSON.stringify({
     "name": author || siteConfig.author,
     "url": siteConfig.url
   },
-  "description": description
+  "description": description,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": Astro.url.href
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": siteConfig.title,
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL(siteConfig.logo, Astro.site || siteConfig.url).toString()
+    }
+  }
 });
 ---
 
@@ -78,6 +97,7 @@ const schema = JSON.stringify({
   toc={headings}
 >
   <script type="application/ld+json" set:html={schema} slot="head" />
+  <script type="application/ld+json" set:html={breadcrumbSchema} slot="head" />
 
   <article class="mx-auto">
     <header class="mb-8">

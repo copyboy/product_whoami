@@ -1,8 +1,8 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
-import Icon from './Icon.astro';
+import { getSiteConfig, getSocialConfig, isFeatureEnabled } from '@utils/config';
 import { getCollection } from 'astro:content';
-import { getSiteConfig, getSocialConfig } from '@utils/config';
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 // Get all blog posts
 const blogPosts = await getCollection('blog', ({ data }) => {
@@ -29,6 +29,7 @@ const { class: className } = Astro.props;
 // Get site configuration
 const siteConfig = getSiteConfig();
 const socialConfig = getSocialConfig();
+const showAttribution = isFeatureEnabled('attribution');
 
 // Get current path for active state detection
 const currentPath = Astro.url.pathname;
@@ -150,7 +151,7 @@ function isActiveCategory(categoryName: string): boolean {
   </div>
 
   <div class="mt-auto pt-4 border-t border-slate-200 dark:border-slate-800">
-    <div class="flex items-center justify-between mb-2">
+    <div class:list={["flex items-center justify-between", showAttribution ? "mb-2" : ""]}>
       <div class="flex space-x-2">
         <a href={socialConfig.github} class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="GitHub">
           <Icon name="github" class="w-5 h-5" />
@@ -164,10 +165,12 @@ function isActiveCategory(categoryName: string): boolean {
       </div>
       <ThemeToggle />
     </div>
-    <div class="text-xs text-center text-slate-400 dark:text-slate-500">
-      <a href="https://github.com/copyboy/product-whoami" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-        Product WhoAmI Template
-      </a>
-    </div>
+    {showAttribution && (
+      <div class="text-xs text-center text-slate-400 dark:text-slate-500">
+        <a href="https://github.com/copyboy/product_whoami" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+          Powered by ❤️ WhoAmI
+        </a>
+      </div>
+    )}
   </div>
 </nav>

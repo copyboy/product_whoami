@@ -48,6 +48,7 @@
     "tableOfContents": true,
     "readingTime": true,
     "search": true,
-    "comments": true
+    "comments": true,
+    "attribution": false
   }
 } 

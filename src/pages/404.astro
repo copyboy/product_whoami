@@ -7,9 +7,14 @@ const siteConfig = getSiteConfig();
 
 <ThreeColumnLayout title={`404 - Page Not Found | ${siteConfig.title}`} description="The page you are looking for does not exist">
   <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
-    <div class="text-2xl mb-4">404</div>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-indigo-600 text-white px-4 py-2 rounded-md">
+      Skip to content
+    </a>
+
+    <div class="text-2xl mb-4 font-mono text-indigo-600 dark:text-indigo-400">404</div>
     
-    <h1 class="text-4xl font-bold mb-6">Oops! Page Not Found</h1>
+    <h1 class="text-4xl sm:text-5xl font-bold mb-6 text-slate-900 dark:text-slate-100">Oops! Page Not Found</h1>
     
     <p class="text-lg text-slate-600 dark:text-slate-300 mb-10">
       The page you're looking for seems to have wandered off.

@@ -58,6 +58,7 @@ export interface SiteConfig {
     readingTime: boolean;
     search: boolean;
     comments: boolean;
+    attribution?: boolean;
   };
   navigation?: {
     header: NavItem[];

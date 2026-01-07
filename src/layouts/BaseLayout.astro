@@ -1,6 +1,6 @@
 ---
 import ThemeScript from '@components/ThemeScript.astro';
-import { getSiteConfig } from '@utils/config';
+import { getSiteConfig, getSeoConfig } from '@utils/config';
 import { SEO } from 'astro-seo';
 import '../styles/global.css';
 
@@ -13,6 +13,7 @@ export interface Props {
 
 // Get site configuration
 const siteConfig = getSiteConfig();
+const seoConfig = getSeoConfig();
 
 const {
   title = siteConfig.title,
@@ -64,7 +65,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
         title: title,
         description: description,
         image: image,
-        creator: siteConfig.seo.openGraph.twitterCreator
+        creator: seoConfig.openGraph.twitterCreator
       }}
     />
 
