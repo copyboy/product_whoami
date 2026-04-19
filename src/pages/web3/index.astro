@@ -1,0 +1,175 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import Web3ConceptCards from '@components/web3/Web3ConceptCards.astro';
+import ArticleListItem from '@components/ArticleListItem.astro';
+import Web3PhaseProgress from '@components/web3/Web3PhaseProgress.astro';
+import roadmapData from '../../data/web3-roadmap-data.json';
+
+// Get URL params for filtering
+const tag = Astro.url.searchParams.get('tag');
+
+// Get all blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// Filter web3 related posts (by category or tag)
+const web3Posts = allPosts
+  .filter(post => {
+    const categories = post.data.categories?.map(c => c.toLowerCase()) || [];
+    const tags = post.data.tags?.map(t => t.toLowerCase()) || [];
+    return categories.includes('web3') || tags.includes('web3');
+  })
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Filter by active tag if specified
+const filteredPosts = tag
+  ? web3Posts.filter(post => {
+      const tags = post.data.tags?.map(t => t.toLowerCase()) || [];
+      return tags.includes(tag.toLowerCase());
+    })
+  : web3Posts;
+
+// Get active tag name for display
+const activeTagName = tag ? tag : null;
+
+const { phases } = roadmapData;
+---
+
+<ThreeColumnLayout
+  title="Web3 | Gerrad's Digital Garden"
+  description="Web3 学习专栏 - 区块链、以太坊、DeFi、NFT、DAO 以及去中心化技术的探索之旅"
+>
+  <div class="space-y-8">
+    <!-- Hero Section -->
+    <header class="relative rounded-lg overflow-hidden">
+      <!-- Background grid pattern -->
+      <div class="absolute inset-0 bg-[#0d1117]">
+        <!-- Grid lines -->
+        <svg class="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#30363d" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+        <!-- Gradient overlay -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#0d1117] via-[#161b22] to-[#0d1117]"></div>
+        <!-- Decorative nodes -->
+        <div class="absolute top-6 left-6 w-2 h-2 rounded-full bg-[#58a6ff] opacity-60 animate-pulse"></div>
+        <div class="absolute top-12 right-12 w-1.5 h-1.5 rounded-full bg-[#f0883e] opacity-40"></div>
+        <div class="absolute bottom-8 left-1/4 w-1 h-1 rounded-full bg-[#58a6ff] opacity-30"></div>
+        <div class="absolute top-1/3 right-1/3 w-2 h-2 rounded-full border border-[#58a6ff] opacity-20"></div>
+        <!-- Connection lines -->
+        <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+          <line x1="24" y1="24" x2="80" y2="80" stroke="#58a6ff" stroke-width="0.5"/>
+          <line x1="100" y1="50" x2="200" y2="100" stroke="#58a6ff" stroke-width="0.5"/>
+        </svg>
+      </div>
+
+      <!-- Content -->
+      <div class="relative p-8 pl-12">
+        <!-- Terminal-style header -->
+        <div class="flex items-center gap-2 mb-4">
+          <span class="font-mono text-xs text-[#7ee787]">//</span>
+          <span class="font-mono text-xs text-[#8b949e]">web3.learning.path</span>
+        </div>
+
+        <h1 class="text-4xl font-bold text-white mb-3 tracking-tight">
+          Web3
+          <span class="text-[#58a6ff]">_</span>
+        </h1>
+
+        <p class="font-mono text-sm text-[#8b949e] mb-6 max-w-xl leading-relaxed">
+          blockchain <span class="text-[#7ee787]">→</span> ethereum <span class="text-[#7ee787]">→</span> defi <span class="text-[#7ee787]">→</span> decentralized
+        </p>
+
+        <p class="text-[#c9d1d9] mb-6 max-w-lg text-sm leading-relaxed">
+          区块链、以太坊、DeFi、NFT、DAO — 从概念到实践，记录 Web3 学习之旅
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="/web3/roadmap"
+            class="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md bg-[#238636] hover:bg-[#2ea043] text-white transition-colors font-medium"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+            学习路线图
+          </a>
+          <a
+            href="/web3/report"
+            class="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md border border-[#30363d] hover:border-[#8b949e] hover:bg-[#161b22] text-[#c9d1d9] transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            完整调研报告
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Concept Cards -->
+    <Web3ConceptCards posts={web3Posts} activeTag={activeTagName} />
+
+    <!-- Learning Path Preview -->
+    <Web3PhaseProgress phases={phases} />
+
+    <!-- Filter indicator -->
+    {activeTagName && (
+      <div class="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2 rounded-lg">
+        <span class="text-sm text-slate-600 dark:text-slate-300">
+          当前筛选：
+        </span>
+        <span class="font-medium text-indigo-600 dark:text-indigo-300">
+          {activeTagName}
+        </span>
+        <a
+          href="/web3"
+          class="ml-auto text-sm text-slate-500 hover:text-indigo-600"
+        >
+          清除筛选
+        </a>
+      </div>
+    )}
+
+    <!-- Article List -->
+    <div>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">
+          {activeTagName ? `关于 "${activeTagName}" 的文章` : '全部文章'}
+        </h2>
+        <span class="text-sm text-slate-500">{filteredPosts.length} 篇</span>
+      </div>
+
+      {filteredPosts.length > 0 ? (
+        <div class="space-y-4">
+          {filteredPosts.map((post) => (
+            <ArticleListItem
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              updatedDate={post.data.updatedDate}
+              tags={post.data.tags}
+              author={post.data.author}
+              slug={post.slug}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12 bg-slate-50 dark:bg-slate-800 rounded-lg">
+          <p class="text-slate-500 dark:text-slate-400">
+            {activeTagName ? `暂无关于 "${activeTagName}" 的文章` : '暂无 Web3 文章'}
+          </p>
+          <p class="text-sm text-slate-400 dark:text-slate-500 mt-2">
+            开始写你的第一篇 Web3 学习笔记吧
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+</ThreeColumnLayout>

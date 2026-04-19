@@ -1,0 +1,56 @@
+---
+interface Props {
+  phaseId: number;
+  title: string;
+  coreQuestion: string;
+  color: string;
+}
+
+const { phaseId, title, coreQuestion, color } = Astro.props;
+
+const colorClasses: Record<string, string> = {
+  indigo: 'from-indigo-500 to-purple-600',
+  purple: 'from-purple-500 to-pink-600',
+  emerald: 'from-emerald-500 to-teal-600',
+  amber: 'from-amber-500 to-orange-600',
+  pink: 'from-pink-500 to-rose-600',
+};
+
+const gradientClass = colorClasses[color] || colorClasses.indigo;
+---
+
+<header class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-[#30363d] mb-8">
+  <div class="absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-slate-50 dark:from-[#0d1117] dark:via-[#0d1117] dark:to-[#0d1117]">
+    <svg class="absolute inset-0 w-full h-full opacity-[0.04] dark:opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+          <path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect class="text-slate-400 dark:text-[#58a6ff]" width="100%" height="100%" fill="url(#grid)" />
+    </svg>
+  </div>
+
+  <div class="relative p-8 md:p-10">
+    <div class="flex items-center gap-2 mb-6">
+      <span class="font-mono text-xs text-slate-400 dark:text-[#8b949e]">$ cd phase_{phaseId}</span>
+    </div>
+
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div>
+        <div class:list={[
+          "inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br text-white font-black font-mono text-2xl shadow-lg mb-4",
+          gradientClass
+        ]}>
+          {phaseId}
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight leading-none">
+          {title}
+        </h1>
+        <p class="font-mono text-sm text-slate-500 dark:text-[#8b949e] max-w-2xl leading-relaxed">
+          {coreQuestion}
+        </p>
+      </div>
+    </div>
+  </div>
+</header>

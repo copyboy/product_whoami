@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content';
+import { conceptMeta } from '@utils/web3Concepts';
+
+interface PostSummary {
+  title: string;
+  slug: string;
+  pubDate: Date;
+  description: string;
+}
+
+interface ConceptCard {
+  slug: string;
+  name: string;
+  nameEn: string;
+  postCount: number;
+  posts: PostSummary[];
+  related: string[];
+}
+
+const { posts, activeTag } = Astro.props;
+
+// Step 1: Collect all tags and their co-occurrence
+const tagData = new Map<string, {
+  count: number;
+  posts: PostSummary[];
+  related: Set<string>;
+}>();
+
+// Step 2: Process each post
+posts.forEach(post => {
+  const tags = post.data.tags || [];
+
+  tags.forEach(tag => {
+    const slug = tag.toLowerCase();
+
+    if (!tagData.has(slug)) {
+      tagData.set(slug, {
+        count: 0,
+        posts: [],
+        related: new Set(),
+      });
+    }
+
+    const data = tagData.get(slug)!;
+    data.count++;
+    data.posts.push({
+      title: post.data.title,
+      slug: post.slug,
+      pubDate: post.data.pubDate,
+      description: post.data.description,
+    });
+
+    // Add co-occurrence relationships (related tags)
+    tags.forEach(otherTag => {
+      const otherSlug = otherTag.toLowerCase();
+      if (otherSlug !== slug) {
+        data.related.add(otherSlug);
+      }
+    });
+  });
+});
+
+// Step 3: Convert to array and sort by post count
+const concepts = Array.from(tagData.entries())
+  .map(([slug, data]) => ({
+    slug,
+    name: conceptMeta[slug]?.name || slug,
+    nameEn: conceptMeta[slug]?.nameEn || slug,
+    postCount: data.count,
+    posts: data.posts.sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime()).slice(0, 3),
+    related: Array.from(data.related),
+  }))
+  .sort((a, b) => b.postCount - a.postCount);
+
+// Step 4: Limit to top 12 concepts for display
+const displayConcepts = concepts.slice(0, 12);
+---
+
+<div class="mb-8">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-bold">概念图谱</h2>
+    <span class="text-sm text-slate-500">{concepts.length} 个概念</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {displayConcepts.map((concept) => (
+      <a
+        href={`/web3/concept/${concept.slug}`}
+        class:list={[
+          "block bg-white dark:bg-slate-800 border rounded-lg p-4 transition-all hover:shadow-lg hover:border-indigo-300",
+          activeTag === concept.slug
+            ? "border-indigo-500 ring-2 ring-indigo-200 dark:ring-indigo-800"
+            : "border-slate-200 dark:border-slate-700"
+        ]}
+      >
+        <div class="flex items-start justify-between mb-2">
+          <h3 class="font-bold text-lg">{concept.name}</h3>
+          <span class="text-xs bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full">
+            {concept.postCount} 篇
+          </span>
+        </div>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-3">{concept.nameEn}</p>
+
+        {concept.related.length > 0 && (
+          <div class="flex flex-wrap gap-1 mb-3">
+            {concept.related.slice(0, 4).map((rel) => (
+              <span class="text-xs bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 px-2 py-0.5 rounded">
+                {conceptMeta[rel]?.name || rel}
+              </span>
+            ))}
+            {concept.related.length > 4 && (
+              <span class="text-xs text-slate-400">+{concept.related.length - 4}</span>
+            )}
+          </div>
+        )}
+
+        {concept.posts.length > 0 && (
+          <div class="space-y-1 border-t border-slate-100 dark:border-slate-700 pt-3">
+            {concept.posts.map((post) => (
+              <p class="text-sm text-slate-600 dark:text-slate-300 truncate">
+                • {post.title}
+              </p>
+            ))}
+          </div>
+        )}
+      </a>
+    ))}
+  </div>
+
+  {displayConcepts.length === 0 && (
+    <div class="text-center py-12 bg-slate-50 dark:bg-slate-800 rounded-lg">
+      <p class="text-slate-500 dark:text-slate-400">暂无 Web3 文章</p>
+      <p class="text-sm text-slate-400 dark:text-slate-500 mt-2">
+        开始写你的第一篇 Web3 学习笔记吧
+      </p>
+    </div>
+  )}
+</div>

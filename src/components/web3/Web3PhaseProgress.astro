@@ -1,0 +1,150 @@
+---
+import { getCollection } from 'astro:content';
+import type { Phase } from '@utils/web3Roadmap';
+import { getPhaseProgress, getCurrentPhase, getCompletedMilestones, getStatusEmoji } from '@utils/web3Roadmap';
+
+interface Props {
+  phases: Phase[];
+}
+
+const { phases } = Astro.props;
+
+const currentPhase = getCurrentPhase(phases);
+const completedMilestones = getCompletedMilestones(phases);
+
+// Get all posts for article link resolution
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+---
+
+<div class="rounded-lg border border-slate-200 dark:border-[#30363d] overflow-hidden">
+  <!-- Header -->
+  <div class="bg-slate-100 dark:bg-[#161b22] px-6 py-4 border-b border-slate-200 dark:border-[#30363d]">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <span class="font-mono text-xs text-[#7ee787]">//</span>
+          <h2 class="font-bold text-lg text-slate-800 dark:text-white">学习路径</h2>
+        </div>
+        <span class="text-xs text-slate-500 dark:text-slate-400">Learning Path</span>
+      </div>
+      <a href="/web3/roadmap" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+        查看完整路线图 →
+      </a>
+    </div>
+  </div>
+
+  <!-- Phase List -->
+  <div class="divide-y divide-slate-200 dark:divide-[#30363d] bg-white dark:bg-[#0d1117]">
+    {phases.map((phase) => {
+      const progress = getPhaseProgress(phase);
+      const isCurrent = phase.id === currentPhase?.id;
+      const isCompleted = progress === 100;
+
+      return (
+        <div class:list={[
+          "px-6 py-4 transition-colors",
+          isCurrent && "bg-indigo-50 dark:bg-indigo-500/5"
+        ]}>
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class:list={[
+                "inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold text-white",
+                isCompleted && "bg-emerald-500",
+                isCurrent && !isCompleted && "bg-indigo-500",
+                !isCompleted && !isCurrent && "bg-slate-400 dark:bg-[#30363d]"
+              ]}>
+                {phase.id}
+              </span>
+              <div>
+                <span class:list={[
+                  "font-semibold text-sm",
+                  isCurrent ? "text-indigo-600 dark:text-indigo-400" : "text-slate-700 dark:text-white"
+                ]}>
+                  {phase.title}
+                </span>
+                <span class="ml-2 text-xs text-slate-500 dark:text-slate-400">
+                  {phase.subtitle}
+                </span>
+              </div>
+            </div>
+            <span class:list={[
+              "font-mono text-sm font-bold",
+              isCompleted && "text-emerald-600 dark:text-emerald-400",
+              isCurrent && !isCompleted && "text-indigo-600 dark:text-indigo-400",
+              !isCompleted && !isCurrent && "text-slate-500 dark:text-slate-400"
+            ]}>
+              {progress}%
+            </span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="ml-10 h-1.5 bg-slate-200 dark:bg-[#21262d] rounded-full overflow-hidden">
+            <div
+              class:list={[
+                "h-full rounded-full transition-all duration-500",
+                isCompleted && "bg-emerald-500",
+                isCurrent && !isCompleted && "bg-indigo-500",
+                !isCompleted && !isCurrent && "bg-slate-400 dark:bg-[#484f58]"
+              ]}
+              style={`width: ${progress}%`}
+            />
+          </div>
+        </div>
+      );
+    })}
+  </div>
+
+  <!-- Current Phase CTA -->
+  {currentPhase && (
+    <div class="border-t border-slate-200 dark:border-[#30363d] px-6 py-4 bg-slate-50 dark:bg-[#161b22]">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">当前阶段</p>
+          <p class="font-semibold text-slate-800 dark:text-white">
+            阶段{currentPhase.id}：{currentPhase.title}
+          </p>
+        </div>
+        <a
+          href={`/web3/phase/${currentPhase.id}`}
+          class="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white transition-colors font-medium"
+        >
+          继续学习 →
+        </a>
+      </div>
+    </div>
+  )}
+
+  <!-- Completed Milestones -->
+  {completedMilestones.length > 0 && (
+    <div class="border-t border-slate-200 dark:border-[#30363d] px-6 py-4">
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">已完成里程碑</p>
+      <div class="space-y-2">
+        {completedMilestones.map(milestone => {
+          const phase = phases.find(p => p.milestones.includes(milestone));
+          const post = milestone.articleSlug
+            ? allPosts.find(p => p.slug === milestone.articleSlug)
+            : null;
+
+          return (
+            <div class="flex items-center gap-2 text-sm">
+              <span class="text-emerald-500">{getStatusEmoji('done')}</span>
+              <span class="text-slate-600 dark:text-slate-300">
+                {post?.data.title || milestone.title}
+              </span>
+              {post && (
+                <a
+                  href={`/web3/article/${post.slug}`}
+                  class="text-indigo-600 dark:text-indigo-400 hover:underline ml-1"
+                >
+                  →
+                </a>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  )}
+</div>

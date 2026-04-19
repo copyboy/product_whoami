@@ -1,0 +1,128 @@
+---
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import PhaseHero from '@components/web3/PhaseHero.astro';
+import PainPointBlock from '@components/web3/PainPointBlock.astro';
+import MilestoneCard from '@components/web3/MilestoneCard.astro';
+import { getCollection } from 'astro:content';
+import roadmapData from '../../../data/web3-roadmap-data.json';
+
+export function getStaticPaths() {
+  const { phases } = roadmapData;
+
+  return phases.map(phase => ({
+    params: { n: phase.id.toString() },
+    props: { phase, phases }
+  }));
+}
+
+const { phase, phases } = Astro.props;
+const { n } = Astro.params;
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+const postsMap = new Map(allPosts.map(p => [p.slug, p]));
+
+// Next phase
+const currentIndex = phases.findIndex(p => p.id === phase.id);
+const nextPhase = phases[currentIndex + 1] || null;
+
+// Generate TOC from milestones
+const toc = phase.milestones.map(m => ({
+  depth: 3,
+  slug: `milestone-${m.id}`,
+  text: `${m.id} ${m.title}`
+}));
+---
+
+<ThreeColumnLayout
+  title={`阶段${phase.id}：${phase.title} | Gerrad's Digital Garden`}
+  description={phase.coreQuestion}
+  toc={toc}
+>
+  <div class="space-y-8">
+    <!-- Hero -->
+    <PhaseHero
+      phaseId={phase.id}
+      title={phase.title}
+      coreQuestion={phase.coreQuestion}
+      color={phase.color}
+    />
+
+    <!-- Pain Point -->
+    <PainPointBlock
+      painPoint={phase.painPoint}
+      painRoot={phase.painRoot}
+      color={phase.color}
+    />
+
+    <!-- Scenarios -->
+    <div class="flex flex-wrap gap-2">
+      {phase.scenarios.map(scenario => (
+        <span class="text-sm px-3 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-500/20">
+          {scenario}
+        </span>
+      ))}
+    </div>
+
+    <!-- Milestones -->
+    <section>
+      <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+        <span class="font-mono text-indigo-600 dark:text-indigo-400">//</span>
+        里程碑
+      </h2>
+      <div class="space-y-4">
+        {phase.milestones.map(milestone => {
+          const post = milestone.articleSlug ? postsMap.get(milestone.articleSlug) : null;
+
+          return (
+            <div id={`milestone-${milestone.id}`}>
+              <MilestoneCard
+                milestone={milestone}
+                articleTitle={post?.data.title}
+                articleDescription={post?.data.description}
+                articleSlug={milestone.articleSlug}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Next Phase -->
+    {nextPhase ? (
+      <div class="pt-8 border-t border-slate-200 dark:border-[#30363d]">
+        <a
+          href={`/web3/phase/${nextPhase.id}`}
+          class="inline-flex items-center gap-3 p-4 rounded-xl border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-500/5 hover:bg-indigo-100 dark:hover:bg-indigo-500/10 transition-colors group"
+        >
+          <div class="shrink-0 w-10 h-10 rounded-lg bg-indigo-500 text-white font-bold flex items-center justify-center">
+            {nextPhase.id}
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-0.5">下一篇</p>
+            <p class="font-semibold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+              阶段{nextPhase.id}：{nextPhase.title}
+            </p>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 ml-auto group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    ) : (
+      <div class="pt-8 border-t border-slate-200 dark:border-[#30363d]">
+        <a
+          href="/web3/roadmap"
+          class="inline-flex items-center gap-2 font-mono text-sm text-indigo-600 dark:text-[#58a6ff] hover:text-indigo-700 dark:hover:text-[#79b8ff] transition-colors group"
+        >
+          <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          返回完整路线图
+        </a>
+      </div>
+    )}
+  </div>
+</ThreeColumnLayout>

@@ -91,10 +91,16 @@ function isActiveCategory(categoryName: string): boolean {
       ]}>Projects</a>
       <a href="/about" class:list={[
         "block p-2 rounded-lg transition-colors",
-        isActiveLink('/about') 
-          ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium" 
+        isActiveLink('/about')
+          ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium"
           : "hover:bg-slate-100 dark:hover:bg-slate-800"
       ]}>About</a>
+      <a href="/web3" class:list={[
+        "block p-2 rounded-lg transition-colors",
+        isActiveLink('/web3')
+          ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium"
+          : "hover:bg-slate-100 dark:hover:bg-slate-800"
+      ]}>Web3</a>
       
       {sortedCategories.length > 0 && (
       <div class="pt-4 border-t border-slate-200 dark:border-slate-800">

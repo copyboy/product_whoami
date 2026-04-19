@@ -1,0 +1,126 @@
+---
+export interface Props {
+  term: string;
+  class?: string;
+}
+
+const { term, class: className } = Astro.props;
+
+// All glossary definitions
+const definitions: Record<string, string> = {
+  Layer1: "Layer1 是区块链网络的基础层，直接对标 Bitcoin、Ethereum、Solana 等。它们负责共识、区块生产和数据存储，所有 Layer2 都依赖于 Layer1 提供最终安全性。",
+  Layer2: "Layer2 是构建在 Layer1 之上的扩展层，通过 Rollup 技术提升吞吐量、降低费用。Optimistic Rollups（如 Arbitrum）和 ZK Rollups（如 zkSync）是两大主流方案。",
+  DeFi: "DeFi（去中心化金融）是通过智能合约实现的金融协议，无需中间商。核心应用包括借贷（Aave）、交易所（Uniswap）、稳定币（MakerDAO）等。",
+  NFT: "NFT（非同质化代币）是基于 ERC-721 标准的独特数字资产，可代表艺术品、游戏道具、域名等。与同质化代币（每枚相同）不同，NFT 每枚唯一。",
+  NFTFi: "NFT-Fi 是解决 NFT 流动性问题的协议集合，包括 NFT 抵押借贷、碎片化、衍生品等，让 NFT 持有者不必抛售就能获得流动性。",
+  DAO: "DAO（去中心化自治组织）是基于智能合约和代币治理的组织形式，成员通过提案和投票共同决策，没有中心化管理层。",
+  TVL: "TVL（Total Value Locked）是存入 DeFi 或 L2 协议的资产总值，是衡量协议规模的直接指标，但不代表协议盈利能力。",
+  TPS: "TPS（Transactions Per Second）是每秒处理交易数。Bitcoin ~7 TPS，Ethereum ~30 TPS，Solana 可达 65,000 TPS。",
+  EVM: "EVM（Ethereum Virtual Machine）是以太坊的图灵完备虚拟机，所有以太坊智能合约都运行在 EVM 上。EVM 兼容性是以太坊生态最大的护城河。",
+  Gas: "Gas 是以太坊网络的计算费用单位。用户发起交易或执行智能合约时需要支付 Gas，费用 = Gas 消耗量 × Gas 单价（gwei）。",
+  PoW: "PoW（工作量证明）要求矿工通过计算难题竞争出块权，比特币目前使用此共识机制，能耗较高。",
+  PoS: "PoS（权益证明）要求验证者质押代币参与共识，能耗比 PoW 低 99.95%。以太坊 2022 年通过 Merge 升级完成 PoW 到 PoS 的转变。",
+  AMM: "AMM（自动化做市商）通过数学公式（通常是 x*y=k 恒定乘积）而非订单簿为交易对定价。Uniswap 是最著名的 AMM 协议。",
+  "智能合约": "智能合约是部署在区块链上的程序代码，当满足预设条件时自动执行。无需中间商，可实现借贷、交易、保险等自动化逻辑。",
+  Rollup: "Rollup 将大量交易打包后在链下执行，仅将压缩后的数据或证明提交到主网，兼顾扩展性和安全性。",
+  "Optimistic Rollups": "乐观 Rollup 假设所有交易有效，7 天挑战期内存款可被欺诈证明撤销。Arbitrum 和 Optimism 是主要实现。",
+  "ZK Rollups": "ZK Rollups 通过零知识证明验证交易有效性，无需信任假设且无延迟等待期。zkSync 和 Starknet 是主要实现。",
+  MPC: "MPC（安全多方计算）将私钥分片给多个参与者，任何单点都无法获取完整私钥。AI Agent 钱包常用 MPC 技术实现资产自主管理。",
+  MEV: "MEV（矿工可提取价值）是指验证者/矿工通过操纵交易顺序获取的额外利润，包括闪电贷攻击、三明治攻击等。",
+  TVL: "TVL（Total Value Locked）是存入 DeFi 或 L2 协议的资产总值，反映协议吸引到的资金量。",
+  EIP1559: "EIP-1559 是以太坊 2021 年的伦敦升级，引入基础费燃烧机制，使 ETH 成为通缩资产的可能性。",
+  Blob: "Blob 是 Dencun 升级引入的数据存储方案，大幅降低 L2 数据发布费用，使 L2 手续费降低 10-100 倍。",
+  "Account Abstraction": "账户抽象（EIP-7702）让普通 EOA 账户获得智能合约能力，可实现社交恢复、多签、无 gas 赞助交易等。",
+  ERC20: "ERC-20 是以太坊的同质化代币标准，所有在以太坊上发行的代币（USDT、DAI、UNI 等）都遵循此标准。",
+  ERC721: "ERC-721 是以太坊的 NFT 标准，定义了如何创建和转移独特的非同质化代币。",
+  MiCA: "MiCA（加密资产市场监管）是欧盟 2024 年生效的加密资产监管框架，为数字资产发行和服务提供商提供统一监管规则。",
+  "Uniswap V4": "Uniswap V4 引入 Hook 机制，允许开发者自定义交易池规则，实现限价单、时间加权做市（TWAMM）、动态费率等高级功能。",
+  Aave: "Aave 是最大的去中心化借贷协议，存款人提供流动性获取收益，借款人以超额抵押方式借出资产。支持闪电贷。",
+  MakerDAO: "MakerDAO 是去中心化稳定币 DAI 的发行协议，用户超额抵押 ETH 等资产生成 DAI，DSR 让 DAI 持有者获得存款收益。",
+  Solana: "Solana 是高性能公链，采用 PoH（历史证明）共识，TPS 达 65,000，费用低于 $0.001，但历史上曾有网络宕机记录。",
+  Cosmos: "Cosmos 通过 IBC 协议连接 100+ 条区块链，是最大的跨链生态之一。Tendermint BFT 共识是其核心技术。",
+  Bitcoin: "Bitcoin 是第一个区块链网络，主要作为数字黄金和价值存储，ETF 已获批并吸引大量机构资金。",
+  Ethereum: "Ethereum 是世界计算机，智能合约平台，DeFi 和 NFT 生态的基础。ETH 是全球第二大加密货币。",
+  "AI Agent": "AI Agent 是自主执行的 AI 程序，可在链上自主操作资产。Web3 为 AI Agent 提供支付通道、身份认证和资产自主管理能力。",
+  DePIN: "DePIN（去中心化物理基础设施网络）通过代币激励共享物理资源（带宽、算力、存储），替代传统中心化数据中心。",
+  RWA: "RWA（现实世界资产代币化）将房地产、国债等现实资产上链，获得 24/7 流动性和全球可访问性。贝莱德 BUIDL 是标志性产品。",
+  "Prediction Markets": "Prediction Markets（预测市场）通过市场机制聚合信息，参与者交易事件结果概率。Polymarket 是最活跃的加密预测市场。",
+  "Blur": "Blur 是 NFT 交易平台和借贷协议，以零平台费和高效批量挂单著称。",
+  "Uniswap": "Uniswap 是以太坊上最大的 DEX（去中心化交易所），采用 AMM 机制。V4 版本引入 Hook 创新。",
+  "Curve": "Curve 是专注稳定币和资产兑换的 AMM DEX，擅长低滑点大额稳定币交易。",
+  "Convex": "Convex 是 Curve 生态的收益优化平台，帮助 Curve LP 获取额外收益并参与治理。",
+  "gauge voting": "Gauge voting 是 Curve 生态的流动性激励分配机制，CRV 持有者投票决定哪些池获得 CRV 奖励。",
+  "Health Factor": "Health Factor（健康因子）是 Aave 等借贷协议中的清算风险指标，HF < 1 时触发自动清算。",
+  "闪电贷": "闪电贷是 DeFi 的无抵押短期贷款，必须在同一区块内归还。用于套利、清算等紧急操作。",
+  "清算": "清算是 DeFi 借贷协议中的风险控制机制，当抵押品价值下跌导致 Health Factor < 1，Keeper 机器人自动执行清算，清算人获得 5-10% 罚金。",
+};
+
+const definition = definitions[term] || `${term} 是 Web3 领域的重要概念。`;
+---
+
+<span class:list=["glossary-term", className]} data-definition={definition}>{term}</span>
+
+<style>
+  .glossary-term {
+    border-bottom: 1px dashed currentColor;
+    cursor: help;
+    position: relative;
+  }
+
+  .glossary-term::after {
+    content: attr(data-definition);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 280px;
+    padding: 8px 12px;
+    background: #1e293b;
+    color: #e2e8f0;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 6px;
+    border: 1px solid #334155;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    pointer-events: none;
+    z-index: 50;
+    font-weight: 400;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .glossary-term::after::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #334155;
+  }
+
+  .glossary-term:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Light mode tooltip override */
+  :global(.light) .glossary-term::after {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-color: #475569;
+  }
+
+  :global(.light) .glossary-term::after::before {
+    border-top-color: #475569;
+  }
+
+  /* Dark mode is default, but ensure it works */
+  :global(:root:not(.light)) .glossary-term::after {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-color: #334155;
+  }
+</style>

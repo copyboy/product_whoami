@@ -1,0 +1,739 @@
+---
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
+---
+
+<ThreeColumnLayout
+  title="Web3 深度研究报告 | Gerrad's Digital Garden"
+  description="Web3 横纵分析法深度调研 - 2026年4月版"
+>
+  <div class="min-h-screen">
+    <!-- Terminal-style header -->
+    <header class="mb-12">
+      <div class="rounded-lg border border-slate-200 dark:border-[#30363d] bg-white dark:bg-[#161b22] overflow-hidden mb-6 transition-colors">
+        <div class="flex items-center gap-2 px-4 py-3 bg-slate-100 dark:bg-[#0d1117] border-b border-slate-200 dark:border-[#30363d] transition-colors">
+          <div class="w-3 h-3 rounded-full bg-red-400"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          <span class="ml-4 text-xs font-mono text-slate-500 dark:text-[#8b949e]">web3_research_v2.sh</span>
+        </div>
+        <div class="p-6">
+          <div class="font-mono text-sm text-emerald-600 dark:text-[#7ee787] mb-2">$ cat web3_research_2026.md</div>
+          <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+            Web3 <span class="text-blue-600 dark:text-[#58a6ff]">深度研究报告</span>
+          </h1>
+          <p class="text-slate-500 dark:text-[#8b949e] text-sm font-mono mb-4">
+            // 五阶段认知模型 | 理解去中心化的进化路径
+          </p>
+          <div class="flex items-center gap-4 text-xs text-slate-500 dark:text-[#8b949e]">
+            <span class="font-mono">updated: <span class="text-emerald-600 dark:text-[#7ee787]">2026.04.18</span></span>
+            <span class="font-mono">status: <span class="text-amber-600 dark:text-[#f0883e]">active</span></span>
+            <span class="font-mono">version: <span class="text-blue-600 dark:text-[#58a6ff]">3.0</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-Phase Roadmap Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mb-6">
+        <a href="/web3/phase/1" class="group p-4 rounded-lg border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-500/5 hover:bg-indigo-100 dark:hover:bg-indigo-500/10 transition-colors">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 rounded-lg bg-indigo-500 text-white font-bold flex items-center justify-center text-sm">1</div>
+            <span class="font-mono text-xs text-indigo-600 dark:text-indigo-400">Bitcoin</span>
+          </div>
+          <p class="text-sm font-medium text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">去中心化价值转移</p>
+        </a>
+        <a href="/web3/phase/2" class="group p-4 rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-500/5 hover:bg-purple-100 dark:hover:bg-purple-500/10 transition-colors">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 rounded-lg bg-purple-500 text-white font-bold flex items-center justify-center text-sm">2</div>
+            <span class="font-mono text-xs text-purple-600 dark:text-purple-400">Ethereum</span>
+          </div>
+          <p class="text-sm font-medium text-slate-800 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400">去中心化计算</p>
+        </a>
+        <a href="/web3/phase/3" class="group p-4 rounded-lg border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/5 hover:bg-emerald-100 dark:hover:bg-emerald-500/10 transition-colors">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500 text-white font-bold flex items-center justify-center text-sm">3</div>
+            <span class="font-mono text-xs text-emerald-600 dark:text-emerald-400">DApp</span>
+          </div>
+          <p class="text-sm font-medium text-slate-800 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">去中心化应用</p>
+        </a>
+        <a href="/web3/phase/4" class="group p-4 rounded-lg border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/5 hover:bg-amber-100 dark:hover:bg-amber-500/10 transition-colors">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 rounded-lg bg-amber-500 text-white font-bold flex items-center justify-center text-sm">4</div>
+            <span class="font-mono text-xs text-amber-600 dark:text-amber-400">DeFi</span>
+          </div>
+          <p class="text-sm font-medium text-slate-800 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400">去中心化金融市场</p>
+        </a>
+        <a href="/web3/phase/5" class="group p-4 rounded-lg border border-pink-200 dark:border-pink-500/30 bg-pink-50 dark:bg-pink-500/5 hover:bg-pink-100 dark:hover:bg-pink-500/10 transition-colors">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 rounded-lg bg-pink-500 text-white font-bold flex items-center justify-center text-sm">5</div>
+            <span class="font-mono text-xs text-pink-600 dark:text-pink-400">DAO</span>
+          </div>
+          <p class="text-sm font-medium text-slate-800 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-400">去中心化组织</p>
+        </a>
+      </div>
+
+      <nav class="flex flex-wrap gap-4 text-sm font-mono">
+        <a href="#phase1" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">→ 01_价值转移</a>
+        <a href="#phase2" class="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300">→ 02_计算</a>
+        <a href="#phase3" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">→ 03_应用</a>
+        <a href="#phase4" class="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300">→ 04_金融市场</a>
+        <a href="#phase5" class="text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300">→ 05_组织</a>
+        <a href="#synthesis" class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300">→ 06_综合</a>
+      </nav>
+    </header>
+
+    <!-- Section 01: 去中心化价值转移 (Bitcoin) -->
+    <section id="phase1" class="mb-16 scroll-mt-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold flex items-center justify-center">1</div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">去中心化价值转移</h2>
+          <p class="text-slate-500 dark:text-[#8b949e] text-sm font-mono">Bitcoin · 核心问题：能不能用数学代替机构？</p>
+        </div>
+      </div>
+
+      <div class="pl-4 border-l-2 border-indigo-500 dark:border-indigo-400/50 space-y-8">
+        <!-- Pain Point -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-indigo-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">1.1</span> 痛点：跨境汇款的困境
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-slate-700 dark:text-[#c9d1d9] mb-4">
+              你在非洲有亲人需要钱。你去银行汇款，手续费 <span class="font-bold text-red-500">10%</span>，到账 <span class="font-bold">3-5 天</span>，还要求你有银行账户——但全球有 <span class="font-bold text-indigo-600 dark:text-indigo-400">17 亿成年人</span>没有银行账户。
+            </p>
+            <div class="p-4 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/30 rounded-lg">
+              <p class="text-sm text-indigo-700 dark:text-indigo-300">
+                <span class="font-bold">没有机构，就没有信任，就没有转账。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- UTXO Model -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-indigo-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">1.2</span> <GlossaryTerm term="UTXO" /> 模型 vs 账户模型
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-amber-500 transition-colors">
+                <p class="font-bold text-amber-600 dark:text-amber-400 mb-2">BTC (UTXO)</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e] mb-2">
+                  每笔交易消耗旧输出、产生新输出，类似现金找零。每笔交易都是独立的「硬币」。
+                </p>
+                <p class="text-xs text-slate-500 dark:text-[#8b949e]">更好的隐私性，类似现金</p>
+              </div>
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-blue-500 transition-colors">
+                <p class="font-bold text-blue-600 dark:text-blue-400 mb-2">ETH (账户模型)</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e] mb-2">
+                  类似银行账户，余额是全局状态。直接扣除和增加，更简单直观。
+                </p>
+                <p class="text-xs text-slate-500 dark:text-[#8b949e]">更好的智能合约支持</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PoW Consensus -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-indigo-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">1.3</span> <GlossaryTerm term="PoW" /> 共识：不可篡改的数学证明
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-sm text-slate-600 dark:text-[#8b949e] mb-4">
+              <GlossaryTerm term="PoW" /> 工作量证明：靠算力挖矿，能耗高但经过最长时间验证。篡改历史的成本等同于重新消耗全网算力。
+            </p>
+            <div class="p-4 bg-[#0d1117] dark:bg-[#0d1117] rounded border border-[#30363d]">
+              <p class="font-mono text-sm text-emerald-600 dark:text-[#7ee787] mb-2">// 为什么 PoW 安全？</p>
+              <p class="font-mono text-xs text-slate-600 dark:text-[#8b949e]">
+                攻击成本 &gt; 攻击收益<br>
+                算力租用：$200B+ 比特币网络，1小时攻击成本 ~$1M+<br>
+                物理成本：需要 51% 算力，设备成本数十亿美元
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Layer1 Comparison -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-indigo-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">1.4</span> 主要 Layer1 格局
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm font-mono">
+                <thead class="bg-slate-100 dark:bg-[#161b22] transition-colors">
+                  <tr class="text-left text-slate-500 dark:text-[#8b949e]">
+                    <th class="py-2 px-3">Chain</th>
+                    <th class="py-2 px-3">共识</th>
+                    <th class="py-2 px-3">TPS</th>
+                    <th class="py-2 px-3">平均费用</th>
+                    <th class="py-2 px-3">定位</th>
+                  </tr>
+                </thead>
+                <tbody class="text-slate-700 dark:text-[#c9d1d9]">
+                  <tr class="border-t border-slate-200 dark:border-[#21262d]">
+                    <td class="py-2 px-3 text-amber-600 dark:text-amber-400">Bitcoin</td>
+                    <td class="py-2 px-3">PoW</td>
+                    <td class="py-2 px-3">~7</td>
+                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">$1-50</td>
+                    <td class="py-2 px-3">数字黄金</td>
+                  </tr>
+                  <tr class="border-t border-slate-200 dark:border-[#21262d]">
+                    <td class="py-2 px-3 text-indigo-600 dark:text-indigo-400">Ethereum</td>
+                    <td class="py-2 px-3">PoS</td>
+                    <td class="py-2 px-3">~30</td>
+                    <td class="py-2 px-3 text-amber-600 dark:text-amber-400">$1-50</td>
+                    <td class="py-2 px-3">世界计算机</td>
+                  </tr>
+                  <tr class="border-t border-slate-200 dark:border-[#21262d]">
+                    <td class="py-2 px-3 text-purple-600 dark:text-purple-400">Solana</td>
+                    <td class="py-2 px-3">PoH + PoS</td>
+                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">65,000</td>
+                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">&lt;$0.001</td>
+                    <td class="py-2 px-3">高性能应用链</td>
+                  </tr>
+                  <tr class="border-t border-slate-200 dark:border-[#21262d]">
+                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">Cosmos</td>
+                    <td class="py-2 px-3">Tendermint</td>
+                    <td class="py-2 px-3">~1000</td>
+                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">&lt;$0.01</td>
+                    <td class="py-2 px-3">跨链 Hub</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 02: 去中心化计算 (Ethereum) -->
+    <section id="phase2" class="mb-16 scroll-mt-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 text-white font-bold flex items-center justify-center">2</div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">去中心化计算</h2>
+          <p class="text-slate-500 dark:text-[#8b949e] text-sm font-mono">Ethereum · 核心问题：能不能让规则自动执行？</p>
+        </div>
+      </div>
+
+      <div class="pl-4 border-l-2 border-purple-500 dark:border-purple-400/50 space-y-8">
+        <!-- Pain Point -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-purple-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">2.1</span> 痛点：规则执行依赖人
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-slate-700 dark:text-[#c9d1d9] mb-4">
+              你和陌生人签了一份合同，约定「如果我按时交货，你就付款」。但付款这件事，还是靠对方自觉——或者打官司。
+            </p>
+            <div class="p-4 bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/30 rounded-lg">
+              <p class="text-sm text-purple-700 dark:text-purple-300">
+                <span class="font-bold">「规则执行」这件事，一直需要人来中间撮合。有人就有腐败、有延迟、有成本。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EVM -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-purple-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">2.2</span> <GlossaryTerm term="EVM" />：世界计算机的心脏
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-sm text-slate-600 dark:text-[#8b949e] mb-4">
+              EVM (Ethereum Virtual Machine) 是图灵完备的虚拟机，运行所有以太坊智能合约。
+            </p>
+            <div class="p-4 bg-[#0d1117] dark:bg-[#0d1117] rounded border border-[#30363d] mb-4">
+              <p class="font-mono text-xs text-emerald-600 dark:text-[#7ee787] mb-2">// 编译流程</p>
+              <p class="font-mono text-xs text-slate-600 dark:text-[#8b949e]">
+                任何语言 → Solidity → EVM bytecode → 执行
+              </p>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-[#8b949e]">
+              <span class="font-bold text-purple-600 dark:text-purple-400">EVM 兼容链：</span>Arbitrum、Base、Optimism、zkSync — 一次编写，多链部署
+            </p>
+          </div>
+        </div>
+
+        <!-- Gas Economics -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-purple-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">2.3</span> Gas 经济学
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="font-mono text-sm text-emerald-600 dark:text-[#7ee787] mb-4">// Gas = 计算工作量 × Gas 价格</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg transition-colors">
+                <p class="font-bold text-slate-900 dark:text-white mb-2">Base Fee (基础费)</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e]">由协议根据网络拥堵自动调节，目标区块利用率50%。燃烧机制 (EIP-1559)。</p>
+              </div>
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg transition-colors">
+                <p class="font-bold text-slate-900 dark:text-white mb-2">Priority Fee (优先费)</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e]">给验证者的小费，用于优先打包交易。MEV 的一部分。</p>
+              </div>
+            </div>
+            <div class="mt-4 p-4 bg-amber-50 dark:bg-[#f0883e]/10 border border-amber-200 dark:border-[#f0883e]/30 rounded-lg">
+              <p class="text-sm text-amber-700 dark:text-[#f0883e]">
+                <span class="font-bold">关键数据：</span>以太坊主网 Gas 通常 10-100 gwei，L2 (Arbitrum/Base) Gas 不足 0.01 gwei，费用差距可达 <span class="font-mono">1000倍</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Layer2 -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-purple-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">2.4</span> <GlossaryTerm term="Layer2" /> 扩容方案
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-indigo-200 dark:border-[#58a6ff]/30 transition-colors">
+                <p class="font-bold text-indigo-600 dark:text-indigo-400 mb-2"><GlossaryTerm term="Optimistic Rollups" /></p>
+                <p class="text-xs text-slate-500 dark:text-[#8b949e] mb-2">乐观假设交易有效，7天挑战期</p>
+                <div class="space-y-1 text-xs text-slate-600 dark:text-[#8b949e]">
+                  <p><span class="font-mono text-amber-600 dark:text-amber-400">Arbitrum</span> — TVL $7.8B</p>
+                  <p><span class="font-mono text-blue-600 dark:text-blue-400">Base</span> — Coinbase 背书</p>
+                  <p><span class="font-mono text-red-600 dark:text-red-400">Optimism</span> — OP Stack</p>
+                </div>
+              </div>
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-purple-200 dark:border-purple-500/30 transition-colors">
+                <p class="font-bold text-purple-600 dark:text-purple-400 mb-2"><GlossaryTerm term="ZK Rollups" /></p>
+                <p class="text-xs text-slate-500 dark:text-[#8b949e] mb-2">零知识证明，无需信任假设</p>
+                <div class="space-y-1 text-xs text-slate-600 dark:text-[#8b949e]">
+                  <p><span class="font-mono text-purple-600 dark:text-purple-400">zkSync Era</span> — Matter Labs</p>
+                  <p><span class="font-mono text-blue-600 dark:text-blue-400">Starknet</span> — STARK</p>
+                  <p><span class="font-mono text-pink-600 dark:text-pink-400">Polygon zkEVM</span> — 兼容 EVM</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 p-4 bg-slate-100 dark:bg-[#161b22] rounded-lg">
+              <p class="font-mono text-sm text-emerald-600 dark:text-[#7ee787]">
+                // ZK Rollups 是未来：无 7 天挑战期、即时退出、隐私友好
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 03: 去中心化应用 (DApp) -->
+    <section id="phase3" class="mb-16 scroll-mt-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold flex items-center justify-center">3</div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">去中心化应用</h2>
+          <p class="text-slate-500 dark:text-[#8b949e] text-sm font-mono">DApp · 核心问题：能不能构建没人能关掉的应用？</p>
+        </div>
+      </div>
+
+      <div class="pl-4 border-l-2 border-emerald-500 dark:border-emerald-400/50 space-y-8">
+        <!-- Pain Point -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-emerald-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">3.1</span> 痛点：平台控制数据
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-slate-700 dark:text-[#c9d1d9] mb-4">
+              你在某平台做了5年的内容创作者，某天账号被封，一分收入没有，粉丝清零。平台说封就封，你没有任何申诉权。
+            </p>
+            <div class="p-4 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-lg">
+              <p class="text-sm text-emerald-700 dark:text-emerald-300">
+                <span class="font-bold">「应用」的本质是平台控制数据，用户只是租客。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Smart Contract -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-emerald-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">3.2</span> 智能合约：规则即法律
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-sm text-slate-600 dark:text-[#8b949e] mb-4">
+              智能合约是部署在链上的代码，规则写在链上，没有任何人可以单方面修改或关掉它。
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-emerald-500 transition-colors">
+                <p class="font-bold text-emerald-600 dark:text-emerald-400 mb-2">不可变</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e]">部署后代码无法修改，除非预设的升级机制。</p>
+              </div>
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-blue-500 transition-colors">
+                <p class="font-bold text-blue-600 dark:text-blue-400 mb-2">透明</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e]">任何人都可以审计代码，没有隐藏后门。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Development Stack -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-emerald-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">3.3</span> DApp 开发技术栈
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <div class="font-mono text-xs bg-[#0d1117] dark:bg-[#0d1117] p-4 rounded border border-[#30363d] mb-4">
+              <p class="text-[#7ee787] mb-2">// Full Stack DApp 开发栈</p>
+              <p class="text-[#c9d1d9] space-y-1">
+                <span class="text-[#58a6ff]">前端：</span>React/Vue + wagmi/viem (Ethers.js 升级版)<br>
+                <span class="text-[#d2a8ff]">合约：</span>Solidity + Hardhat/Foundry (测试框架)<br>
+                <span class="text-[#f0883e]">节点：</span>Alchemy/Infura (RPC 节点服务)<br>
+                <span class="text-[#7ee787]">前端：</span>RainbowKit / thirdweb (钱包连接)
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-500/20 text-yellow-700 dark:text-yellow-300 rounded text-xs">Solidity</span>
+              <span class="px-3 py-1 bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-300 rounded text-xs">Hardhat</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 rounded text-xs">Foundry</span>
+              <span class="px-3 py-1 bg-pink-100 dark:bg-pink-500/20 text-pink-700 dark:text-pink-300 rounded text-xs">wagmi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 04: 去中心化金融市场 (DeFi) -->
+    <section id="phase4" class="mb-16 scroll-mt-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold flex items-center justify-center">4</div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">去中心化金融市场</h2>
+          <p class="text-slate-500 dark:text-[#8b949e] text-sm font-mono">DeFi · 核心问题：能不能把金融变成透明协议？</p>
+        </div>
+      </div>
+
+      <div class="pl-4 border-l-2 border-amber-500 dark:border-amber-400/50 space-y-8">
+        <!-- Pain Point -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-amber-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">4.1</span> 痛点：金融中介的垄断
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-slate-700 dark:text-[#c9d1d9] mb-4">
+              你想用手里的资产赚收益，或者借一笔钱周转。但银行贷款要抵押、要审批、要信用记录——而全球大多数人根本没有「信用记录」这个东西。
+            </p>
+            <div class="p-4 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 rounded-lg">
+              <p class="text-sm text-amber-700 dark:text-amber-300">
+                <span class="font-bold">金融中介天然是信息不对称的受益者，它掌握规则制定权，你只能接受定价。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- AMM -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-amber-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">4.2</span> <GlossaryTerm term="AMM" /> 机制：Uniswap 原理
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <p class="font-bold text-slate-900 dark:text-white mb-2">x * y = k 恒定乘积公式</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e] mb-2">
+                  Uniswap V2 采用最简单的 AMM 模型。流动性池中两种资产数量乘积恒定。
+                </p>
+                <div class="p-3 bg-white dark:bg-[#161b22] rounded border border-slate-200 dark:border-[#30363d]">
+                  <p class="font-mono text-sm text-center text-slate-700 dark:text-[#c9d1d9]">
+                    池中 ETH = 100, USDC = 200,000<br>
+                    <span class="text-blue-600 dark:text-[#58a6ff]">k = 100 × 200,000 = 20,000,000</span><br>
+                    <span class="text-xs text-slate-500">价格 = 200,000 / 100 = $2000/ETH</span>
+                  </p>
+                </div>
+                <p class="mt-2 text-xs text-slate-500 dark:text-[#8b949e]">
+                  买入 1 ETH → 池变为 (99, 202,020) → 价格变为 $2040.2<br>
+                  <span class="text-amber-600 dark:text-amber-400">滑点 2%！这就是大额交易的价格冲击</span>
+                </p>
+              </div>
+              <div>
+                <p class="font-bold text-slate-900 dark:text-white mb-2">V4 Hook 创新</p>
+                <ul class="text-sm text-slate-600 dark:text-[#8b949e] space-y-2">
+                  <li><span class="font-mono text-emerald-600 dark:text-emerald-400">Custom Pools</span>：自定义规则池</li>
+                  <li><span class="font-mono text-blue-600 dark:text-blue-400">TWAMM</span>：时间加权自动做市</li>
+                  <li><span class="font-mono text-purple-600 dark:text-purple-400">Limit Orders</span>：内置限价单</li>
+                  <li><span class="font-mono text-amber-600 dark:text-amber-400">Dynamic Fees</span>：动态费率</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lending -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-amber-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">4.3</span> 借贷协议：Aave vs MakerDAO
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-indigo-500 transition-colors">
+                <p class="font-bold text-indigo-600 dark:text-indigo-400 mb-2"><GlossaryTerm term="Aave" /> (V3)</p>
+                <p class="text-xs text-slate-500 dark:text-[#8b949e] mb-2">池化借贷 / 超额抵押</p>
+                <div class="space-y-1 text-xs text-slate-600 dark:text-[#8b949e]">
+                  <p>• 存款人提供流动性，借款人抵押资产借出</p>
+                  <p>• 利率模型：利用率越高，利率越高</p>
+                  <p>• <GlossaryTerm term="Health Factor" /> &lt; 1 → <GlossaryTerm term="清算" /></p>
+                  <p>• <GlossaryTerm term="闪电贷" />：无抵押借出，同一区块归还</p>
+                </div>
+              </div>
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-purple-500 transition-colors">
+                <p class="font-bold text-purple-600 dark:text-purple-400 mb-2"><GlossaryTerm term="MakerDAO" /></p>
+                <p class="text-xs text-slate-500 dark:text-[#8b949e] mb-2">去中心化稳定币 / 超额担保</p>
+                <div class="space-y-1 text-xs text-slate-600 dark:text-[#8b949e]">
+                  <p>• 生成 DAI 稳定币，超额抵押 ETH</p>
+                  <p>• PSM 模块：1:1 抵押 USDC 生成 DAI</p>
+                  <p>• DSR：存款利率，DAI 持有者赚收益</p>
+                  <p>• NewGovToken (NGT)：治理代币</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 p-3 bg-amber-50 dark:bg-[#f0883e]/10 border border-amber-200 dark:border-[#f0883e]/30 rounded-lg">
+              <p class="text-xs text-amber-700 dark:text-[#f0883e]">
+                <span class="font-bold">清算机制：</span>当抵押品价值下跌导致 Health Factor &lt; 1，Keeper 机器人自动清算，清算人可获得 5-10% 清算费。这也是 DeFi 中最高频的套利机会。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DeFi Lego -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-amber-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">4.4</span> DeFi 的乐高特性
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-sm text-slate-600 dark:text-[#8b949e] mb-4">
+              <GlossaryTerm term="DeFi" /> 协议可以互相嵌套、组合，像乐高积木一样构建复杂金融产品。
+            </p>
+            <div class="font-mono text-xs bg-[#0d1117] dark:bg-[#0d1117] p-4 rounded border border-[#30363d]">
+              <p class="text-[#7ee787] mb-2">// 典型 DeFi 堆叠示例</p>
+              <p class="text-[#8b949e]">
+                <span class="text-[#58a6ff]">Aave</span> (借贷) → 借出 USDC<br>
+                → 存入 <span class="text-[#f0883e]">Curve</span> (稳定币交易) 赚取收益<br>
+                → 质押 Curve LP token 到 <span class="text-[#7ee787]">Convex</span> 获取额外奖励<br>
+                → 用 Convex token 做 <span class="text-[#d2a8ff]"><GlossaryTerm term="gauge voting" /></span> 治理
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 05: 去中心化组织 (DAO) -->
+    <section id="phase5" class="mb-16 scroll-mt-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 text-white font-bold flex items-center justify-center">5</div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">去中心化组织</h2>
+          <p class="text-slate-500 dark:text-[#8b949e] text-sm font-mono">DAO · 核心问题：能不能让协作规则写在链上？</p>
+        </div>
+      </div>
+
+      <div class="pl-4 border-l-2 border-pink-500 dark:border-pink-400/50 space-y-8">
+        <!-- Pain Point -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-pink-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">5.1</span> 痛点：组织依赖层级和信任
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-slate-700 dark:text-[#c9d1d9] mb-4">
+              你和一群人共同创建了一个项目，出钱出力。但最终决策权在创始人手里，利益分配靠信任，散伙靠打架。
+            </p>
+            <div class="p-4 bg-pink-50 dark:bg-pink-500/10 border border-pink-200 dark:border-pink-500/30 rounded-lg">
+              <p class="text-sm text-pink-700 dark:text-pink-300">
+                <span class="font-bold">「组织」协调机制一直依赖层级和信任，而信任会被权力侵蚀。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Governance -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-pink-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">5.2</span> DAO 治理机制
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-pink-500 transition-colors">
+                <p class="font-bold text-pink-600 dark:text-pink-400 mb-2">Token Voting</p>
+                <p class="text-xs text-slate-500 dark:text-[#8b949e] mb-2">1 token = 1 票，持币越多话语权越大</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e]">优点：简单直接。缺点：富者越富。</p>
+              </div>
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-purple-500 transition-colors">
+                <p class="font-bold text-purple-600 dark:text-purple-400 mb-2">Quadratic Voting</p>
+                <p class="text-xs text-slate-500 dark:text-[#8b949e] mb-2">平方投票，票数 = √(代币数)</p>
+                <p class="text-sm text-slate-600 dark:text-[#8b949e]">优点：防止鲸鱼控制。缺点：复杂度高。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Token Economics -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-pink-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">5.3</span> 代币经济学设计
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <div class="space-y-4">
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-emerald-500 transition-colors">
+                <p class="font-bold text-slate-900 dark:text-white mb-2">代币职能</p>
+                <div class="text-sm text-slate-600 dark:text-[#8b949e] space-y-1">
+                  <p>• <span class="font-mono text-emerald-600">治理权</span>：投票决定协议参数</p>
+                  <p>• <span class="font-mono text-blue-600">价值捕获</span>：手续费收入分红</p>
+                  <p>• <span class="font-mono text-purple-600">激励层</span>：奖励贡献者、流动性提供者</p>
+                </div>
+              </div>
+              <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border-l-2 border-amber-500 transition-colors">
+                <p class="font-bold text-slate-900 dark:text-white mb-2">代币分配</p>
+                <div class="text-sm text-slate-600 dark:text-[#8b949e] space-y-1">
+                  <p>• 团队：15-20%（锁仓+归属）</p>
+                  <p>• 投资者：10-15%（通常有折扣）</p>
+                  <p>• 国库：20-30%（持续运营）</p>
+                  <p>• 社区分配：40-50%（空投/流动性挖矿）</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multi-sig -->
+        <div class="relative">
+          <div class="absolute -left-[21px] w-3 h-3 rounded-full bg-pink-500"></div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3">
+            <span class="text-blue-600 dark:text-[#58a6ff]">5.4</span> Multi-sig 与权限管理
+          </h3>
+          <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-5 border border-slate-200 dark:border-[#30363d] transition-colors">
+            <p class="text-sm text-slate-600 dark:text-[#8b949e] mb-4">
+              Multi-sig (多签) 钱包需要多个私钥签名才能执行交易，用于 DAO 金库安全管理。
+            </p>
+            <div class="p-4 bg-[#0d1117] dark:bg-[#0d1117] rounded border border-[#30363d]">
+              <p class="font-mono text-sm text-emerald-600 dark:text-[#7ee787] mb-2">// 典型配置</p>
+              <p class="font-mono text-xs text-slate-600 dark:text-[#8b949e]">
+                Gnosis Safe：3/7 多签（7人持有密钥，3人签名即可执行）<br>
+                时间锁：48小时延迟（重大决策需等待窗口期）<br>
+                插件化：每个插件独立权限
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 06: Synthesis -->
+    <section id="synthesis" class="mb-16 scroll-mt-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-bold flex items-center justify-center">6</div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">综合判断与未来趋势</h2>
+          <p class="text-slate-500 dark:text-[#8b949e] text-sm font-mono">synthesis · 2026周期判断</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 dark:bg-[#0d1117] rounded-lg p-6 border border-cyan-200 dark:border-cyan-500/50 transition-colors">
+        <div class="font-mono text-sm text-emerald-600 dark:text-[#7ee787] mb-6">
+          // 每轮熊市建基础设施，每轮牛市检验应用<br>
+          // 当前：基础设施基本就绪，应用层大爆发前夜
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-emerald-200 dark:border-[#238636]/30 transition-colors">
+            <p class="text-emerald-600 dark:text-emerald-400 font-bold mb-2">技术成熟度跨越鸿沟</p>
+            <p class="text-sm text-slate-600 dark:text-[#8b949e]">L2 费用 $0.001 级别，账户抽象让 Web2 用户无缝进入。EIP-7702 让 EOA 账户获得智能合约能力。</p>
+          </div>
+          <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-blue-200 dark:border-[#58a6ff]/30 transition-colors">
+            <p class="text-blue-600 dark:text-blue-400 font-bold mb-2">监管框架清晰化</p>
+            <p class="text-sm text-slate-600 dark:text-[#8b949e]">EU <GlossaryTerm term="MiCA" /> 生效，美国 CFTC/SEC 边界明确，ETF 产品持续流入。</p>
+          </div>
+          <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-purple-200 dark:border-purple-500/30 transition-colors">
+            <p class="text-purple-600 dark:text-purple-400 font-bold mb-2">AI Agent 经济体崛起</p>
+            <p class="text-sm text-slate-600 dark:text-[#8b949e]">链上 AI Agent 需要支付、身份、资产自主，Web3 是唯一解决方案。</p>
+          </div>
+          <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-amber-200 dark:border-[#f0883e]/30 transition-colors">
+            <p class="text-amber-600 dark:text-amber-400 font-bold mb-2">RWA 万亿市场开启</p>
+            <p class="text-sm text-slate-600 dark:text-[#8b949e]">代币化国债规模突破 $5B，贝莱德 BUIDL 是标志性事件。房地产、商品逐步跟进。</p>
+          </div>
+        </div>
+
+        <div class="p-4 bg-[#0d1117] dark:bg-[#0d1117] rounded-lg border border-[#30363d]">
+          <p class="font-mono text-sm text-[#7ee787] mb-2">// 未来 2-3 年关键观察指标</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-[#8b949e] font-mono">
+            <div>
+              <p class="text-[#58a6ff] mb-1">采用指标</p>
+              <p>L2 日活钱包 &gt; 100万</p>
+              <p>DeFi TVL &gt; $200B</p>
+            </div>
+            <div>
+              <p class="text-[#f0883e] mb-1">技术指标</p>
+              <p>ZK-Rollup 全面超越 OR</p>
+              <p>EIP-7702 采用率 &gt; 50%</p>
+            </div>
+            <div>
+              <p class="text-[#d2a8ff] mb-1">叙事指标</p>
+              <p>AI Agent 产品 MAU &gt; 100万</p>
+              <p>RWA 规模 &gt; $50B</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-cyan-200 dark:border-[#30363d] transition-colors">
+          <p class="text-slate-700 dark:text-[#c9d1d9] font-medium">
+            终极判断：未来 2-3 年，普通人使用 Web3 应用，就像现在用微信支付一样自然。关键是降低门槛 —— 钱包抽象化、费用趋近于零、合规清晰化。这三件事正在同时发生。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-6 border-t border-slate-200 dark:border-[#30363d] transition-colors">
+      <div class="flex justify-between items-center text-sm">
+        <span class="font-mono text-slate-500 dark:text-[#8b949e]">
+          <span class="text-emerald-600 dark:text-[#7ee787]">$</span> echo "last_updated: 2026.04.18"
+        </span>
+        <a href="/web3/roadmap" class="text-blue-600 dark:text-[#58a6ff] hover:text-blue-700 dark:hover:text-[#79b8ff] font-mono">
+          ← 查看完整路线图
+        </a>
+      </div>
+    </footer>
+  </div>
+</ThreeColumnLayout>
+
+<style>
+  /* Scrollbar styling */
+  :global(::-webkit-scrollbar) {
+    width: 8px;
+    height: 8px;
+  }
+  :global(::-webkit-scrollbar-track) {
+    background: transparent;
+  }
+  :global(::-webkit-scrollbar-thumb) {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  :global(.dark) ::-webkit-scrollbar-thumb {
+    background: #30363d;
+  }
+
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+</style>

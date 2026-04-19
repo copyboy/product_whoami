@@ -1,0 +1,71 @@
+---
+interface Props {
+  painPoint: string;
+  painRoot: string;
+  color?: string;
+}
+
+const { painPoint, painRoot, color = 'amber' } = Astro.props;
+
+const colorMap: Record<string, { bg: string; border: string; iconBg: string; iconColor: string; textColor: string; rootColor: string }> = {
+  amber: {
+    bg: 'bg-amber-50 dark:bg-amber-500/5',
+    border: 'border-amber-200 dark:border-amber-500/30',
+    iconBg: 'bg-amber-100 dark:bg-amber-500/20',
+    iconColor: 'text-amber-600 dark:text-amber-400',
+    textColor: 'text-amber-800 dark:text-amber-200',
+    rootColor: 'text-amber-700 dark:text-amber-300',
+  },
+  indigo: {
+    bg: 'bg-indigo-50 dark:bg-indigo-500/5',
+    border: 'border-indigo-200 dark:border-indigo-500/30',
+    iconBg: 'bg-indigo-100 dark:bg-indigo-500/20',
+    iconColor: 'text-indigo-600 dark:text-indigo-400',
+    textColor: 'text-indigo-800 dark:text-indigo-200',
+    rootColor: 'text-indigo-700 dark:text-indigo-300',
+  },
+  purple: {
+    bg: 'bg-purple-50 dark:bg-purple-500/5',
+    border: 'border-purple-200 dark:border-purple-500/30',
+    iconBg: 'bg-purple-100 dark:bg-purple-500/20',
+    iconColor: 'text-purple-600 dark:text-purple-400',
+    textColor: 'text-purple-800 dark:text-purple-200',
+    rootColor: 'text-purple-700 dark:text-purple-300',
+  },
+  emerald: {
+    bg: 'bg-emerald-50 dark:bg-emerald-500/5',
+    border: 'border-emerald-200 dark:border-emerald-500/30',
+    iconBg: 'bg-emerald-100 dark:bg-emerald-500/20',
+    iconColor: 'text-emerald-600 dark:text-emerald-400',
+    textColor: 'text-emerald-800 dark:text-emerald-200',
+    rootColor: 'text-emerald-700 dark:text-emerald-300',
+  },
+  pink: {
+    bg: 'bg-pink-50 dark:bg-pink-500/5',
+    border: 'border-pink-200 dark:border-pink-500/30',
+    iconBg: 'bg-pink-100 dark:bg-pink-500/20',
+    iconColor: 'text-pink-600 dark:text-pink-400',
+    textColor: 'text-pink-800 dark:text-pink-200',
+    rootColor: 'text-pink-700 dark:text-pink-300',
+  },
+};
+
+const c = colorMap[color] || colorMap.amber;
+---
+
+<div class={`rounded-xl border ${c.border} ${c.bg} p-6 mb-8`}>
+  <div class="flex items-start gap-3 mb-4">
+    <div class={`shrink-0 w-8 h-8 rounded-full ${c.iconBg} flex items-center justify-center`}>
+      <svg class={`w-4 h-4 ${c.iconColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    </div>
+    <p class={`text-sm font-medium ${c.textColor}`}>痛点</p>
+  </div>
+  <p class="text-slate-700 dark:text-slate-200 leading-relaxed mb-4">
+    {painPoint}
+  </p>
+  <p class={`text-sm ${c.rootColor} leading-relaxed`}>
+    <span class="font-semibold">为什么有这个痛点？</span> {painRoot}
+  </p>
+</div>

@@ -1,0 +1,161 @@
+---
+import ThreeColumnLayout from '@layouts/ThreeColumnLayout.astro';
+import MilestoneCard from '@components/web3/MilestoneCard.astro';
+import PainPointBlock from '@components/web3/PainPointBlock.astro';
+import { getCollection } from 'astro:content';
+import roadmapData from '../../data/web3-roadmap-data.json';
+
+const { phases } = roadmapData;
+
+// 获取所有 blog posts 用于解析 articleSlug
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+// 构建 phase → posts 映射
+const postsMap = new Map(allPosts.map(p => [p.slug, p]));
+---
+
+<ThreeColumnLayout
+  title="Web3 学习路线图 | Gerrad's Digital Garden"
+  description="Web3 学习路径 - 从概念地基到开发实践"
+>
+  <div class="space-y-12">
+
+    <!-- Hero Header -->
+    <header class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-[#30363d]">
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-slate-50 dark:from-[#0d1117] dark:via-[#0d1117] dark:to-[#0d1117]">
+        <svg class="absolute inset-0 w-full h-full opacity-[0.04] dark:opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+              <path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect class="text-slate-400 dark:text-[#58a6ff]" width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#58a6ff]/5 dark:bg-[#58a6ff]/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="relative p-8 md:p-10">
+        <div class="flex items-center gap-2 mb-6">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-400 dark:bg-[#ff5f57]"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400 dark:bg-[#febc2e]"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400 dark:bg-[#28c840]"></div>
+          </div>
+          <span class="font-mono text-xs text-slate-400 dark:text-[#8b949e] ml-2">web3_learning_path.exe</span>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div class="font-mono text-xs text-indigo-600 dark:text-emerald-400 mb-2">$ ./start_learning.sh --path=web3</div>
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-3 tracking-tight leading-none">
+              WEB3<br/>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-emerald-600 dark:from-[#58a6ff] dark:to-emerald-400">ROADMAP</span>
+            </h1>
+            <p class="font-mono text-sm text-slate-500 dark:text-[#8b949e] max-w-lg leading-relaxed">
+              // 理解去中心化的五个阶段<br/>
+              // 认知升级路线图
+            </p>
+          </div>
+
+          <div class="flex gap-6 md:text-right">
+            <div>
+              <p class="font-mono text-3xl font-black text-slate-900 dark:text-white">5</p>
+              <p class="font-mono text-xs text-slate-500 dark:text-[#8b949e]">PHASES</p>
+            </div>
+            <div class="w-px bg-slate-200 dark:bg-[#30363d]"></div>
+            <div>
+              <p class="font-mono text-3xl font-black text-indigo-600 dark:text-[#58a6ff]">
+                {phases.reduce((sum, p) => sum + p.milestones.length, 0)}
+              </p>
+              <p class="font-mono text-xs text-slate-500 dark:text-[#8b949e]">MILESTONES</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Phases -->
+    {phases.map((phase, phaseIndex) => (
+      <section class="relative" id={`phase-${phase.id}`}>
+        <!-- Section Header -->
+        <div class="flex items-center gap-4 mb-6">
+          <div class:list={[
+            "flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br text-white font-black font-mono text-xl shadow-lg",
+            phase.color === 'indigo' && "from-indigo-500 to-purple-600",
+            phase.color === 'purple' && "from-purple-500 to-pink-600",
+            phase.color === 'emerald' && "from-emerald-500 to-teal-600",
+            phase.color === 'amber' && "from-amber-500 to-orange-600",
+            phase.color === 'pink' && "from-pink-500 to-rose-600"
+          ]}>
+            {phase.id}
+          </div>
+          <div>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
+              阶段{phase.id} — {phase.title}
+            </h2>
+            <p class="font-mono text-sm text-slate-500 dark:text-[#8b949e]">
+              {phase.subtitle}
+            </p>
+          </div>
+        </div>
+
+        <!-- Timeline line -->
+        <div class="absolute left-6 top-20 h-96 w-0.5 bg-gradient-to-b from-indigo-500 via-purple-500 to-amber-500 to-pink-500 opacity-20 dark:opacity-30"></div>
+
+        <!-- Pain Point Block -->
+        <PainPointBlock
+          painPoint={phase.painPoint}
+          painRoot={phase.painRoot}
+          color={phase.color}
+        />
+
+        <!-- Core Question -->
+        <div class="mb-6 p-4 rounded-lg bg-slate-100 dark:bg-[#161b22] border border-slate-200 dark:border-[#30363d]">
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-1 font-mono">核心问题</p>
+          <p class="text-slate-800 dark:text-slate-100 font-medium">
+            <span class="text-indigo-600 dark:text-indigo-400 font-bold">{phase.subtitle}</span>
+            {' '}回答的问题是：{phase.coreQuestion}
+          </p>
+        </div>
+
+        <!-- Milestones -->
+        <div class="space-y-4 ml-0 md:ml-0">
+          {phase.milestones.map(milestone => {
+            const post = milestone.articleSlug ? postsMap.get(milestone.articleSlug) : null;
+
+            return (
+              <MilestoneCard
+                milestone={milestone}
+                articleTitle={post?.data.title}
+                articleDescription={post?.data.description}
+                articleSlug={milestone.articleSlug}
+              />
+            );
+          })}
+        </div>
+
+        <!-- Scenarios -->
+        <div class="mt-6 flex flex-wrap gap-2">
+          {phase.scenarios.map(scenario => (
+            <span class="text-xs px-3 py-1.5 rounded-full bg-slate-100 dark:bg-[#21262d] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-[#30363d]">
+              {scenario}
+            </span>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <!-- Back link -->
+    <div class="pt-8 border-t border-slate-200 dark:border-[#30363d]">
+      <a href="/web3" class="inline-flex items-center gap-2 font-mono text-sm text-indigo-600 dark:text-[#58a6ff] hover:text-indigo-700 dark:hover:text-[#79b8ff] transition-colors group">
+        <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        cd ../ 返回 Web3 专栏
+      </a>
+    </div>
+  </div>
+</ThreeColumnLayout>
