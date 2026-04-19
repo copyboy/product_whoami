@@ -166,6 +166,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"bitcoin-whitepaper-deep-dive.mdx": {
+	id: "bitcoin-whitepaper-deep-dive.mdx";
+  slug: "bitcoin-whitepaper-deep-dive";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "cache-consistency-strategies.mdx": {
 	id: "cache-consistency-strategies.mdx";
   slug: "cache-consistency-strategies";
@@ -246,6 +253,13 @@ declare module 'astro:content' {
 "getting-started-with-astro.mdx": {
 	id: "getting-started-with-astro.mdx";
   slug: "getting-started-with-astro";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"github-arsenal-skills.mdx": {
+	id: "github-arsenal-skills.mdx";
+  slug: "github-arsenal-skills";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
@@ -376,6 +390,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"pow-consensus.mdx": {
+	id: "pow-consensus.mdx";
+  slug: "pow-consensus";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "problem-solving-5w2h.mdx": {
 	id: "problem-solving-5w2h.mdx";
   slug: "problem-solving-5w2h";
@@ -488,6 +509,20 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"unlocking-ai-hidden-capabilities.mdx": {
+	id: "unlocking-ai-hidden-capabilities.mdx";
+  slug: "unlocking-ai-hidden-capabilities";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"utxo-model-deep-dive.mdx": {
+	id: "utxo-model-deep-dive.mdx";
+  slug: "utxo-model-deep-dive";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "volatile-memory-visibility.mdx": {
 	id: "volatile-memory-visibility.mdx";
   slug: "volatile-memory-visibility";
@@ -504,6 +539,13 @@ declare module 'astro:content' {
 } & { render(): Render[".mdx"] };
 };
 "projects": {
+"chinaneighbor.mdx": {
+	id: "chinaneighbor.mdx";
+  slug: "chinaneighbor";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
 "modern-blog-template.mdx": {
 	id: "modern-blog-template.mdx";
   slug: "modern-blog-template";
