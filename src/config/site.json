@@ -1,14 +1,14 @@
 {
   "site": {
-    "title": "Product WhoAmI",
-    "description": "Personal portfolio website combining blog functionality with product showcase capabilities",
+    "title": "Gerrad Zhang",
+    "description": "Gerrad Zhang (Zhang Qingdong), payments systems engineer in Wuhan, China, and builder of ChinaNeighbor.com — practical guides for foreigners living in and traveling to China. Writing about payment architecture, Java engineering, and expat life in China.",
     "url": "https://i.zhangqingdong.cn",
     "author": "Gerrad Zhang",
     "location": "Wuhan, China",
     "email": "gerrad.zhang@hotmail.com",
     "logo": "/logo.svg",
     "homeTitle": "Gerrad's Digital Garden",
-    "homeSubtitle": "Welcome to my digital space. Discover my projects, read my thoughts on technology, and explore my professional journey.",
+    "homeSubtitle": "Welcome to my digital space. Explore my products including ChinaNeighbor.com, read my thoughts on technology, and see my professional journey.",
     "blogSubtitle": "Insights, experiences, and knowledge sharing on technology, development, and innovation.",
     "projectSubtitle": "A curated showcase of my personal projects, open source contributions, and product development journey.",
     "brandTitle": "Gerrad Zhang"

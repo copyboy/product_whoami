@@ -12,8 +12,8 @@
   },
   "ui": {
     "en": {
-      "site.title": "Product WhoAmI",
-      "site.description": "Personal portfolio website combining blog functionality with product showcase capabilities",
+      "site.title": "Gerrad Zhang",
+      "site.description": "Gerrad Zhang (Zhang Qingdong), payments systems engineer in Wuhan, China, and builder of ChinaNeighbor.com — practical guides for foreigners living in and traveling to China.",
       "nav.home": "Home",
       "nav.blog": "Blog",
       "nav.projects": "Projects",
@@ -56,8 +56,8 @@
       "meta.readingTime": "Reading Time"
     },
     "zh": {
-      "site.title": "Product WhoAmI",
-      "site.description": "个人作品集网站，结合博客功能与产品展示能力",
+      "site.title": "Gerrad Zhang",
+      "site.description": "张庆东（Gerrad Zhang），坐标武汉的支付系统工程师，ChinaNeighbor.com（外国人生活指南站）建设者。",
       "nav.home": "首页",
       "nav.blog": "博客",
       "nav.projects": "项目",
@@ -100,4 +100,4 @@
       "meta.readingTime": "阅读时间"
     }
   }
-} 
+}

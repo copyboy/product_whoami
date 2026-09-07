@@ -76,6 +76,14 @@ const socialConfig = getSocialConfig();
       As a "Bridge Builder between Technology and Business," I combine deep fintech expertise with excellent engineering practices to create secure and reliable cross-border payment infrastructure.
     </p>
     
+    <h2>ChinaNeighbor — My Product</h2>
+    <p>
+      I'm the founder and builder of <a href="https://chinaneighbor.com/" target="_blank" rel="noopener noreferrer">ChinaNeighbor</a> (chinaneighbor.com), an independent guide platform that helps foreigners live in and travel to China: mobile payments, healthcare, the 240-hour visa-free transit policy, essential apps, and first-week setup. Every guide cites official sources such as the National Immigration Administration and is kept current with the latest policies. The site is available in English, Chinese, Russian, French, Spanish, and Arabic, and includes free tools like a 240-hour visa-free transit eligibility checker.
+    </p>
+    <p>
+      The project combines what I do professionally — building reliable payment and cross-border systems — with what I live daily as an expat-life observer in Wuhan: making the practical side of China legible to newcomers.
+    </p>
+
     <h2>Technical Skills</h2>
     <ul>
       {skillsData.map(category => (
@@ -156,4 +164,19 @@ const socialConfig = getSocialConfig();
       Thank you for visiting my blog. I hope you find valuable content here!
     </p>
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Gerrad Zhang",
+    "alternateName": "Zhang Qingdong",
+    "description": "Payments systems engineer and builder of ChinaNeighbor.com, a guide platform for foreigners living in and traveling to China.",
+    "jobTitle": "Senior Java Engineer & Team Leader",
+    "email": "mailto:" + siteConfig.email,
+    "address": { "@type": "PostalAddress", "addressLocality": "Wuhan", "addressCountry": "CN" },
+    "sameAs": [
+      socialConfig.github,
+      socialConfig.linkedin,
+      "https://chinaneighbor.com/"
+    ]
+  })} />
 </ThreeColumnLayout> 
