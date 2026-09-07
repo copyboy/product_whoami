@@ -23,6 +23,8 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
+// OG 图必须是绝对 URL，否则社交平台抓不到（crawlers 不解析相对路径）
+const socialImageURL = new URL(image, Astro.site || siteConfig.url).toString();
 ---
 
 <!doctype html>
@@ -50,7 +52,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
         basic: {
           title: title,
           type: article ? 'article' : 'website',
-          image: image
+          image: socialImageURL
         },
         optional: {
           description: description,
@@ -64,7 +66,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
         card: 'summary_large_image',
         title: title,
         description: description,
-        image: image,
+        image: socialImageURL,
         creator: seoConfig.openGraph.twitterCreator
       }}
     />
