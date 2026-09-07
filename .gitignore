@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 .gitnexus
 search-data.json
+
+# Claude Code local files
+.claude/
