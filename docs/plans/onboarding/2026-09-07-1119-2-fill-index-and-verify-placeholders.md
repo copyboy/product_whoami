@@ -50,17 +50,17 @@ Skill: none
 - Item Types: `Add | Decision | Proof`
 - Prereqs: M1-WI2 done
 
-- [ ] Decision: single-domain vs multi-domain treatment of the `Domain Quick-Reference (Optional)` section. Expected: single-domain — remove the section per the roadmap's own instruction (`若项目单域,移除`), because blog/projects/web3 are content areas of one static site with no separately-owned domain docs, and a filled table would only duplicate the Read-This-First routing. Alternative considered — filling a 3-row table (blog / projects / web3) — rejected as duplication without distinct owner docs; residual risk: if the site later gains separately-owned domains, re-add the section (Update trigger: a new domain gets its own owner doc under `docs/design/`).
-- [ ] Add: apply the decision — remove the Domain Quick-Reference section (heading + intro line + placeholder table) or replace it with real rows if the decision lands multi-domain.
-- [ ] Add: run the working project-name placeholder sweep — `grep -rn -F "<project" docs/ --include="*.md" | grep -v -e "docs/backlog/onboarding-roadmap.md" -e "docs/plans/onboarding/2026-09-07-1119-2-fill-index-and-verify-placeholders.md"` — and confirm zero output (both excluded files quote the token as self-referential prose; verified to return zero at draft review). Record the result plus the malformed-literal-command caveat in the plan closure note or `docs/logs/` entry.
-- [ ] Proof: run `grep -c "<area>\|<skill-name\|docs/<path>" docs/index.md` and confirm the printed count is 0 (printed count is the criterion; grep exits 1 on zero matches), then run the broad totality check `grep -nE "<[a-z][a-z-]*>" docs/index.md` and confirm empty output — together they cover the three known placeholder tokens plus any other angle-bracket placeholder token.
+- [x] Decision: single-domain vs multi-domain treatment of the `Domain Quick-Reference (Optional)` section. Expected: single-domain — remove the section per the roadmap's own instruction (`若项目单域,移除`), because blog/projects/web3 are content areas of one static site with no separately-owned domain docs, and a filled table would only duplicate the Read-This-First routing. Alternative considered — filling a 3-row table (blog / projects / web3) — rejected as duplication without distinct owner docs; residual risk: if the site later gains separately-owned domains, re-add the section (Update trigger: a new domain gets its own owner doc under `docs/design/`). — APPLIED 2026-09-07: decision landed single-domain, section removed.
+- [x] Add: apply the decision — remove the Domain Quick-Reference section (heading + intro line + placeholder table) or replace it with real rows if the decision lands multi-domain. — DONE 2026-09-07: section (heading + intro + placeholder table row) removed from `docs/index.md`; Skill Routing now flows directly into Directory Roles.
+- [x] Add: run the working project-name placeholder sweep — `grep -rn -F "<project" docs/ --include="*.md" | grep -v -e "docs/backlog/onboarding-roadmap.md" -e "docs/plans/onboarding/2026-09-07-1119-2-fill-index-and-verify-placeholders.md"` — and confirm zero output (both excluded files quote the token as self-referential prose; verified to return zero at draft review). Record the result plus the malformed-literal-command caveat in the plan closure note or `docs/logs/` entry. — RUN 2026-09-07: zero output (exit 1 = no matches) after excluding the two self-referential files; result + caveat recorded in `docs/logs/2026/09-07.md` (WI5 entry).
+- [x] Proof: run `grep -c "<area>\|<skill-name\|docs/<path>" docs/index.md` and confirm the printed count is 0 (printed count is the criterion; grep exits 1 on zero matches), then run the broad totality check `grep -nE "<[a-z][a-z-]*>" docs/index.md` and confirm empty output — together they cover the three known placeholder tokens plus any other angle-bracket placeholder token. — RUN 2026-09-07: printed count `0`; totality check empty output. Both green.
 
 Exit Criteria:
 
-- [ ] No `<...>` template placeholder remains in `docs/index.md`.
-- [ ] Project-name placeholder sweep result (zero, excluding the self-referential command text in the roadmap and in this plan) is recorded.
-- [ ] The Domain Quick-Reference Decision is recorded with rationale, alternatives, and residual risk.
-- [ ] `docs/logs/` updated with a closure entry for this plan.
+- [x] No `<...>` template placeholder remains in `docs/index.md`.
+- [x] Project-name placeholder sweep result (zero, excluding the self-referential command text in the roadmap and in this plan) is recorded.
+- [x] The Domain Quick-Reference Decision is recorded with rationale, alternatives, and residual risk.
+- [x] `docs/logs/` updated with a closure entry for this plan.
 
 ## Draft Review Record
 
@@ -69,4 +69,9 @@ Exit Criteria:
 
 ## Verification
 
+- pass test 2026-09-07-104453-mission-driver exit=0
+
 ## Closure
+
+- dispatch audit #audit-2026-09-07-104453-mission-driver-2026-09-07-1119-2-fill-index-and-verify-placeholders-1-eba1c243 to ses_opencode_glm53 models={exec:opencode-glm-5.3,aud:opencode-glm-5.3}
+- accepted #audit-2026-09-07-104453-mission-driver-2026-09-07-1119-2-fill-index-and-verify-placeholders-1-eba1c243：审计通过 — 全部 8 项已勾选且与实仓一致（`docs/index.md` 无 Domain Quick-Reference 节、无 `<...>` 占位符：`grep -c "<area>\|<skill-name\|docs/<path>" docs/index.md` → 0，`grep -nE "<[a-z][a-z-]*>" docs/index.md` → 空；项目名占位符 sweep 排除两个自指文件后零输出；WI5 闭环日志已在 `docs/logs/2026/09-07.md`）；mission test 命令 `echo onboarding-ok` 重跑 exit=0；models 后缀为声明的单模型降级（exec 与 aud 同为 opencode/glm-5.3）。

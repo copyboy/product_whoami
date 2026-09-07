@@ -82,14 +82,6 @@ Use `docs/discussions/`, extra `docs/testing/` notes, `docs/skills/`, `docs/anal
 
 Skills select the work method. They do not replace requirements, design, architecture, or owner-doc routing.
 
-## Domain Quick-Reference (Optional)
-
-When a project has several domains, add a quick-reference table so a change can be routed to the right owner doc and skill in one lookup. This is optional; small projects can skip it. Fill the table from the real project and keep it in `AGENTS.md` or this file.
-
-| Change area | Read first | Skill to load |
-| ----------- | ---------- | ------------- |
-| <area>      | `docs/<path>` | `<skill-name \| none>` |
-
 ## Directory Roles
 
 - `docs/process/` - workflow and operating process documents
