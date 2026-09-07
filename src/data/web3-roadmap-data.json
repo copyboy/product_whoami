@@ -26,7 +26,7 @@
       "scenarios": ["可编程规则", "遗产自动执行", "代码合同"],
       "color": "purple",
       "milestones": [
-        { "id": "M2.1", "title": "账户模型 vs UTXO", "status": "todo", "articleSlug": null },
+        { "id": "M2.1", "title": "账户模型 vs UTXO", "status": "done", "articleSlug": "account-model-vs-utxo" },
         { "id": "M2.2", "title": "EVM 是什么，为什么重要", "status": "todo", "articleSlug": null },
         { "id": "M2.3", "title": "Gas 为什么存在，怎么计算", "status": "todo", "articleSlug": null },
         { "id": "M2.4", "title": "智能合约到底是什么，能做什么", "status": "todo", "articleSlug": null }
