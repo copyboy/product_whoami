@@ -20,6 +20,7 @@ const definitions: Record<string, string> = {
   "字节码": "字节码（bytecode）是智能合约编译后的 EVM 指令序列，部署时上链、存储在合约账户里，由 EVM 逐条执行，人不可直接读。",
   "操作码": "操作码（opcode）是 EVM 的最小指令集单元，以栈式方式执行。与字节码的关系：字节码 = 操作码序列。",
   Gas: "Gas 是以太坊网络的计算费用单位。用户发起交易或执行智能合约时需要支付 Gas，费用 = Gas 消耗量 × Gas 单价（gwei）。",
+  gwei: "gwei 是以太坊 Gas 单价的最小常用单位，1 gwei = 10^-9 ETH（1 ETH = 10 亿 gwei）。它是费用换算的桥梁：费用（ETH）= Gas 消耗量 × 单价（gwei）× 10^-9。",
   PoW: "PoW（工作量证明）要求矿工通过计算难题竞争出块权，比特币目前使用此共识机制，能耗较高。",
   PoS: "PoS（权益证明）要求验证者质押代币参与共识，能耗比 PoW 低 99.95%。以太坊 2022 年通过 Merge 升级完成 PoW 到 PoS 的转变。",
   UTXO: "UTXO（Unspent Transaction Output，未花费交易输出）是比特币的记账模型：每笔交易消耗旧的 UTXO、创造新的 UTXO，类似现金找零，没有「账户余额」概念。",

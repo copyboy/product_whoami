@@ -250,6 +250,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"ethereum-gas-fees.mdx": {
+	id: "ethereum-gas-fees.mdx";
+  slug: "ethereum-gas-fees";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "evm-deep-dive.mdx": {
 	id: "evm-deep-dive.mdx";
   slug: "evm-deep-dive";
