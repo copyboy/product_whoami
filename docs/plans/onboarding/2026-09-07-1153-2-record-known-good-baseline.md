@@ -52,20 +52,20 @@ Skill: none
 - Item Types: `Decision | Add | Proof`
 - Prereqs: M1-WI2 done; WI7 plan (execution order 1) landed or explicitly recorded as concurrent
 
-- [ ] Decision: define the baseline command scope — `full` = the four pass/fail commands (`npm run type-check`, `npm run build`, `npm run lint`, `npm run test:run`); exclusions with reasons: `npm run dev` / `npm run preview` (long-running interactive servers, no pass/fail exit semantics), `npm run format` (tree mutator, not a check), `npm install` (environment setup, not verification), e2e row `none` (excluded per the file's own full-scope rule). Alternatives considered: running every script including `format` — rejected because mutating commands have no pass criterion and would dirty the very tree the baseline records. Residual risk: none — exclusion reasons are recorded in the row's Notes.
-- [ ] Add: run the four commands in the listed order at execution time, capturing each exit code from a single consistent repository state.
-- [ ] Add: write exactly one real baseline row into the Baselines table, replacing the placeholder row — Date = execution date; Source `local`; Git State = current commit SHA + clean/dirty (if dirty, name the changed files in Notes per the dirty-tree rule — expected dirty with this plan's doc edits unless committed at execution); Scope `full`; Commands Passed = only the commands that exited 0; Known Failures = `none`, or each real failure with command + reason + evidence (never marked passed); Evidence = the closure entry for this plan in the execution-date log file `docs/logs/2026/{month}-{day}.md` per the one-file-per-day convention in `docs/logs/00-log-writing-guide.md` (`09-07.md` if executed on 2026-09-07); Notes = the scope exclusions from the Decision + the dirty-tree file list or clean confirmation.
-- [ ] Add: re-verify `docs/logs/2026/` exists at execution (`test -d docs/logs/2026` → exit 0) and record the result in the log entry.
-- [ ] Proof: run `grep -c "<" docs/testing/known-good-baselines.md` and confirm the printed count is 0 (verified at draft time that line 13 is the file's only `<` bearer; printed count is the criterion — grep exits 1 on zero matches), and confirm the Baselines table contains exactly the real row with every cell filled.
+- [x] Decision: define the baseline command scope — `full` = the four pass/fail commands (`npm run type-check`, `npm run build`, `npm run lint`, `npm run test:run`); exclusions with reasons: `npm run dev` / `npm run preview` (long-running interactive servers, no pass/fail exit semantics), `npm run format` (tree mutator, not a check), `npm install` (environment setup, not verification), e2e row `none` (excluded per the file's own full-scope rule). Alternatives considered: running every script including `format` — rejected because mutating commands have no pass criterion and would dirty the very tree the baseline records. Residual risk: none — exclusion reasons are recorded in the row's Notes.
+- [x] Add: run the four commands in the listed order at execution time, capturing each exit code from a single consistent repository state. (Run 2026-09-07 on clean tree at `cbf6d45`: type-check exit 2, build exit 0, lint exit 1, test:run exit 0.)
+- [x] Add: write exactly one real baseline row into the Baselines table, replacing the placeholder row — Date = execution date; Source `local`; Git State = current commit SHA + clean/dirty (if dirty, name the changed files in Notes per the dirty-tree rule — expected dirty with this plan's doc edits unless committed at execution); Scope `full`; Commands Passed = only the commands that exited 0; Known Failures = `none`, or each real failure with command + reason + evidence (never marked passed); Evidence = the closure entry for this plan in the execution-date log file `docs/logs/2026/{month}-{day}.md` per the one-file-per-day convention in `docs/logs/00-log-writing-guide.md` (`09-07.md` if executed on 2026-09-07); Notes = the scope exclusions from the Decision + the dirty-tree file list or clean confirmation. (Commands Passed: `build`, `test:run`; Known Failures: `type-check` TS2345 `MermaidDiagram.tsx:122`, `lint` 14 pre-existing errors — details in `docs/logs/2026/09-07.md` § WI8. Git State: verification ran on clean tree at `cbf6d45`; only post-run changes are this WI8's own doc edits, named in the row's Notes.)
+- [x] Add: re-verify `docs/logs/2026/` exists at execution (`test -d docs/logs/2026` → exit 0) and record the result in the log entry. (Exit 0, recorded in `docs/logs/2026/09-07.md` § WI8.)
+- [x] Proof: run `grep -c "<" docs/testing/known-good-baselines.md` and confirm the printed count is 0 (verified at draft time that line 13 is the file's only `<` bearer; printed count is the criterion — grep exits 1 on zero matches), and confirm the Baselines table contains exactly the real row with every cell filled. (Printed `0`; table carries exactly one real row, all eight cells filled.)
 
 Exit Criteria:
 
-- [ ] Placeholder row gone — `grep -c "<" docs/testing/known-good-baselines.md` prints 0 — and the table carries the real baseline row with all eight cells filled.
-- [ ] Every command listed in Commands Passed exited 0 in the recorded repository state; any real failure sits in Known Failures with reason and evidence.
-- [ ] Git State cell matches the actual tree at recording time; dirty changed files named in Notes per the file's rule.
-- [ ] `docs/logs/2026/` existence verified at execution and recorded.
-- [ ] The scope Decision is recorded with exclusions, alternatives, and residual risk.
-- [ ] `docs/logs/` updated with a closure entry for this plan.
+- [x] Placeholder row gone — `grep -c "<" docs/testing/known-good-baselines.md` prints 0 — and the table carries the real baseline row with all eight cells filled.
+- [x] Every command listed in Commands Passed exited 0 in the recorded repository state; any real failure sits in Known Failures with reason and evidence.
+- [x] Git State cell matches the actual tree at recording time; dirty changed files named in Notes per the file's rule.
+- [x] `docs/logs/2026/` existence verified at execution and recorded.
+- [x] The scope Decision is recorded with exclusions, alternatives, and residual risk.
+- [x] `docs/logs/` updated with a closure entry for this plan.
 
 ## Draft Review Record
 
@@ -74,4 +74,9 @@ Exit Criteria:
 
 ## Verification
 
+- pass test 2026-09-07-104453-mission-driver exit=0
+
 ## Closure
+
+- dispatch audit #audit-2026-09-07-104453-mission-driver-2026-09-07-1153-2-record-known-good-baseline-1-3b0e31c3 to ses_opencode_glm53_auditor models={exec:opencode/glm-5.3,aud:opencode/glm-5.3}
+- accepted #audit-2026-09-07-104453-mission-driver-2026-09-07-1153-2-record-known-good-baseline-1-3b0e31c3：审计通过 — 基线行已落地（docs/testing/known-good-baselines.md 单行八格全填，`grep -c "<"` 审计复测打印 0），type-check/lint 失败如实记入 Known Failures 未标 passed，docs/logs/2026/ 存在（test -d 实测 exit=0）且 09-07.md § WI8 闭环条目在档；mission test key `echo onboarding-ok` 审计复测 exit=0。exec/aud 同模型为声明的单模型降级。
