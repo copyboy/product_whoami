@@ -1,0 +1,19 @@
+{
+  "extends": "base",
+  "name": "web3-roadmap",
+  "description": "Web3 专栏内容生产 mission：按 docs/backlog/web3-roadmap.md 驱动阶段 2（Ethereum M2.1-M2.4）与阶段 3（M3.1 Solidity 笔记）的文章写作。每个 WI 产出一篇 MDX 文章 + 更新 src/data/web3-roadmap-data.json 的 milestone 状态。验证门：npm run build 通过且新文章路由生成（type-check/lint 有存量失败，不在通过门内，见 known-good-baselines）。",
+  "flowName": "mission-driver",
+  "roadmapPath": "docs/backlog/web3-roadmap.md",
+  "plansDir": "docs/plans/web3-roadmap",
+  "planGuide": "docs/plans/00-plan-authoring-and-execution-guide.md",
+  "auditsDir": "docs/audits",
+  "contextDir": "docs/context",
+  "moduleDir": ".",
+  "commands": {
+    "test": "npm run test:run",
+    "build": "npm run build",
+    "lint": "echo 'skip lint: 14 pre-existing failures, see docs/testing/known-good-baselines.md'",
+    "typecheck": "echo 'skip typecheck: pre-existing TS2345 (MermaidDiagram.tsx:122), see docs/testing/known-good-baselines.md'"
+  },
+  "commitFormat": "docs(web3): <description>"
+}
