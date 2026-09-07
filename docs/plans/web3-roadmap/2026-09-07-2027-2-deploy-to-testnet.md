@@ -60,17 +60,17 @@ Skill: none
 - Item Types: `Add | Decision | Proof`
 - Prereqs: 计划 2026-09-07-2027-1 已完成（dapp/ 工程 + M3.2 done，依赖链 WI6 → WI7 满足）
 
-- [ ] Decision: 部署方案选型——默认 `scripts/deploy.js` + hardhat-ethers（零新增插件，与既有 toolbox 栈一致）；备选 hardhat-deploy 插件被否决：引入新依赖与部署目录约定，M3.3 用不上其增量能力。残余风险：无。
-- [ ] Add: `dapp/scripts/deploy.js`：取 Counter 合约工厂 → 部署 → 等待确认 → 打印合约地址与部署者地址（无任何硬编码网络/密钥；网络由 `--network` 参数决定）。
-- [ ] Add: `dapp/.env.example`：仅两行占位符 `SEPOLIA_RPC_URL=` 与 `PRIVATE_KEY=`（外加注释说明各自获取途径），不含任何真实值。
-- [ ] Add: `dapp/hardhat.config.js` 追加 sepolia network 配置：url/accounts 从 `process.env` 读取（dotenv 或toolbox 自带加载，选型与 Phase 1 Decision 一致）；默认 hardhat network 行为不变。
-- [ ] Proof: `git check-ignore -v dapp/.env` 生效（无锚定 `.env` 覆盖）；`git status --porcelain` 无 `.env` 类文件；`npx --prefix dapp hardhat run scripts/deploy.js` exit 0 且输出含合约地址（默认 hardhat network = 本地/模拟网络验证通过）；若 `.env` 已配置且走可选真实部署，另记录 tx hash。
-- [ ] Proof: `npm --prefix dapp test` 仍 exit 0（配置追加无回归）。
+- [x] Decision: 部署方案选型——默认 `scripts/deploy.js` + hardhat-ethers（零新增插件，与既有 toolbox 栈一致）；备选 hardhat-deploy 插件被否决：引入新依赖与部署目录约定，M3.3 用不上其增量能力。残余风险：无。
+- [x] Add: `dapp/scripts/deploy.js`：取 Counter 合约工厂 → 部署 → 等待确认 → 打印合约地址与部署者地址（无任何硬编码网络/密钥；网络由 `--network` 参数决定）。
+- [x] Add: `dapp/.env.example`：仅两行占位符 `SEPOLIA_RPC_URL=` 与 `PRIVATE_KEY=`（外加注释说明各自获取途径），不含任何真实值。
+- [x] Add: `dapp/hardhat.config.js` 追加 sepolia network 配置：url/accounts 从 `process.env` 读取（dotenv 或toolbox 自带加载，选型与 Phase 1 Decision 一致）；默认 hardhat network 行为不变。
+- [x] Proof: `git check-ignore -v dapp/.env` 生效（无锚定 `.env` 覆盖）；`git status --porcelain` 无 `.env` 类文件；`npx --prefix dapp hardhat run scripts/deploy.js` exit 0 且输出含合约地址（默认 hardhat network = 本地/模拟网络验证通过）；若 `.env` 已配置且走可选真实部署，另记录 tx hash。
+- [x] Proof: `npm --prefix dapp test` 仍 exit 0（配置追加无回归）。
 
 Exit Criteria:
 
-- [ ] 部署脚本 + .env.example + sepolia 配置三件套落地，本地/模拟网络部署验证通过。
-- [ ] 密钥面干净：仓库内无真实密钥/RPC URL，`.env` 仍被 gitignore。
+- [x] 部署脚本 + .env.example + sepolia 配置三件套落地，本地/模拟网络部署验证通过。
+- [x] 密钥面干净：仓库内无真实密钥/RPC URL，`.env` 仍被 gitignore。
 
 ## Phase 2 — 词典与文章写作
 
@@ -80,20 +80,20 @@ Skill: none
 - Item Types: `Add | Decision | Proof`
 - Prereqs: Phase 1
 
-- [ ] Add: `GlossaryTerm.astro` 的 `definitions` 追加两个 key：`测试网`（模仿主网规则但代币无价值的目标网络，如以太坊 Sepolia，供开发者免费验证合约与应用）与 `水龙头`（faucet：免费领取测试币的服务的通称，领取后即可在测试网支付 gas）。风格与既有词条一致，不与 `Gas`/`Hardhat` 词条口径冲突。
-- [ ] Add: 创建 `src/content/blog/deploy-to-testnet.mdx`，frontmatter：`title`、`categories: ["Web3"]`、`subject: "DApp"`、`tags: ["Web3", "区块链入门", "Sepolia"]`、`pubDate` 执行当天、`description` 摘要、`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop`）。
-- [ ] Decision: subject 取 `"DApp"` 与主题 tag 取 `Sepolia`——同组前例（2026-09-07-2027-1 Decision）的延续：阶段 3 文章 subject 为 "DApp"；主题 tag 取本文部署目标网络名。备选（"测试网" 作 tag）否决：与既有英文主题 tag 惯例（Ethereum/Gas/Solidity/Hardhat）一致优先。残余风险：无。
-- [ ] Decision: heroImage 选图——`grep -h "heroImage" src/content/blog/*.mdx` 全库比对确认唯一后选定。备选与残余风险记录在案（无）。
-- [ ] Add: 正文 150-250 行：引言（承接 hardhat-local-env 结尾「预告 M3.3」，本地全绿之后为什么要上测试网）→ 本地网络 vs `测试网` vs 主网差别（ASCII 对比表或表格式分节：成本/数据/重置/参与者）→ 准备工作分节（`水龙头` 领测试币、RPC 节点服务（Alchemy/Infura）角色——为什么需要第三方 RPC、`.env` 两项各填什么）→ 部署操作分节（复制 `.env.example` → 填值 → `npx hardhat run scripts/deploy.js --network sepolia`，逐条解释输出）→ 部署后分节（Etherscan 测试网版查合约地址、为什么要做合约验证/verify）→ 总结：合约已就位，预告 M3.4 第一个完整 DApp。全文如实注明：本文部署脚本已在本地/模拟网络验证通过（真实测试网部署为可选步骤）；若 Phase 1 走了真实部署，把 tx hash 与合约地址写进本节。
-- [ ] Add: 组件使用合规——`<Highlight>` 仅四种 type（密钥警告用 `type="danger"`：私钥永不入 git/永不发人）；`<GlossaryTerm>` 仅引用词典已有 key（含新增 `测试网`、`水龙头`）；无 `client:` 指令；图示全 ASCII text。
-- [ ] Add: 文末「相关文章」内链仅引用已发布 slug：4 篇 Bitcoin + account-model-vs-utxo + evm-deep-dive + ethereum-gas-fees + smart-contracts-explained + solidity-basics-notes + hardhat-local-env（前置计划保证存在）。
-- [ ] Proof: `wc -l` 打印值 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过；`grep -nE "(PRIVATE_KEY|RPC_URL)" src/content/blog/deploy-to-testnet.mdx` 仅命中占位符/说明文字，无真实值；文中命令与 `dapp/` 实际文件名/脚本名逐项一致。
+- [x] Add: `GlossaryTerm.astro` 的 `definitions` 追加两个 key：`测试网`（模仿主网规则但代币无价值的目标网络，如以太坊 Sepolia，供开发者免费验证合约与应用）与 `水龙头`（faucet：免费领取测试币的服务的通称，领取后即可在测试网支付 gas）。风格与既有词条一致，不与 `Gas`/`Hardhat` 词条口径冲突。
+- [x] Add: 创建 `src/content/blog/deploy-to-testnet.mdx`，frontmatter：`title`、`categories: ["Web3"]`、`subject: "DApp"`、`tags: ["Web3", "区块链入门", "Sepolia"]`、`pubDate` 执行当天、`description` 摘要、`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop`）。
+- [x] Decision: subject 取 `"DApp"` 与主题 tag 取 `Sepolia`——同组前例（2026-09-07-2027-1 Decision）的延续：阶段 3 文章 subject 为 "DApp"；主题 tag 取本文部署目标网络名。备选（"测试网" 作 tag）否决：与既有英文主题 tag 惯例（Ethereum/Gas/Solidity/Hardhat）一致优先。残余风险：无。
+- [x] Decision: heroImage 选图——`grep -h "heroImage" src/content/blog/*.mdx` 全库比对确认唯一后选定。备选与残余风险记录在案（无）。
+- [x] Add: 正文 150-250 行：引言（承接 hardhat-local-env 结尾「预告 M3.3」，本地全绿之后为什么要上测试网）→ 本地网络 vs `测试网` vs 主网差别（ASCII 对比表或表格式分节：成本/数据/重置/参与者）→ 准备工作分节（`水龙头` 领测试币、RPC 节点服务（Alchemy/Infura）角色——为什么需要第三方 RPC、`.env` 两项各填什么）→ 部署操作分节（复制 `.env.example` → 填值 → `npx hardhat run scripts/deploy.js --network sepolia`，逐条解释输出）→ 部署后分节（Etherscan 测试网版查合约地址、为什么要做合约验证/verify）→ 总结：合约已就位，预告 M3.4 第一个完整 DApp。全文如实注明：本文部署脚本已在本地/模拟网络验证通过（真实测试网部署为可选步骤）；若 Phase 1 走了真实部署，把 tx hash 与合约地址写进本节。
+- [x] Add: 组件使用合规——`<Highlight>` 仅四种 type（密钥警告用 `type="danger"`：私钥永不入 git/永不发人）；`<GlossaryTerm>` 仅引用词典已有 key（含新增 `测试网`、`水龙头`）；无 `client:` 指令；图示全 ASCII text。
+- [x] Add: 文末「相关文章」内链仅引用已发布 slug：4 篇 Bitcoin + account-model-vs-utxo + evm-deep-dive + ethereum-gas-fees + smart-contracts-explained + solidity-basics-notes + hardhat-local-env（前置计划保证存在）。
+- [x] Proof: `wc -l` 打印值 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过；`grep -nE "(PRIVATE_KEY|RPC_URL)" src/content/blog/deploy-to-testnet.mdx` 仅命中占位符/说明文字，无真实值；文中命令与 `dapp/` 实际文件名/脚本名逐项一致。
 
 Exit Criteria:
 
-- [ ] 词典含 `测试网`、`水龙头` key，先于文章使用落地；文章文件存在，frontmatter 全字段合规，行数 150-250。
-- [ ] 三网差别 / 准备工作 / 部署操作 / Etherscan 验证四个内容块齐备，「本地/模拟网络验证通过」如实注明，结尾完成向 M3.4 的预告。
-- [ ] 组件与内链合规；无真实密钥；heroImage 全库唯一。
+- [x] 词典含 `测试网`、`水龙头` key，先于文章使用落地；文章文件存在，frontmatter 全字段合规，行数 150-250。
+- [x] 三网差别 / 准备工作 / 部署操作 / Etherscan 验证四个内容块齐备，「本地/模拟网络验证通过」如实注明，结尾完成向 M3.4 的预告。
+- [x] 组件与内链合规；无真实密钥；heroImage 全库唯一。
 
 ## Phase 3 — 数据联动与验证
 
@@ -103,18 +103,18 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: Phase 2
 
-- [ ] Add: `web3-roadmap-data.json` 阶段 3 的 M3.3 `status: "todo"` → `"done"`、`articleSlug: null` → `"deploy-to-testnet"`；其余 milestone 不动（M3.1/M3.2 保持 done，M3.4 保持 todo，阶段 2/4/5 全不动）。
-- [ ] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表 M3/WI7 行 Status `todo` → `done`。
-- [ ] Add: `docs/logs/2026/` 当日日志条目（追加至既有当日文件；跨日则按日志指南新建）。
-- [ ] Proof: `npm run test:run` exit 0。
-- [ ] Proof: `npm run build` exit 0 且 `test -f dist/blog/deploy-to-testnet/index.html` 为真。
-- [ ] Proof: `npm --prefix dapp test` exit 0。
+- [x] Add: `web3-roadmap-data.json` 阶段 3 的 M3.3 `status: "todo"` → `"done"`、`articleSlug: null` → `"deploy-to-testnet"`；其余 milestone 不动（M3.1/M3.2 保持 done，M3.4 保持 todo，阶段 2/4/5 全不动）。
+- [x] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表 M3/WI7 行 Status `todo` → `done`。
+- [x] Add: `docs/logs/2026/` 当日日志条目（追加至既有当日文件；跨日则按日志指南新建）。
+- [x] Proof: `npm run test:run` exit 0。
+- [x] Proof: `npm run build` exit 0 且 `test -f dist/blog/deploy-to-testnet/index.html` 为真。
+- [x] Proof: `npm --prefix dapp test` exit 0。
 
 Exit Criteria:
 
-- [ ] M3.3 done + articleSlug 正确；roadmap WI 行 done；日志条目在档；AGENTS.md 未动。
-- [ ] `test` / `build` / `hardhat` 三验证键均 exit 0，新文章路由生成。
-- [ ] `docs/logs/` 更新（本计划闭环条目）。
+- [x] M3.3 done + articleSlug 正确；roadmap WI 行 done；日志条目在档；AGENTS.md 未动。
+- [x] `test` / `build` / `hardhat` 三验证键均 exit 0，新文章路由生成。
+- [x] `docs/logs/` 更新（本计划闭环条目）。
 
 ## Draft Review Record
 
@@ -123,4 +123,14 @@ Exit Criteria:
 
 ## Verification
 
+- pass test 2026-09-07-202508-mission-driver exit=0
+- pass build 2026-09-07-202508-mission-driver exit=0
+- pass hardhat 2026-09-07-202508-mission-driver exit=0
+- pass test 2026-09-07-2106-mission-driver exit=0
+- pass build 2026-09-07-2106-mission-driver exit=0
+- pass hardhat 2026-09-07-2106-mission-driver exit=0
+
 ## Closure
+
+- dispatch audit #audit-2026-09-07-202508-mission-driver-2026-09-07-2027-2-deploy-to-testnet-1-7d38ff0b to ses-opencode-glm53 models={exec:opencode-glm53,aud:opencode-glm53}
+- accepted #audit-2026-09-07-202508-mission-driver-2026-09-07-2027-2-deploy-to-testnet-1-7d38ff0b：审计通过——全部 28 项 checkbox 与 live 仓库核对一致（dapp/scripts/deploy.js + .env.example + hardhat.config.js sepolia 配置落地、GlossaryTerm 含测试网/水龙头、deploy-to-testnet.mdx 存在、web3-roadmap-data.json M3.3 done + articleSlug 正确、backlog M3/WI7 done、docs/logs/2026/09-07.md 条目在档）；三验证门由审计独立复跑：npm run test:run exit=0（4 tests passing）、npm run build exit=0（589 pages，dist/blog/deploy-to-testnet/index.html 存在）、npm --prefix dapp test exit=0（4 passing）；无真实密钥入库（.env.example 仅占位符，仓库无 .env）。
