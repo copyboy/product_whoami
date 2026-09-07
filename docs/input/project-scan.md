@@ -93,3 +93,13 @@ exit code: 0
 ```
 
 Result: **PASS** — mission-driver engine responds, lists 3 missions (`base`, `demo`, `onboarding`), exit code 0.
+
+## Documentation Freshness Decision
+
+> Recorded 2026-09-07 by plan `docs/plans/onboarding/2026-09-07-1044-2-fill-project-context.md` (M1/WI2). Feeds the `Documentation freshness` field in `docs/context/project-context.md`.
+
+- **Chosen: `partially stale`**
+- **Rationale**: Project identity, tech stack, entry points, and verification commands were verified live against `package.json` and the repo tree in this scan and in the WI2 plan (source: §1–§4 above). However, the architecture/design/process doc layers (`docs/architecture/*`, `docs/process/*`, `docs/index.md`, plus context companions `ai-autonomy-policy.md` and `codebase-map.md`) remain in template state until onboarding WI3–WI7 land, so the doc set as a whole cannot honestly be called `fresh`.
+- **Alternative considered — `fresh`**: rejected because it would unblock implementation across all slices immediately, implying design/architecture owner docs exist and are trustworthy, which is not yet true.
+- **Alternative considered — `unknown`**: rejected because identity/stack/commands are positively verified, not unknown.
+- **Residual risk**: under `partially stale` gating, agents may implement only slices whose requirement, owner doc, codebase-map route, and touched code area are verified fresh; everything else must be `plan-first` or `research-only`. Until WI3–WI8 land, most non-trivial implementation work stays gated. Revisit this value (expected: → `fresh`) once the onboarding roadmap M1 work items are done.
