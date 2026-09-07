@@ -12,6 +12,7 @@
   "commands": {
     "test": "npm run test:run",
     "build": "npm run build",
+    "hardhat": "npm --prefix dapp test",
     "lint": "echo 'skip lint: 14 pre-existing failures, see docs/testing/known-good-baselines.md'",
     "typecheck": "echo 'skip typecheck: pre-existing TS2345 (MermaidDiagram.tsx:122), see docs/testing/known-good-baselines.md'"
   },
