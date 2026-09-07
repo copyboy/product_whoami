@@ -1,0 +1,198 @@
+---
+title: "第一个完整 DApp：给合约装上可点击的前端"
+description: "阶段 3 收官：上一篇部署到测试网结尾说「合约就位，等一个前端」，本篇补上它。内容：DApp 到底是什么（前端界面 + 链上智能合约作后端，规则上链、无人可单方面下架——回到阶段 3 开篇的平台封号痛点）；前端三件套逐个写——连接 MetaMask（window.ethereum 检测 + eth_requestAccounts）、读合约状态（view 调用不发交易不花 gas）、发写交易（increment → tx.wait(1) 等确认 → 复读 → 从 receipt 回读 CountChanged 事件），代码全部来自 dapp/frontend/ 真实文件；一张 ASCII 数据流图把页面 → provider → 签名 → 内存池 → 打包执行 → 事件回读串起来，每步标注对应阶段 1-3 的概念（账户模型/nonce、gas、EVM/字节码）；本地联调完整步骤（npx hardhat node + 静态服务 + MetaMask 添加 localhost:8545/chainId 31337 + 导入 Hardhat #0 公开夹具账户 + 填合约地址）。如实说明：脚本冒烟已在 localhost + hardhat network 验证通过（读→写→确认→事件回读 exit 0），浏览器 + MetaMask 部分为用户侧操作指引。至此阶段 3 闭环，下一篇进入阶段 4：DeFi。"
+pubDate: 2026-09-07
+heroImage: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=630&fit=crop"
+tags: ["Web3", "区块链入门", "DApp"]
+categories: ["Web3"]
+subject: "DApp"
+---
+
+import Highlight from '@components/web3/Highlight.astro';
+import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
+
+## 合约就位了，然后呢
+
+上一篇（[部署到测试网](/blog/deploy-to-testnet)）的结尾停在：合约已经对外可见，但用户不可能用命令行跟它打交道——接下来写第一个完整 <GlossaryTerm term="DApp" />，连钱包、读 count、点按钮调 increment。本篇兑现这个预告。
+
+回到阶段 3 开篇的痛点：中心化平台说封号就封号、说改规则就改规则。DApp 的回答是把「规则」从公司的服务器里搬出来，写进 <GlossaryTerm term="智能合约" />：前端只是界面，后端逻辑和状态都在链上——没有人能单方面下架它、篡改它。本篇要做的东西拆开极简单：一个 HTML 页面 + 一份 JS，ethers.js 从公共 CDN 引入，零构建、零框架，放在 `dapp/frontend/` 下两个文件。
+
+先说清验证口径：**核心链路（读状态 → 发写交易 → 等 1 个确认 → 事件回读）已由冒烟脚本 `dapp/scripts/local-e2e.js` 在 localhost + hardhat network 上实跑验证通过（exit 0）**；浏览器 + <GlossaryTerm term="MetaMask" /> 的点击路径是用户侧操作指引，步骤与工程实况逐项一致。
+
+---
+
+## 前端三件套
+
+### 第一件：连接钱包
+
+浏览器里的网页默认没有身份。DApp 的身份由钱包提供：<GlossaryTerm term="MetaMask" /> 这类浏览器扩展会向页面注入一个 `window.ethereum` 对象，前端检测到它就能请求账户授权：
+
+```javascript
+async function connect() {
+  if (typeof window.ethereum === "undefined") {
+    setStatus("未检测到钱包：请先安装 MetaMask 浏览器扩展。", true);
+    return;
+  }
+  // eth_requestAccounts：MetaMask 弹窗，用户确认后返回账户列表
+  const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+  provider = new ethers.BrowserProvider(window.ethereum);
+  signer = await provider.getSigner();
+  counter = new ethers.Contract(CONTRACT_ADDRESS, COUNTER_ABI, signer);
+  $("account-display").textContent = "已连接：" + accounts[0];
+  await refreshCount();
+}
+```
+
+注意权限的方向：不是网页拿到私钥，而是网页**请求**钱包替它签名——私钥永远躺在钱包里，每一笔需要花钱的操作都要钱包主人点头。这就是为什么连接之后页面能「代表你」发交易，却偷不走你的资产。
+
+### 第二件：读合约状态
+
+读 `count` 是一次 view 函数调用——只查状态、不改状态，所以**不发交易、不花 <GlossaryTerm term="Gas" />**，像一次带共识保障的远程数据库查询：
+
+```javascript
+async function refreshCount() {
+  const count = await counter.getCount();
+  $("count-display").textContent = count.toString();
+}
+```
+
+合约地址和 ABI 放在单独的 `frontend/config.js` 里，是整个前端唯一需要改的配置位：
+
+```javascript
+const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"; // 填部署输出的地址
+const COUNTER_ABI = [
+  "function increment() external",
+  "function decrement() external",
+  "function getCount() view returns (uint256)",
+  "function count() view returns (uint256)",
+  "event CountChanged(address indexed who, uint256 newValue)",
+];
+```
+
+ABI 用 human-readable 形式内嵌在页面里，而不是引用 `artifacts/` 里的编译产物——artifacts 是 gitignore 的构建文件，含完整字节码，冗长且不适合静态页面稳定引用。
+
+### 第三件：发写交易并等它落账
+
+`increment()` 改状态，是一次真正的交易：要签名、要付 gas、要等打包。前端把这三件事串起来，再加一步事件回读：
+
+```javascript
+const tx = await counter.increment();      // 发交易，返回 TransactionResponse
+const receipt = await tx.wait(1);           // 等待 1 个确认，返回 TransactionReceipt
+const after = await counter.getCount();     // 确认后复读链上状态
+
+// 从 receipt 日志回读 CountChanged(address indexed who, uint256 newValue)
+for (const log of receipt.logs) {
+  const parsed = counter.interface.parseLog(log);
+  if (parsed && parsed.name === "CountChanged") {
+    // parsed.args.who / parsed.args.newValue
+  }
+}
+```
+
+为什么要「复读」和「事件回读」两个动作？复读 count 是向链求证最终状态；解析 `CountChanged` 事件则是拿到**变更过程**——谁（`who`）在哪个交易里把它改成了多少（`newValue`）。事件日志是 <GlossaryTerm term="EVM" /> 提供的原生「变更流水」，前端可以拿它驱动界面更新（比如刷新历史记录列表）。
+
+---
+
+## 一张图看懂完整数据流
+
+点一下「increment +1」按钮，背后发生的事贯穿了阶段 1-3 学过的所有概念：
+
+```text
+┌──────────┐  ① 构造调用数据（ABI 编码 increment()）
+│  浏览器   │ ────────────────────────────────┐
+│ 页面/JS  │  ② MetaMask 弹窗请求签名          │
+└──────────┘ ────────────────────────────────┤
+                                                ▼
+        签名后的交易 { to: 合约地址, data: 调用数据, nonce, gas 上限 }
+                                                │
+                                                ▼
+┌──────────┐  ③ provider（RPC）           ┌──────────┐
+│ 本地节点/ │ ◄─────────────────────────── │  内存池   │ 交易先在这里候车
+│ 测试网    │  ④ 验证者打包出块             └──────────┘
+└──────────┘ ────────────────────────────────┬─────
+   ⑤ EVM 执行合约字节码：count = count + 1     │
+      emit CountChanged(msg.sender, count)    ▼
+   ⑥ 确认后：receipt（hash/block/日志）→ 前端复读 count
+```
+
+逐条对回阶段 1-3：
+
+- **① ABI 编码**：`increment()` 被编码成函数选择符 + 参数，拼进交易的 `data` 字段——这是阶段 3 Solidity 篇的 ABI 概念在前端的落点。
+- **② 签名**：钱包用私钥对交易签名，证明「发起者是我」；交易的 `nonce` 是我账户的第几笔——<GlossaryTerm term="账户模型" /> 与 <GlossaryTerm term="Nonce" /> 防重放的直接应用（阶段 2）。
+- **③④ 广播与打包**：签好名的交易经 provider（RPC 端点）进入 <GlossaryTerm term="内存池" />，被下一个区块收编——阶段 1 讲过的打包流程。
+- **⑤ 执行**：打包者运行合约的 <GlossaryTerm term="字节码" />，EVM 完成加法、写存储、发出事件——每一存储写和计算步都计 gas，由发起账户按 <GlossaryTerm term="Gas" /> 单价付费（阶段 2）。
+- **⑥ 回读**：确认到达后前端拿 receipt 和复读结果更新界面——「读」到的不是谁的口头承诺，是链上共识后的状态。
+
+一笔 +1，把三个阶段的概念全部过了一遍。
+
+---
+
+## 本地联调：把整条链路跑起来
+
+以下步骤在 `dapp/` 工程内操作（已在仓库实跑验证）。
+
+**1. 起本地节点**（终端 1，保持运行）：
+
+```text
+$ npx hardhat node
+Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
+# 打印 20 个开发账户（地址 + 私钥），链 ID 31337
+```
+
+为了让 `--network localhost` 可用，`hardhat.config.js` 里补了一行网络别名：
+
+```javascript
+networks: {
+  localhost: { url: "http://127.0.0.1:8545" },
+  sepolia: { /* ... */ },
+},
+```
+
+**2. 部署到本地节点**（终端 2），把输出的地址填进 `frontend/config.js` 的 `CONTRACT_ADDRESS`：
+
+```text
+$ npx hardhat run scripts/deploy.js --network localhost
+Deployer address: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+Counter deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+```
+
+**3. 起静态服务并打开页面**（终端 2）：
+
+```text
+$ cd frontend && python3 -m http.server 8788
+# 浏览器打开 http://127.0.0.1:8788/index.html
+```
+
+**4. 配置 MetaMask**：添加自定义网络——RPC 端点 `http://127.0.0.1:8545`、链 ID `31337`、货币符号 ETH；再「导入账户」，粘贴节点启动时打印的 **#0 账户私钥**（`0xf39F...` 开头地址对应的那行）。
+
+**5. 点起来**：连接 MetaMask → 读 count（0）→ increment +1 → 钱包确认 → 状态区显示交易 hash、count 0 → 1、`CountChanged 事件：who = 0xf39F...， newValue = 1`。
+
+想换到 <GlossaryTerm term="测试网" /> Sepolia？只改两处：`config.js` 里换成测试网部署的合约地址，MetaMask 切到 Sepolia 网络。页面代码一行不用动。
+
+<Highlight type="danger">
+节点启动时打印的那批开发账户私钥是 Hardhat 文档公开的测试夹具，只对应本地模拟网络，没有也不可能有真实资产——所以可以安全地拿来做练习。但这只是特例：**真实私钥永远只进 .env、永远不进代码和文章**，这是从 Hardhat 篇就立下的规矩，到这里也不例外。
+</Highlight>
+
+<Highlight type="info">
+本页通过公共 CDN 引入 ethers.js（UMD 构建），离线时打不开——开发期可接受；页面零构建、零依赖安装，代价就是这一条网络要求。
+</Highlight>
+
+---
+
+## 总结：阶段 3 闭环
+
+四篇走完：Solidity 写出 Counter → <GlossaryTerm term="Hardhat" /> 给它工程化和测试 → 部署让它对外可见 → 本篇给它装上前端。回头看阶段 3 的主线，是从「理解」到「动手写」：<GlossaryTerm term="智能合约" /> 不再是概念，是 `dapp/` 里能部署、能测试、能在浏览器里点的的东西；DApp 不再是名词，是「一个 HTML 页面 + 一份合约」这样具体到不需要敬畏的东西。
+
+下一步进入阶段 4：<GlossaryTerm term="DeFi" />。已经具备的这块积木——可以在链上无条件执行的规则——正是金融市场需要的最小单元：把借贷、兑换、做市这些金融逻辑写成合约互相组合，就是去中心化金融。从「一个能点的计数器」到「一个能用的交易所」，距离没有想象中远。
+
+**相关文章：**
+
+- [部署到测试网：合约离开本地的第一步](/blog/deploy-to-testnet) — 前篇：本篇前端连接的合约与部署流程出处
+- [Hardhat 本地测试环境](/blog/hardhat-local-env) — 前篇：dapp/ 工程与本地节点的工作方式
+- [Solidity 基础语法笔记](/blog/solidity-basics-notes) — 前端调用的 Counter 合约的每一行
+- [智能合约到底是什么，能做什么](/blog/smart-contracts-explained) — 为什么「后端上链」意味着无人可下架
+- [EVM 深度解析](/blog/evm-deep-dive) — increment 被执行的那一刻发生了什么
+- [Gas：世界计算机的计价系统](/blog/ethereum-gas-fees) — 写交易要付的那笔钱怎么算
+- [账户模型 vs UTXO](/blog/account-model-vs-utxo) — 签名、nonce 与账户防重放的模型基础
+- [UTXO 模型：比特币的会计学](/blog/utxo-model-deep-dive) — 对照：没有合约的另一种前端形态无从谈起
+- [工作量证明](/blog/pow-consensus) — 确认数背后的共识保障从哪来

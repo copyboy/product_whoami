@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Counter DApp — 第一个完整 DApp</title>
+  <!-- ethers.js v6 UMD 构建（公共 CDN）：<script> 里暴露全局 ethers 对象 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+  <script src="./config.js"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; color: #1e293b; background: #f8fafc; }
+    h1 { font-size: 1.5rem; }
+    section { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0; }
+    button { font-size: 1rem; padding: 8px 16px; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #connect-button { background: #2563eb; color: #fff; border-color: #2563eb; }
+    #increment-button { background: #059669; color: #fff; border-color: #059669; }
+    .count { font-size: 2.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    #status { font-family: ui-monospace, monospace; font-size: 0.85rem; white-space: pre-wrap; }
+    .error { color: #dc2626; }
+    .hint { color: #64748b; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>Counter DApp</h1>
+  <p class="hint">前端 = 本页 HTML/JS；后端 = 链上 Counter 合约。合约地址：<code id="contract-address"></code></p>
+
+  <!-- 交互面 1：连接 MetaMask -->
+  <section>
+    <h2>1. 连接钱包</h2>
+    <button id="connect-button">连接 MetaMask</button>
+    <p id="account-display">未连接</p>
+  </section>
+
+  <!-- 交互面 2：读合约状态 -->
+  <section>
+    <h2>2. 读合约状态（count）</h2>
+    <p class="count" id="count-display">-</p>
+    <button id="refresh-button">读取 count</button>
+  </section>
+
+  <!-- 交互面 3：写交易（increment）+ 等待确认 + 事件回读 -->
+  <section>
+    <h2>3. 发写交易（increment）</h2>
+    <button id="increment-button">increment +1</button>
+  </section>
+
+  <!-- 交互面 4/5：状态与错误展示 -->
+  <section>
+    <h2>状态 / 错误</h2>
+    <pre id="status">待操作…</pre>
+  </section>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let provider = null;   // ethers.BrowserProvider —— 浏览器里包着 window.ethereum
+    let signer = null;     // 已连接账户的签名器
+    let counter = null;    // Counter 合约实例（带 signer，可读可写）
+
+    $("contract-address").textContent = CONTRACT_ADDRESS;
+
+    function setStatus(text, isError = false) {
+      $("status").textContent = text;
+      $("status").className = isError ? "error" : "";
+    }
+
+    // ---- 交互面 1：连接 MetaMask ----
+    // 检测 window.ethereum（MetaMask 等钱包注入的对象），再请求账户授权
+    async function connect() {
+      try {
+        if (typeof window.ethereum === "undefined") {
+          setStatus("未检测到钱包：请先安装 MetaMask 浏览器扩展（https://metamask.io）。", true);
+          return;
+        }
+        setStatus("请求账户授权…");
+        // eth_requestAccounts：MetaMask 弹窗，用户确认后返回账户列表
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        provider = new ethers.BrowserProvider(window.ethereum);
+        signer = await provider.getSigner();
+        counter = new ethers.Contract(CONTRACT_ADDRESS, COUNTER_ABI, signer);
+        $("account-display").textContent = "已连接：" + accounts[0];
+        $("increment-button").disabled = false;
+        setStatus("已连接。合约地址若还是全零占位符，请先在 config.js 里填入部署输出的地址。");
+        await refreshCount();
+      } catch (err) {
+        setStatus("连接失败：" + (err.message || err), true);
+      }
+    }
+
+    // ---- 交互面 2：读状态（view 函数，不发交易、不花 gas）----
+    async function refreshCount() {
+      if (!counter) { setStatus("请先连接钱包。", true); return; }
+      try {
+        const count = await counter.getCount();
+        $("count-display").textContent = count.toString();
+        setStatus("读取成功：count = " + count.toString());
+      } catch (err) {
+        $("count-display").textContent = "-";
+        setStatus("读取失败：" + (err.message || err) + "\n（常见原因：本地节点没起、合约地址不对、MetaMask 网络不匹配）", true);
+      }
+    }
+
+    // ---- 交互面 3：写交易 → 等待 1 个确认 → 复读 → 事件回读 ----
+    async function increment() {
+      if (!counter) { setStatus("请先连接钱包。", true); return; }
+      $("increment-button").disabled = true;
+      try {
+        setStatus("发送 increment 交易…请在钱包里确认（本地节点自动放行）");
+        const before = await counter.getCount();
+
+        const tx = await counter.increment();      // 发交易，返回 TransactionResponse
+        setStatus("交易已广播，hash:\n" + tx.hash + "\n等待 1 个确认…");
+        const receipt = await tx.wait(1);           // 等打包确认，返回 TransactionReceipt
+
+        const after = await counter.getCount();     // 确认后复读链上状态
+
+        // 从 receipt 日志回读 CountChanged(address indexed who, uint256 newValue)
+        let eventLine = "（receipt 中未解析到 CountChanged 事件日志）";
+        for (const log of receipt.logs) {
+          try {
+            const parsed = counter.interface.parseLog(log);
+            if (parsed && parsed.name === "CountChanged") {
+              eventLine = "CountChanged 事件：who = " + parsed.args.who + ", newValue = " + parsed.args.newValue;
+            }
+          } catch { /* 不是本合约的日志，跳过 */ }
+        }
+
+        setStatus(
+          "交易确认！\n" +
+          "hash: " + receipt.hash + "（block " + receipt.blockNumber + "）\n" +
+          "count: " + before.toString() + " → " + after.toString() + "\n" +
+          eventLine
+        );
+        $("count-display").textContent = after.toString();
+      } catch (err) {
+        setStatus("写交易失败：" + (err.message || err) + "\n（常见原因：钱包网络/合约地址不匹配、gas 不足、用户在钱包里拒绝了签名）", true);
+      } finally {
+        $("increment-button").disabled = false;
+      }
+    }
+
+    $("connect-button").addEventListener("click", connect);
+    $("refresh-button").addEventListener("click", refreshCount);
+    $("increment-button").addEventListener("click", increment);
+    $("increment-button").disabled = true; // 连接钱包前不可发交易
+  </script>
+</body>
+</html>

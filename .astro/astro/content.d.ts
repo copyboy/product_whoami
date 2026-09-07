@@ -278,6 +278,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"first-full-dapp.mdx": {
+	id: "first-full-dapp.mdx";
+  slug: "first-full-dapp";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "gc-algorithms-tuning-practice.mdx": {
 	id: "gc-algorithms-tuning-practice.mdx";
   slug: "gc-algorithms-tuning-practice";
