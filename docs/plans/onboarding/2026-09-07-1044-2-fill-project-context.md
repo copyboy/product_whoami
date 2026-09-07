@@ -50,21 +50,21 @@ Skill: none
 - Item Types: `Add | Decision | Proof`
 - Prereqs: M1-WI1 (`docs/input/project-scan.md` exists)
 
-- [ ] Add: fill Project Identity — project name `Product Whoami`, product type `static personal portfolio + blog website (Astro SSG)`, primary users `site visitors / solo content author`, and the freshness value chosen below.
-- [ ] Decision: choose the Documentation freshness value and record rationale plus alternatives in the plan or scan doc. Expected candidates: `fresh` (identity/stack/commands verified live in this plan) vs `partially stale` (design/architecture docs are still templates until WI5–WI7 land). Residual risk must be stated.
-- [ ] Add: fill Current Technical Baseline — Frontend: Astro 4 (SSG) + React 18 islands + Tailwind CSS 3.4 + TypeScript; Backend: none (fully static site); Database/model source: none — content lives in Astro Content Collections (`src/content/blog/`, `src/content/projects/`, MDX).
-- [ ] Add: fill the Verification Commands table with the real commands listed in Current Baseline above (e2e row: write `none` explicitly).
-- [ ] Add: tick the layers-in-use checklist to match the live `docs/` tree (`analysis`, `audits`, `discussions`, `lessons`, `retrospectives`, `skills`, `testing` all exist), re-verified with `ls docs/` at execution time.
-- [ ] Add: review the AI Block Conditions section against this project and keep or concretize it — record the outcome inline (expected: template rules already apply; payment/data-deletion paths do not exist in this static site).
-- [ ] Proof: run `grep -c "<fill\|<fresh | partially stale" docs/context/project-context.md` (or equivalent) and confirm it returns 0.
+- [x] Add: fill Project Identity — project name `Product Whoami`, product type `static personal portfolio + blog website (Astro SSG)`, primary users `site visitors / solo content author`, and the freshness value chosen below.
+- [x] Decision: choose the Documentation freshness value and record rationale plus alternatives in the plan or scan doc. Expected candidates: `fresh` (identity/stack/commands verified live in this plan) vs `partially stale` (design/architecture docs are still templates until WI5–WI7 land). Residual risk must be stated.
+- [x] Add: fill Current Technical Baseline — Frontend: Astro 4 (SSG) + React 18 islands + Tailwind CSS 3.4 + TypeScript; Backend: none (fully static site); Database/model source: none — content lives in Astro Content Collections (`src/content/blog/`, `src/content/projects/`, MDX).
+- [x] Add: fill the Verification Commands table with the real commands listed in Current Baseline above (e2e row: write `none` explicitly).
+- [x] Add: tick the layers-in-use checklist to match the live `docs/` tree (`analysis`, `audits`, `discussions`, `lessons`, `retrospectives`, `skills`, `testing` all exist), re-verified with `ls docs/` at execution time.
+- [x] Add: review the AI Block Conditions section against this project and keep or concretize it — record the outcome inline (expected: template rules already apply; payment/data-deletion paths do not exist in this static site).
+- [x] Proof: run `grep -c "<fill\|<fresh | partially stale" docs/context/project-context.md` (or equivalent) and confirm it returns 0.
 
 Exit Criteria:
 
-- [ ] No `<fill ...>` or enum-placeholder text remains anywhere in `docs/context/project-context.md`.
-- [ ] Verification Commands table contains only real commands from `package.json` scripts; no command is claimed to pass.
-- [ ] Layers-in-use checklist matches the live `docs/` tree.
-- [ ] The freshness Decision is recorded with rationale and alternatives.
-- [ ] `docs/logs/` updated with a closure entry for this plan.
+- [x] No `<fill ...>` or enum-placeholder text remains anywhere in `docs/context/project-context.md`.
+- [x] Verification Commands table contains only real commands from `package.json` scripts; no command is claimed to pass.
+- [x] Layers-in-use checklist matches the live `docs/` tree.
+- [x] The freshness Decision is recorded with rationale and alternatives.
+- [x] `docs/logs/` updated with a closure entry for this plan.
 
 ## Draft Review Record
 
@@ -73,4 +73,9 @@ Exit Criteria:
 
 ## Verification
 
+- pass test 2026-09-07-104453-mission-driver exit=0
+
 ## Closure
+
+- dispatch audit #audit-2026-09-07-104453-mission-driver-2026-09-07-1044-2-fill-project-context-1-49f275cf to ses_auditor_opencode_1 models={exec:opencode/glm,aud:opencode/glm}
+- accepted #audit-2026-09-07-104453-mission-driver-2026-09-07-1044-2-fill-project-context-1-49f275cf：审计通过——`docs/context/project-context.md` 已全量落地（占位符 grep 计数 0；Verification Commands 与 package.json scripts 一致且未声明任何通过基线；7 个 optional layer 与 `ls docs/` 实况一致；freshness Decision `partially stale` 的理由与备选记录于 `docs/input/project-scan.md` § Documentation Freshness Decision；AI Block Conditions 已具体化）；`docs/logs/2026/09-07.md` 已有本计划收尾条目；mission commands `test`=`echo onboarding-ok` 实跑 exit=0 记为 Verification pass line。models 后缀为单模型降级如实申报（exec 与 aud 同为 opencode/glm）。
