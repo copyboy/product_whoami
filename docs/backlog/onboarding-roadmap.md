@@ -12,7 +12,7 @@
 | M1/WI4 填 `docs/context/codebase-map.md` | done | `docs/context/codebase-map.md` | WI1 | — |
 | M1/WI5 填 `docs/index.md` + 校验项目名占位符全替换 | done | `docs/index.md` | WI2 | grep |
 | M1/WI6 填 `docs/architecture/{README,module-boundaries,project-vision,system-baseline}.md` | done | `docs/architecture/*` | WI1, WI2 | — |
-| M1/WI7 填 `docs/process/application-development-workflow.md` + `docs/backlog/README.md` | todo | `docs/backlog/README.md` | WI2 | — |
+| M1/WI7 填 `docs/process/application-development-workflow.md` + `docs/backlog/README.md` | done | `docs/backlog/README.md` | WI2 | — |
 | M1/WI8 填 `docs/testing/known-good-baselines.md` + 校验 `docs/logs/{year}/` 存在 | todo | `docs/testing/known-good-baselines.md` | WI2 | run verification |
 
 ## Milestones

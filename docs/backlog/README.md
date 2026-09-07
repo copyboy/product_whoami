@@ -8,9 +8,15 @@ The backlog is not a replacement for requirements, owner docs, or plans. It only
 
 ## Work Items
 
-| Priority | Item            | Requirement                | Owner Doc            | Plan                        | Status              | AI Autonomy | Blocker                              | Last Checked   |
-| -------- | --------------- | -------------------------- | -------------------- | --------------------------- | ------------------- | ----------- | ------------------------------------ | -------------- |
-| P0       | `<first slice>` | `docs/requirements/<path>` | `docs/design/<path>` | `docs/plans/<path-or-none>` | `needs-requirement` | `blocked`   | `template placeholders not replaced` | `<YYYY-MM-DD>` |
+(no active work item; identify next slice from requirements or input)
+
+Candidate ideas recorded from deferred decisions (none is implementation-ready; see `docs/plans/onboarding/2026-09-07-1119-3-fill-architecture-docs.md` Non-Goals):
+
+| Priority | Item | Requirement | Owner Doc | Plan | Status | AI Autonomy | Blocker | Last Checked |
+| -------- | ---- | ----------- | --------- | ---- | ------ | ----------- | ------- | ------------ |
+| P2 | Fill `docs/architecture/api-response-conventions.md` (decide: project-specific fill or delete as N/A for a static site) | `none yet` | `docs/architecture/api-response-conventions.md` | `none` | `idea` | `research-only` | `no requirement doc` | `2026-09-07` |
+| P2 | Fill `docs/architecture/integration-and-transaction-patterns.md` (decide: project-specific fill or delete as N/A for a static site) | `none yet` | `docs/architecture/integration-and-transaction-patterns.md` | `none` | `idea` | `research-only` | `no requirement doc` | `2026-09-07` |
+| P2 | Author `docs/architecture/mission-driver-baseline.md` (referenced then removed from `docs/architecture/README.md` in WI6) | `none yet` | `docs/architecture/README.md` | `none` | `idea` | `research-only` | `no requirement doc` | `2026-09-07` |
 
 ## Readiness Invariants
 

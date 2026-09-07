@@ -220,7 +220,14 @@ Rules:
 
 ## Stage 10 - Verify
 
-Run the real verification commands for the repo.
+Run the real verification commands for the repo. In this project the pass/fail commands are (see `docs/context/project-context.md`):
+
+- `npm run type-check`
+- `npm run build`
+- `npm run lint`
+- `npm run test:run`
+
+Recorded green baselines (date / SHA / scope / commands) live in `docs/testing/known-good-baselines.md`.
 
 Capture additional proof in:
 
