@@ -250,6 +250,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"evm-deep-dive.mdx": {
+	id: "evm-deep-dive.mdx";
+  slug: "evm-deep-dive";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "evolution-heartbeat-system.mdx": {
 	id: "evolution-heartbeat-system.mdx";
   slug: "evolution-heartbeat-system";
