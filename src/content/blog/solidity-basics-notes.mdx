@@ -1,0 +1,217 @@
+---
+title: "Solidity 基础语法笔记：写下第一个合约"
+description: "阶段 2 收官时说好了「从理解到动手写」，这篇就是动手的第一份记录——M3.1 的进行时学习笔记，比正式文章更口语化，踩坑也如实记下。内容：用 Remix 零安装起步（Hardhat/Foundry 一句带过）；基础类型 uint/int/address/bool/string 与 mapping；函数修饰符 view/pure/payable 各配最小代码片段；事件 event/emit 为什么链上可查；0.8.x 内置溢出检查（对比 0.8 前人人 SafeMath 的历史）；最后一个能直接编译部署的计数器合约 + 我在 Remix 里的部署步骤实录。下一篇 M3.2（测试环境搭建）会引用本文。"
+pubDate: 2026-09-07
+heroImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop"
+tags: ["Web3", "区块链入门", "Solidity"]
+categories: ["Web3"]
+subject: "DApp"
+location: "世界计算机"
+---
+
+import Highlight from '@components/web3/Highlight.astro';
+import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
+
+## 开始之前：这是一份进行时笔记
+
+<Highlight type="info">
+这是 M3.1（Solidity 基础语法）的**进行时学习笔记**，不是正式文章——更口语化，踩的坑也如实记录。后续 M3.2（Hardhat + 本地测试环境搭建）会直接引用本文的合约和环境结论。
+</Highlight>
+
+上一篇（[智能合约到底是什么](/blog/smart-contracts-explained)）结尾说：到目前为止我们一直是这台世界计算机的**用户**，下一阶段换角色——动手写。这一篇就是我第一次真正写 <GlossaryTerm term="Solidity" /> 的记录：语言长什么样、怎么跑起来、我在哪几步卡住又怎么爬出来的。
+
+先给同路人一个定心丸：Solidity 的语法对写过 JavaScript 的人来说**眼熟得吓人**——但它骨子里是完全不同的东西。JS 的变量存在内存里，函数跑在某个服务器上；而这里的每个变量要花 <GlossaryTerm term="Gas" /> 存进链上存储，每行代码由上千个节点在你的 <GlossaryTerm term="EVM" /> 里重放执行。同一张「类 JS」的皮，下面是全新的成本模型——这是我在整个 M3.1 里最重要的体感。
+
+---
+
+## 环境：从 Remix 起步，零安装
+
+写 Solidity 不需要先配本地环境。我的路线：
+
+1. 打开浏览器，访问 **Remix**（remix.ethereum.org）——以太坊官方推荐的在线 IDE，零安装；
+2. 左侧 File Explorers → 新建文件 `Counter.sol`；
+3. 左侧 Solidity Compiler → 点「Compile Counter.sol」——如果代码有问题，这里会直接报错；
+4. 左侧 Deploy & Run → Environment 选 **Remix VM**（内置的模拟区块链，有预置的有钱测试账户）→ 点「Deploy」；
+5. 部署成功后，下方「Deployed Contracts」面板里就是这个合约的「遥控器」——每个 `public` 函数一个按钮，点了就发一笔交易。
+
+从打开网页到部署第一个合约，我花了大概十分钟——这个反馈回路对入门太重要了。
+
+<Highlight type="info">
+Remix 是入门环境，不是终点。等代码量上来、要写自动化测试时，会换到 Hardhat 或 Foundry（前者是老牌 JS 系工具链，后者是 Rust 写的新兴套装，编译测试都更快）——这正是 M3.2 的主题，本篇不展开。
+</Highlight>
+
+---
+
+## 基础类型：比 JS 朴素，但更「抠门」
+
+Solidity 是**静态类型**语言——每个变量必须先声明类型，写错了编译期就报错（JS 的 `let x` 随便装什么都行的日子结束了）。最常用的一组：
+
+```solidity
+uint256 count = 0;     // 无符号整数，256 位。不能存负数
+int8 temperature = -5; // 有符号整数，8 位就够了就别用大的
+address owner;         // 以太坊地址类型，20 字节，天生为账户设计
+bool isActive = false; // 布尔
+string name = "M3.1";  // 字符串——但存储贵，能不用就不用
+```
+
+几个我记笔记时反复提醒自己的点：
+
+- **整数要指定位宽。**`uint256`、`uint8`、`uint`（默认就是 `uint256`）。位宽不是摆设——它直接决定存储槽的大小，存储写入是要花真金白银 Gas 的。
+- **`address` 是一等公民。**合约里到处是「谁调用的」（`msg.sender`）、「钱转给谁」（ payable 的目标），都是 `address` 类型。
+- **`string` 是个坑。**不是不能用，而是它是最贵的存储之一，且很多操作（比大小、拼接）都不方便。链上程序设计的第一直觉是：能用数字就别用字符串。
+
+然后是 Solidity 里最重要的复合类型——**mapping**（键值映射）：
+
+```solidity
+mapping(address => uint256) public balances;
+```
+
+这行代码声明了「每个地址对应一个余额」的账本结构——就是 ERC-20 转账实例里被改写的那个 `balances`。初次见面时我想当然拿它类比 JS 对象，后来发现两个关键差异：**它不知道自己有哪些 key**（没法遍历，长度也不存在），且**未初始化的 key 读取返回全零值**（不是 undefined，是 0）。这两个设计都为同一个目标服务：读写成本与账本大小无关、结果确定——刚好是 EVM 世界观的样子。
+
+---
+
+## 函数修饰符：view / pure / payable，三个开关
+
+函数可以带修饰符，向编译器和调用者声明「这个函数打算干什么」。三个必须分清：
+
+```solidity
+// view：要读状态，但不改
+function getCount() public view returns (uint256) {
+    return count;   // 读了合约存储里的 count
+}
+
+// pure：既不读也不改状态，纯计算
+function double(uint256 x) public pure returns (uint256) {
+    return x * 2;   // 只跟输入参数有关
+}
+
+// payable：这扇门收钱——没有它，函数会拒收 ETH
+function deposit() public payable {
+    // 进来的钱自动记在合约账上，不需要、也不应该手动写 msg.value 转账逻辑
+}
+```
+
+一句话区分：**view 读不改、pure 不读不改、payable 能收钱**。
+
+我一开始觉得这只是「写给人看的注解」，后来发现它是**写给 EVM 看的合同**：直接调用 `view`/`pure` 函数（不发起交易）在本地节点就能完成，**不花 Gas**；而 `payable` 反过来，函数没标它，你往里转 ETH 会直接 revert。修饰符写错不是风格问题，是行为问题。
+
+<Highlight type="warning">
+踩坑实录：我第一次写取款函数时顺手标了 `payable`，然后疑惑「取钱为什么要标能收钱」。答案：`payable` 只管「这扇门收 ETH」，取钱是合约主动把 ETH 转出去——那一步用的是 `transfer`/`call` 转账调用，跟修饰符无关。方向搞反是新手高发错误。
+</Highlight>
+
+---
+
+## 事件：合约向世界发推文
+
+**事件（event）**是合约向外广播日志的机制：
+
+```solidity
+event CountChanged(address indexed who, uint256 newValue);
+
+function increment() public {
+    count = count + 1;
+    emit CountChanged(msg.sender, count);
+}
+```
+
+`emit` 一执行，这笔交易的收据里就多了一条带结构化数据的日志。关键性质：**日志随交易一起永久上链，链上任何人可查**——但它不占合约存储、不能被合约自己读回来（合约「喊了一嗓子」，自己却听不见）。
+
+为什么重要？钱包和区块浏览器都靠它对账：你查 USDT 转账记录，看的其实是历史交易里的 `Transfer` 事件；将来 M3.4 前端监听合约动态，用的也是它。**便宜 + 可检索 + 合约读不到**——这个「取舍三连」本身就是链上数据结构设计的缩影。
+
+---
+
+## 0.8.x 的溢出检查：一行历史 + 一个安心
+
+算术溢出是老牌安全事故来源：`uint8` 存 255，加 1 变 0。2020 年的 bZx 攻击、更早的 BEC 代币事故，都跟溢出有关。
+
+**从 Solidity 0.8.0 起，算术溢出默认自动检查**——溢出不是静默绕回，而是交易直接 revert：
+
+```solidity
+uint8 x = 255;
+x = x + 1;  // 0.8+：交易失败，revert；0.8 之前：x 静默变成 0，灾难开始
+```
+
+历史上（0.8 之前）所有合约都得挂一层 SafeMath 库手动防溢出；现在语言原生兜底，`using SafeMath` 那套在新代码里已经是「文物」。当然 0.8 不是万能：如果真的需要绕回语义（罕见），得显式用 `unchecked { }` 块写出来——安全默认值 + 显式豁免，方向是对的。
+
+---
+
+## 最小可运行合约：计数器
+
+把上面的东西拼起来——我的第一个完整合约（可直接粘进 Remix 编译部署）：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Counter {
+    uint256 public count;                    // 状态变量，永久存在链上
+    address public owner;                    // 部署者，构造时记录
+
+    event CountChanged(address indexed who, uint256 newValue);
+
+    constructor() {
+        owner = msg.sender;
+        count = 0;
+    }
+
+    function increment() public {
+        count = count + 1;                   // 0.8.x 内置溢出检查兜底
+        emit CountChanged(msg.sender, count);
+    }
+
+    function decrement() public {
+        require(count > 0, "count is zero"); // 别减到负数（uint 存不了）
+        count = count - 1;
+        emit CountChanged(msg.sender, count);
+    }
+
+    function getCount() public view returns (uint256) {
+        return count;
+    }
+}
+```
+
+### 部署实录（Remix VM）
+
+1. 新建 `Counter.sol` 粘入上面的代码 → Compile → 绿色对勾，一次过；
+2. Deploy & Run → Environment 选 Remix VM → Deploy → 控制台打印出交易的创建记录；
+3. 「Deployed Contracts」面板出现按钮组：`count`、`owner`、`increment`、`decrement`、`getCount`；
+4. 点 `count` → 显示 `uint256: 0`（注意：`public` 状态变量自动生成同名读取入口，不用自己写 getter——我写完 `getCount` 才发现它其实是重复的，留着当 `view` 示例）；
+5. 点 `increment` → 控制台出现新交易，展开细节能看到 **logs** 里那条 `CountChanged` 事件，参数解码得清清楚楚；再点 `count` → `1`；
+6. 换一个测试账户点 `decrement`（count 为 0 时）→ 交易 **revert**，`require` 的报错信息原样显示在控制台——我第一次见到 revert 还以为环境坏了，其实这正是合约在说「不行」。
+
+十分钟，第一次体验「我写的规则在链上被执行、被验证、改不动」——理解过的概念（字节码、Gas、确定性执行）在这一刻全部落地。
+
+<Highlight type="success">
+回头看这个计数器，M3.1 的知识点居然全在里面了：`uint256`（类型）× mapping 稍后补上 × `view`（getCount）× 事件（CountChanged）× 溢出检查（increment 兜底）× Remix 部署实录。写一个最小的东西，比读十篇概念文更扎实。
+</Highlight>
+
+---
+
+## 踩坑清单（写给几天后的自己）
+
+- **忘写 pragma / SPDX。**Remix 会直接拒绝编译无版本声明的文件；SPDX 是开源许可证标识，不写会有警告，养成第一行就写的习惯；
+- **函数可见性漏标。**`public`/`private` 不写编译不过——不像 JS 靠命名约定，这里一切显式声明；
+- **mapping 不能遍历。**想「列出所有存款人」时才发现没这个能力——这类需求要么用数组辅助记录，要么接受限制换设计；
+- **remix VM 里的部署是模拟的。**刷新页面就没了。真上测试网（Sepolia）是 M3.3 的事，别急着把东西当「永久」。
+
+---
+
+## 总结：从「理解合约」到「写出第一个合约」
+
+这份笔记记下了：**Remix 零安装起步**（Hardhat/Foundry 留给 M3.2）；**基础类型**（静态类型 + 位宽即成本 + mapping 的取舍设计）；**三个修饰符**（view 读不改、pure 不读不改、payable 收钱）；**事件**（上链可查、合约读不到、便宜）；**0.8.x 溢出检查**（语言级默认，SafeMath 进博物馆）；以及一个**部署成功的计数器**和它替我踩过的坑。
+
+更重要的是体感上的转变：阶段 2 结束时我「理解」这台世界计算机——现在我能给它**写程序**了。类 JS 的语法皮 + 全新的成本世界观，就是 Solidity 的入门第一课。
+
+下一步（M3.2）：离开浏览器的舒适区，搭 Hardhat 本地测试环境——让「改一行、全量跑一遍测试」变成自动化的事，这份笔记里的计数器会第一个被测试覆盖。
+
+**相关文章：**
+
+- [智能合约到底是什么，能做什么](/blog/smart-contracts-explained) — 前篇：本文部署的正是一段「规则写在链上」的程序
+- [Gas：世界计算机的计价系统](/blog/ethereum-gas-fees) — 为什么每个状态变量都「贵」
+- [EVM 深度解析](/blog/evm-deep-dive) — 你的代码在哪里被执行
+- [账户模型 vs UTXO](/blog/account-model-vs-utxo) — 合约账户的「代码 + 存储」从哪来
+- [UTXO 模型：比特币的会计学](/blog/utxo-model-deep-dive) — 对照：没有智能合约的记账模型
+- [工作量证明](/blog/pow-consensus) — 谁打包你的部署交易
+- [比特币白皮书精读](/blog/bitcoin-whitepaper-deep-dive) — 一切的原始蓝图
+- [比特币网络实际运行](/blog/bitcoin-network-in-practice) — 对照：从转账网络到世界计算机

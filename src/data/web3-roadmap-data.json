@@ -42,7 +42,7 @@
       "scenarios": ["不需要服务器的 DApp", "众筹合约", "规则即法律"],
       "color": "emerald",
       "milestones": [
-        { "id": "M3.1", "title": "Solidity 基础语法，能写简单合约", "status": "learning", "articleSlug": null },
+        { "id": "M3.1", "title": "Solidity 基础语法，能写简单合约", "status": "done", "articleSlug": "solidity-basics-notes" },
         { "id": "M3.2", "title": "Hardhat + 本地测试环境搭建", "status": "todo", "articleSlug": null },
         { "id": "M3.3", "title": "部署到测试网（Sepolia / Hoodi）", "status": "todo", "articleSlug": null },
         { "id": "M3.4", "title": "第一个完整 DApp（前端 + 合约交互）", "status": "todo", "articleSlug": null }
