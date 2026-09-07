@@ -222,6 +222,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"deploy-to-testnet.mdx": {
+	id: "deploy-to-testnet.mdx";
+  slug: "deploy-to-testnet";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "digital-tools-integration.mdx": {
 	id: "digital-tools-integration.mdx";
   slug: "digital-tools-integration";

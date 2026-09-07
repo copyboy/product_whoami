@@ -1,0 +1,190 @@
+---
+title: "部署到测试网：合约离开本地的第一步"
+description: "上一篇 Hardhat 工程结尾预告的 M3.3：把只在进程里活着的 Counter 部署到测试网 Sepolia。内容：本地网络、测试网、主网到底差在哪（成本/数据/重置/参与者四维对比）；准备工作三件套——水龙头领测试币、为什么需要 Alchemy/Infura 这类 RPC 节点服务、.env 里两项各填什么；部署操作逐条解释（复制 .env.example → 填值 → npx hardhat run scripts/deploy.js --network sepolia）；部署后用 Etherscan 测试网版查合约、以及为什么要做合约验证。如实说明：本文的部署脚本已在本地/模拟网络验证通过，真实测试网部署按文中步骤操作即可。合约就位，下一篇 M3.4 写第一个完整 DApp。"
+pubDate: 2026-09-07
+heroImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&h=630&fit=crop"
+tags: ["Web3", "区块链入门", "Sepolia"]
+categories: ["Web3"]
+subject: "DApp"
+---
+
+import Highlight from '@components/web3/Highlight.astro';
+import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
+
+## 为什么本地全绿还不够
+
+上一篇（[Hardhat 本地测试环境](/blog/hardhat-local-env)）的结尾留了个尾巴：Counter 合约目前只活在测试进程里——`npm test` 跑完，内置本地网络连同上面的合约一起消失。测试全绿说明「逻辑对了」，但有一件事它永远证明不了：**这条合约在真实以太坊网络上、在真实世界的基础设施上，能不能部署、能不能活下来。**
+
+「真的有外部可见的部署」差三样东西：真实的 RPC 连接、真实账户签名的交易、真实（但无价值）代币支付的 <GlossaryTerm term="Gas" />。这些都是 <GlossaryTerm term="测试网" /> 的领地。本篇就补上这一步：给 `dapp/` 工程加部署脚本和网络配置，把 Counter 送上 Sepolia。
+
+先说清一个口径：**本文的部署脚本已在本地/模拟网络验证通过**（`npx hardhat run scripts/deploy.js` 打印出合约地址、exit 0）。真实测试网部署需要我自己的 RPC 端点和测试私钥，属于按文中步骤即可完成的操作——不是本文的完成条件。
+
+---
+
+## 三张网：本地网络 vs 测试网 vs 主网
+
+写部署配置前，先把三个经常被混着叫的「网络」掰开。它们跑的是同一套 <GlossaryTerm term="EVM" /> 规则，差别在四个维度：
+
+| 维度 | 本地网络（Hardhat 内置） | 测试网（Sepolia） | 主网（Ethereum） |
+|------|--------------------------|-------------------|------------------|
+| 成本 | 免费（虚拟） | 免费（测试币，无价值） | 真金白银的 ETH |
+| 数据 | 进程内存，跑完就没 | 公开账本，任何人可查 | 公开账本，永久保存 |
+| 重置 | 每次运行都是新的 | 不能重置，但搞砸无所谓 | 不能重置，搞砸就是事故 |
+| 参与者 | 只有我和我的测试用例 | 全球开发者 + 少量真实节点 | 全世界的用户和资金 |
+| 谁能连 | 只有本进程 | 任何人的 RPC 端点 | 任何人的 RPC 端点 |
+
+用一张图理解它们的关系：
+
+```text
+       本地网络                测试网 Sepolia              主网 Ethereum
+   ┌─────────────────┐    ┌─────────────────────┐    ┌─────────────────────┐
+   │ 我的进程里模拟    │    │ 真实网络，测试币      │    │ 真实网络，真实价值    │
+   │ 写测试 → 跑断言   │ →  │ 部署 → 别人能看到    │ →  │ 部署 → 真用户真资金   │
+   │ 跑完即焚         │    │ 出错零损失           │    │ 出错无法撤回         │
+   └─────────────────┘    └─────────────────────┘    └─────────────────────┘
+        验证逻辑                  演练全流程                  承载真价值
+```
+
+为什么中间必须有测试网这一站？因为「逻辑对」和「能上链」之间还隔着：账户有没有币、RPC 配置对不对、交易能不能被打包、gas 够不够。这些环节在本地网络里全是被框架代劳的，只有测试网会把它们真实地暴露出来——但代价为零。跳过测试网直接上主网，等于用真钱做第一次演练。
+
+---
+
+## 准备工作：测试币、RPC 节点、.env
+
+### 测试币从哪来：<GlossaryTerm term="水龙头" />
+
+测试网的 gas 要用测试 ETH 支付。Sepolia 的测试 ETH 通过 <GlossaryTerm term="水龙头" /> 领取：用钱包地址去 faucet 站点提交，几分钟内到账，通常是 0.1–0.5 ETH 的量级——对部署一个 Counter 来说绰绰有余（实际部署交易的花费在 0.001 ETH 以下）。
+
+两个实用提醒：一，**新建一个测试专用账户**来领币和部署，不要用存有主网资产的账户——测试账户的私钥会频繁进出各种配置文件，从习惯上就应该隔离；二，faucet 普遍有频率限制（隔几小时才能领一次），别把额度浪费在反复试错上，先把下面的 RPC 和 .env 配好再领不迟。
+
+### 为什么需要第三方 RPC：Alchemy / Infura 的角色
+
+部署交易不会凭空飞到 Sepolia 上——它得先被某个**全节点**接收、验证、广播、打包。而我自己并不运行以太坊全节点（同步一个要几百 GB 磁盘和数天时间），所以需要一个「替我连网络」的中介：RPC 节点服务。
+
+```text
+我的 dapp/ 工程
+      │  JSON-RPC（HTTPS）
+      ▼
+RPC 节点服务（Alchemy / Infura）──► 它们运营的 Sepolia 全节点
+      │                                  │
+      ▼                                  ▼
+hardhat 用它发交易                     交易进入网络，被验证者打包
+```
+
+Alchemy、Infura 这类服务商的商业模式就是「替你跑节点、卖 API 端点」，免费档对个人开发完全够用。注册 → 创建 App → 选 Sepolia 网络 → 复制 HTTPS 端点，得到一个形如下面的 URL：
+
+```text
+https://eth-sepolia.g.alchemy.com/v2/<你的API_KEY>
+```
+
+这个端点就是工程与测试网之间的唯一通道。
+
+### .env：两项各填什么
+
+工程里已经放好模板 `dapp/.env.example`，复制一份再填：
+
+```text
+$ cp .env.example .env
+
+# .env 只有两项：
+SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/<你的API_KEY>   # 上一步复制的端点
+PRIVATE_KEY=0x<测试专用账户的私钥>                                      # 领了测试币的那个账户
+```
+
+`hardhat.config.js` 里对应的 sepolia 配置从环境变量读值，文件本身不含任何秘密：
+
+```javascript
+networks: {
+  sepolia: {
+    url: process.env.SEPOLIA_RPC_URL || "",
+    accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+  },
+},
+```
+
+<Highlight type="danger">
+私钥只进 `.env`，永远不进 git、永远不发给别人。`.env` 已被 `.gitignore` 覆盖——但 gitignore 防的是「不小心 add」，防不了「故意提交」：任何包含私钥的截图、粘贴、消息都是事故。测试账户也要当真账户对待，习惯比运气可靠。
+</Highlight>
+
+---
+
+## 部署操作：一条命令上 Sepolia
+
+部署脚本 `scripts/deploy.js` 很短，逻辑四步：取签名账户 → 取 Counter 合约工厂 → 部署并等确认 → 打印地址：
+
+```javascript
+const { ethers } = require("hardhat");
+
+async function main() {
+  const [deployer] = await ethers.getSigners();
+  console.log("Deployer address:", deployer.address);
+
+  const Counter = await ethers.getContractFactory("Counter");
+  const counter = await Counter.deploy();
+  await counter.waitForDeployment();
+
+  console.log("Counter deployed to:", await counter.getAddress());
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+```
+
+注意脚本里没有任何网络和密钥的硬编码——连向哪里、用谁的身份，全由运行时的参数和配置决定。
+
+**第一步，先在本地验证**（不传 `--network`，用默认 hardhat 网络）：
+
+```text
+$ npx hardhat run scripts/deploy.js
+Deployer address: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+Counter deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+```
+
+两行输出：部署者（Hardhat 预置的 0xf39F... 测试账户）和合约地址（0x5FbD...，本地网络第一个部署的固定地址）。这一步是我在本仓库实际跑通的——它证明脚本、编译、部署流程三者没问题。
+
+**第二步，指向 Sepolia 重跑**（前提：`.env` 已配好、测试币已到账）：
+
+```text
+$ npx hardhat run scripts/deploy.js --network sepolia
+Deployer address: 0x<我的测试账户地址>
+Counter deployed to: 0x<这次部署拿到的合约地址>
+```
+
+同一个脚本，只多了 `--network sepolia`。这次背后发生的事完全不同：Hardhat 用 `.env` 里的 RPC 连上 Alchemy 的节点，用私钥给部署交易签名，交易进入 <GlossaryTerm term="内存池" /> 等待打包——几十秒后合约地址打印出来，它已经写在 Sepolia 的公开账本上了，任何人可查、无法删除。
+
+<Highlight type="info">
+如果报错，按顺序查三处：连不上 RPC（检查 `SEPOLIA_RPC_URL` 是否完整复制）；insufficient funds（测试币没到账或用错账户）；交易超时（Sepolia 偶尔拥堵，重跑一次即可）。部署是幂等的——重跑只是多部署一个新实例，旧实例留在链上无害。
+</Highlight>
+
+---
+
+## 部署之后：Etherscan 查合约与验证
+
+拿到合约地址后，去 **Etherscan 的测试网版**（sepolia.etherscan.io，注意不是主网站）把地址贴进搜索框，能看到：部署交易、区块号、创建者（就是 `Deployer address`）、合约余额（0）。到这一步，「外部可见的部署」成立——别人用同一个地址也能看到它。
+
+但此时 Etherscan 上只能看到一堆交易记录，**看不到合约的源码**——链上存的只是 <GlossaryTerm term="字节码" />。这就是「合约验证（verify）」要做的事：把源码和编译配置提交给 Etherscan，它重新编译一遍，若字节码与链上一致，就给合约盖上蓝色的 Verified 募章，之后任何人都能在网页上直接读源码、调用函数。
+
+为什么要做验证？第一，对使用者：未验证的合约是黑盒，没人敢和它交互——这直接关系下一篇的 DApp 有没有人用；第二，对自己：验证页面就是免费的合约调试台，`getCount` 这类读函数可以直接在 Etherscan 上点。工具上 hardhat-toolbox 已带 verify 插件，`npx hardhat verify <地址> --network sepolia` 一条命令的事，前提同样是需要 Etherscan 的 API key（放进 `.env`，套路与 RPC 相同）。
+
+---
+
+## 总结：合约就位，等一个前端
+
+本篇给 `dapp/` 补齐了最后一块部署能力：`.env.example` 模板、sepolia 网络配置、`scripts/deploy.js` 部署脚本。三张网的分工现在很清楚：本地网络管「逻辑对」，测试网管「流程通」，主网管「真价值」。脚本已在本地验证通过，配好 `.env` 后一条 `--network sepolia` 就能上测试网，Etherscan 上查地址、做验证，合约从此对外可见。
+
+下一步（M3.4）：合约已经就位，但用户不可能用命令行跟它打交道——接下来写第一个完整 DApp：一个网页前端，连钱包、读 count、点按钮调 increment。合约是后端，这一篇补上前端，阶段 3 就闭环了。
+
+**相关文章：**
+
+- [Hardhat 本地测试环境](/blog/hardhat-local-env) — 前篇：本文部署的工程与 Counter 合约出处
+- [Solidity 基础语法笔记](/blog/solidity-basics-notes) — 被部署的 Counter 的每一行语法
+- [智能合约到底是什么，能做什么](/blog/smart-contracts-explained) — 为什么「上链即不可改」让测试网演练不可省略
+- [EVM 深度解析](/blog/evm-deep-dive) — 三张网上执行交易的同一台虚拟机
+- [Gas：世界计算机的计价系统](/blog/ethereum-gas-fees) — 测试币付的就是它
+- [账户模型 vs UTXO](/blog/account-model-vs-utxo) — 部署者账户与合约账户的模型基础
+- [UTXO 模型：比特币的会计学](/blog/utxo-model-deep-dive) — 对照：另一种没有合约的记账模型
+- [工作量证明](/blog/pow-consensus) — 测试网背后的真实共识
+- [比特币白皮书精读](/blog/bitcoin-whitepaper-deep-dive) — 一切的原始蓝图
+- [比特币网络实际运行](/blog/bitcoin-network-in-practice) — 对照：从转账网络到世界计算机
