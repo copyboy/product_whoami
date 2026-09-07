@@ -1,0 +1,20 @@
+{
+  "_comment": "Shared defaults for all missions. Fill commands.* for YOUR stack.",
+  "model": "zhipuai-coding-plan/glm-5.3",
+  "parseModel": "zhipuai-coding-plan/glm-5.3-flash",
+  "agent": "build",
+  "maxCycles": 8,
+  "maxInnerCycles": 6,
+  "maxTotalSteps": 500,
+  "fastSkipSteps": [],
+  "planGuide": "docs/plans/00-plan-authoring-and-execution-guide.md",
+  "auditsDir": "docs/audits",
+  "contextDir": "docs/context",
+  "commands": {
+    "test": "echo 'no test suite configured'",
+    "build": "npm run build",
+    "lint": "npm run format -- --check",
+    "typecheck": "npm run type-check"
+  },
+  "commitFormat": "<type>(<scope>): <description>"
+}

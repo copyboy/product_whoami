@@ -27,3 +27,6 @@ search-data.json
 
 # Claude Code local files
 .claude/
+.env
+_tmp/
+tmp/
