@@ -26,7 +26,7 @@ The default level is `implement` for work items with no explicit label. The defa
 
 Set one value for the copied project:
 
-- Reviewer availability: `<human | subagent | none>`
+- Reviewer availability: `subagent` — evidence: the mission-driver engine in this workspace dispatches independent subagent reviewer sessions for plan/closure audits (engine smoke PASS 2026-09-07, `docs/input/project-scan.md` § Engine Smoke Record; recorded dispatch: `review-2026-09-07-104453-mission-driver-2026-09-07-1044-3-fill-ai-autonomy-policy-1-a3f86d21` to session `ses_opencode_glm53`, 2026-09-07)
 
 If this value is still a placeholder, treat reviewer availability as `none` and treat protected-area or high-risk plans as blocked until human/subagent review is configured.
 
@@ -64,11 +64,20 @@ Fill these for the copied project.
 
 If this table still contains placeholders, AI must treat payment, auth/permissions, data deletion, database/model shape, deployment, and external integrations as `ask-first` or `blocked` until the table is replaced with real entries or explicit `none`.
 
-| Area                 | Rule       | Required Evidence |
-| -------------------- | ---------- | ----------------- |
-| `<payment>`          | ask first  | owner doc + tests |
-| `<data deletion>`    | ask first  | owner doc + tests |
-| `<auth/permissions>` | plan-first | owner doc + tests |
+| Area                                            | Rule       | Required Evidence |
+| ----------------------------------------------- | ---------- | ----------------- |
+| payment                                         | none       | absence verified 2026-09-07: fully static Astro SSG site, no payment code/deps/pages (`docs/input/project-scan.md` §2/§5) |
+| data deletion                                   | none       | absence verified 2026-09-07: no backend/database/user-data storage; static output only (scan §2/§5) |
+| auth/permissions                                | none       | absence verified 2026-09-07: no auth/account code in a fully static site (scan §2/§5) |
+| content-collections schema (`src/content/config.ts`) | plan-first | plan audit + owner doc + `npm run type-check` / `npm run build` / `npm run test:run` green |
+| deployment (Cloudflare Pages)                   | plan-first | plan audit + owner doc (`docs/cloudflare-pages-setup.md`) + `npm run build` green |
+| external integrations                           | none       | absence verified 2026-09-07: RSS/sitemap are build-time static artifacts; no runtime third-party APIs or credentials (scan §2/§5) |
+
+Protected Areas Decision (2026-09-07, M1-WI3):
+
+- Rationale: the live-repo scan (`docs/input/project-scan.md`) proves payment, data deletion, auth/permissions, and runtime external integrations do not exist in this fully static Astro site, so each is recorded as explicit `none` — the template's designed terminal state, not a loosening. The two real areas stay constrained: content-collections schema is the data/model shape (blog + projects collections) and deployment is Cloudflare Pages; both are `plan-first`, matching this file's own rule that changing database/model shape or deployment requires an owner doc and test strategy.
+- Alternatives considered: keep the interim ask-first for the absent areas — rejected, explicit `none` with recorded absence evidence is this file's sanctioned end state; content schema as `implement` — rejected, would loosen the model-shape constraint; deployment as `ask first` — considered, `plan-first` chosen because it implements exactly this file's owner-doc + test-strategy bar while keeping implementation gated behind plan audit.
+- Residual risk: if the site later gains dynamic features (functions, auth, payments, external APIs), this table must be re-filled before such work proceeds; new areas fall back to the ask-first defaults in "AI Must Ask Or Stop Before".
 
 Protected-area rule meanings:
 
