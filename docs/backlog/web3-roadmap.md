@@ -23,7 +23,7 @@
 | M3/WI5 笔记「Solidity 基础语法」 | done | `src/content/blog/solidity-basics-notes.mdx` (output) | WI4 | M3.1 用户已在学，有第一手输入 |
 | M3/WI6 Hardhat 本地测试环境 + 文章 | done | `dapp/` + `src/content/blog/hardhat-local-env.mdx` (output) | WI5 | npm 工具链现成 |
 | M3/WI7 测试网部署脚本 + 文章 | done | `dapp/` 部署脚本 + `src/content/blog/deploy-to-testnet.mdx` (output) | WI6 | — |
-| M3/WI8 第一个完整 DApp + 文章 | todo | `dapp/` 合约+前端 + `src/content/blog/first-full-dapp.mdx` (output) | WI7 | — |
+| M3/WI8 第一个完整 DApp + 文章 | done | `dapp/` 合约+前端 + `src/content/blog/first-full-dapp.mdx` (output) | WI7 | — |
 
 ## Milestones
 
