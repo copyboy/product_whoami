@@ -49,6 +49,11 @@ export function getPhaseProgress(phase: Phase): number {
 }
 
 export function getCurrentPhase(phases: Phase[]): Phase | undefined {
+  // 优先返回有「进行中」里程碑的阶段（如 M3.1 learning），否则回退到第一个未完成的阶段
+  const learningPhase = phases.find(p =>
+    p.milestones.some(m => m.status === 'learning')
+  );
+  if (learningPhase) return learningPhase;
   return phases.find(p =>
     p.milestones.some(m => m.status !== 'done')
   );

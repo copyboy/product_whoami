@@ -166,6 +166,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"bitcoin-network-in-practice.mdx": {
+	id: "bitcoin-network-in-practice.mdx";
+  slug: "bitcoin-network-in-practice";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "bitcoin-whitepaper-deep-dive.mdx": {
 	id: "bitcoin-whitepaper-deep-dive.mdx";
   slug: "bitcoin-whitepaper-deep-dive";

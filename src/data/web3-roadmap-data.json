@@ -10,10 +10,10 @@
       "scenarios": ["跨境汇款", "资产存储", "censorship-resistant 的价值转移"],
       "color": "indigo",
       "milestones": [
-        { "id": "M1.1", "title": "UTXO 模型是什么，为什么和银行账户不一样", "status": "done", "articleSlug": "utxo-model" },
+        { "id": "M1.1", "title": "UTXO 模型是什么，为什么和银行账户不一样", "status": "done", "articleSlug": "utxo-model-deep-dive" },
         { "id": "M1.2", "title": "PoW 共识怎么保证不可篡改", "status": "done", "articleSlug": "pow-consensus" },
         { "id": "M1.3", "title": "Bitcoin 白皮书深度解读", "status": "done", "articleSlug": "bitcoin-whitepaper-deep-dive" },
-        { "id": "M1.4", "title": "Bitcoin 网络实际运行（节点、矿工、交易）", "status": "todo", "articleSlug": null }
+        { "id": "M1.4", "title": "Bitcoin 网络实际运行（节点、矿工、交易）", "status": "done", "articleSlug": "bitcoin-network-in-practice" }
       ]
     },
     {
@@ -44,7 +44,7 @@
       "milestones": [
         { "id": "M3.1", "title": "Solidity 基础语法，能写简单合约", "status": "learning", "articleSlug": null },
         { "id": "M3.2", "title": "Hardhat + 本地测试环境搭建", "status": "todo", "articleSlug": null },
-        { "id": "M3.3", "title": "部署到测试网（Sepolia / Holesky）", "status": "todo", "articleSlug": null },
+        { "id": "M3.3", "title": "部署到测试网（Sepolia / Hoodi）", "status": "todo", "articleSlug": null },
         { "id": "M3.4", "title": "第一个完整 DApp（前端 + 合约交互）", "status": "todo", "articleSlug": null }
       ]
     },

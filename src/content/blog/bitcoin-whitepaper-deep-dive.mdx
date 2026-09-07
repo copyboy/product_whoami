@@ -2,8 +2,8 @@
 title: "比特币白皮书精读：一切的开端"
 description: "2008年10月31日，中本聪发布了《Bitcoin: A Peer-to-Peer Electronic Cash System》。这份9页的白皮书如何解决了一个困扰计算机科学20年的难题？"
 pubDate: 2026-04-18
-updatedDate: 2026-04-18
-heroImage: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1200&h=630&fit=crop"
+updatedDate: 2026-09-07
+heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=630&fit=crop"
 tags: ["Bitcoin", "Whitepaper", "Web3", "区块链入门", "中本聪"]
 categories: ["Web3"]
 subject: "Bitcoin"
@@ -66,15 +66,15 @@ import Highlight from '@components/web3/Highlight.astro';
 
 ### 比特币的核心创新
 
-白皮书第3-4节描述了比特币的两大核心机制：
+**白皮书的两大核心机制：**
 
-**1. 时间戳服务器（Timestamp Server）**
+**1. 时间戳服务器（Timestamp Server）**——白皮书第 2 节
 
 > "The solution we propose begins with a timestamp server. A timestamp server works by taking a hash of a block of items to be timestamped and widely publishing the hash..."
 
 时间戳服务器将一组交易打上时间戳，生成区块的哈希值，并广泛发布出去。任何人都可以看到这个区块存在于此特定时刻。
 
-**2. 工作量证明（Proof-of-Work）**
+**2. 工作量证明（Proof-of-Work）**——白皮书第 4 节
 
 > "The proof-of-work involves scanning for a value that when hashed, such as with SHA-256, the hash begins with a number of zero bits..."
 
@@ -108,7 +108,7 @@ Hash("区块数据...Nonce=1")   = 3c9d...
 Hash("区块数据...Nonce=4521") = 0000a3e7... ✓ 找到！
 ```
 
-这有多难？以 2024 年为例，找到一个有效区块需要约 10^21 次 SHA256 运算。
+这有多难？以 2024 年为例，全网算力约 600 EH/s（每秒约 6×10²⁰ 次哈希），平均每 10 分钟出一个块——也就是说，找到一个有效区块，全网合计要尝试约 10²³ 次哈希运算。
 
 ### 为什么这能防止双重支付？
 
@@ -119,7 +119,7 @@ Hash("区块数据...Nonce=4521") = 0000a3e7... ✓ 找到！
 2. 阻止特定交易确认
 3. 但他无法凭空创造比特币
 
-攻击成本：每小时约 $20万（矿机 + 电力），远超潜在收益。
+攻击成本：需要掌控并持续运行全网过半算力，仅电力成本就以每小时百万美元量级计（不含矿机投入），远超潜在收益。
 
 </Highlight>
 
@@ -131,7 +131,7 @@ Hash("区块数据...Nonce=4521") = 0000a3e7... ✓ 找到！
 
 分布式系统领域有一个著名问题：**拜占庭将军问题**。想象几个将军各自带领军队围困一座城市，他们只能通过信使通信，必须共同决定是进攻还是撤退。但如果其中有叛徒发送假消息，怎么达成共识？
 
-中本聪的创新在于：**将这个问题的容错要求从 1/3 降到 51%**，并且通过经济激励（区块奖励）让攻击变得无利可图。
+中本聪的创新在于：传统拜占庭容错（BFT）算法需要预先知道全部成员、且要求恶意节点不超过 1/3；而中本聪方案**用算力竞争 + 最长链原则取代成员投票，让开放网络在恶意算力低于 50% 时依然安全**——不需要准入名单，任何人随时可以加入或离开。再通过经济激励（区块奖励）让攻击变得无利可图。
 
 ### 激励机制的精妙设计
 
@@ -140,7 +140,7 @@ Hash("区块数据...Nonce=4521") = 0000a3e7... ✓ 找到！
 | 角色 | 激励来源 | 数额 |
 |------|---------|------|
 | 矿工 | Coinbase 交易（新区块奖励） | 初始 50 BTC，每21万区块减半 |
-| 矿工 | 交易手续费 | 当前约 1-5 BTC/区块 |
+| 矿工 | 交易手续费 | 随链上拥堵波动（2021 年高峰曾超 5 BTC/区块，近年多在 0.1 BTC/区块以下） |
 | 节点 | 无直接激励 | 维护网络安全的"利他主义" |
 
 **中本聪的隐含假设**：

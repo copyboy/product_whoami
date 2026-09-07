@@ -15,11 +15,16 @@ const definitions: Record<string, string> = {
   NFTFi: "NFT-Fi 是解决 NFT 流动性问题的协议集合，包括 NFT 抵押借贷、碎片化、衍生品等，让 NFT 持有者不必抛售就能获得流动性。",
   DAO: "DAO（去中心化自治组织）是基于智能合约和代币治理的组织形式，成员通过提案和投票共同决策，没有中心化管理层。",
   TVL: "TVL（Total Value Locked）是存入 DeFi 或 L2 协议的资产总值，是衡量协议规模的直接指标，但不代表协议盈利能力。",
-  TPS: "TPS（Transactions Per Second）是每秒处理交易数。Bitcoin ~7 TPS，Ethereum ~30 TPS，Solana 可达 65,000 TPS。",
+  TPS: "TPS（Transactions Per Second）是每秒处理交易数。Bitcoin ~7 TPS，Ethereum ~15-30 TPS，Solana 实际约 1,000-4,000 TPS（理论上限 65,000）。",
   EVM: "EVM（Ethereum Virtual Machine）是以太坊的图灵完备虚拟机，所有以太坊智能合约都运行在 EVM 上。EVM 兼容性是以太坊生态最大的护城河。",
   Gas: "Gas 是以太坊网络的计算费用单位。用户发起交易或执行智能合约时需要支付 Gas，费用 = Gas 消耗量 × Gas 单价（gwei）。",
   PoW: "PoW（工作量证明）要求矿工通过计算难题竞争出块权，比特币目前使用此共识机制，能耗较高。",
   PoS: "PoS（权益证明）要求验证者质押代币参与共识，能耗比 PoW 低 99.95%。以太坊 2022 年通过 Merge 升级完成 PoW 到 PoS 的转变。",
+  UTXO: "UTXO（Unspent Transaction Output，未花费交易输出）是比特币的记账模型：每笔交易消耗旧的 UTXO、创造新的 UTXO，类似现金找零，没有「账户余额」概念。",
+  "共识机制": "共识机制是分布式网络就「历史记录是什么」达成一致的规则。比特币用 PoW（算力竞争），以太坊用 PoS（权益质押）。",
+  "全节点": "全节点下载并独立验证全部区块数据的比特币节点，不信任任何人。矿工生产历史，全节点审计历史。",
+  "内存池": "内存池（mempool）是节点本地存放待确认交易的候车厅。每个节点独立维护，不是全网统一的，也不是共识的一部分。",
+  "矿池": "矿池把大量矿工的算力聚合起来共同出块，按算力份额分配收益，把 Solo 挖矿的「百年彩票」变成稳定现金流。",
   AMM: "AMM（自动化做市商）通过数学公式（通常是 x*y=k 恒定乘积）而非订单簿为交易对定价。Uniswap 是最著名的 AMM 协议。",
   "智能合约": "智能合约是部署在区块链上的程序代码，当满足预设条件时自动执行。无需中间商，可实现借贷、交易、保险等自动化逻辑。",
   Rollup: "Rollup 将大量交易打包后在链下执行，仅将压缩后的数据或证明提交到主网，兼顾扩展性和安全性。",
@@ -27,17 +32,16 @@ const definitions: Record<string, string> = {
   "ZK Rollups": "ZK Rollups 通过零知识证明验证交易有效性，无需信任假设且无延迟等待期。zkSync 和 Starknet 是主要实现。",
   MPC: "MPC（安全多方计算）将私钥分片给多个参与者，任何单点都无法获取完整私钥。AI Agent 钱包常用 MPC 技术实现资产自主管理。",
   MEV: "MEV（矿工可提取价值）是指验证者/矿工通过操纵交易顺序获取的额外利润，包括闪电贷攻击、三明治攻击等。",
-  TVL: "TVL（Total Value Locked）是存入 DeFi 或 L2 协议的资产总值，反映协议吸引到的资金量。",
   EIP1559: "EIP-1559 是以太坊 2021 年的伦敦升级，引入基础费燃烧机制，使 ETH 成为通缩资产的可能性。",
   Blob: "Blob 是 Dencun 升级引入的数据存储方案，大幅降低 L2 数据发布费用，使 L2 手续费降低 10-100 倍。",
-  "Account Abstraction": "账户抽象（EIP-7702）让普通 EOA 账户获得智能合约能力，可实现社交恢复、多签、无 gas 赞助交易等。",
+  "Account Abstraction": "账户抽象让钱包从「私钥控制」升级为「智能合约控制」，可实现社交恢复、多签、无 gas 赞助交易等。ERC-4337 定义了独立标准，EIP-7702 则允许 EOA 账户委托合约代码执行。",
   ERC20: "ERC-20 是以太坊的同质化代币标准，所有在以太坊上发行的代币（USDT、DAI、UNI 等）都遵循此标准。",
   ERC721: "ERC-721 是以太坊的 NFT 标准，定义了如何创建和转移独特的非同质化代币。",
   MiCA: "MiCA（加密资产市场监管）是欧盟 2024 年生效的加密资产监管框架，为数字资产发行和服务提供商提供统一监管规则。",
   "Uniswap V4": "Uniswap V4 引入 Hook 机制，允许开发者自定义交易池规则，实现限价单、时间加权做市（TWAMM）、动态费率等高级功能。",
   Aave: "Aave 是最大的去中心化借贷协议，存款人提供流动性获取收益，借款人以超额抵押方式借出资产。支持闪电贷。",
   MakerDAO: "MakerDAO 是去中心化稳定币 DAI 的发行协议，用户超额抵押 ETH 等资产生成 DAI，DSR 让 DAI 持有者获得存款收益。",
-  Solana: "Solana 是高性能公链，采用 PoH（历史证明）共识，TPS 达 65,000，费用低于 $0.001，但历史上曾有网络宕机记录。",
+  Solana: "Solana 是高性能公链，采用 PoH（历史证明）+ PoS 共识，实际吞吐约 1,000-4,000 TPS（理论上限 65,000），费用低于 $0.001，但历史上曾有网络宕机记录。",
   Cosmos: "Cosmos 通过 IBC 协议连接 100+ 条区块链，是最大的跨链生态之一。Tendermint BFT 共识是其核心技术。",
   Bitcoin: "Bitcoin 是第一个区块链网络，主要作为数字黄金和价值存储，ETF 已获批并吸引大量机构资金。",
   Ethereum: "Ethereum 是世界计算机，智能合约平台，DeFi 和 NFT 生态的基础。ETH 是全球第二大加密货币。",
@@ -58,7 +62,7 @@ const definitions: Record<string, string> = {
 const definition = definitions[term] || `${term} 是 Web3 领域的重要概念。`;
 ---
 
-<span class:list=["glossary-term", className]} data-definition={definition}>{term}</span>
+<span class:list={["glossary-term", className]} data-definition={definition}>{term}</span>
 
 <style>
   .glossary-term {

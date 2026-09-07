@@ -36,6 +36,7 @@ export const conceptMeta: Record<string, ConceptMeta> = {
   'pow':         { name: 'PoW',            nameEn: 'Proof of Work',                        phaseId: 1 },
   'pos':         { name: 'PoS',            nameEn: 'Proof of Stake',                        phaseId: 2 },
   'utxo':        { name: 'UTXO',           nameEn: 'Unspent Transaction Output',            phaseId: 1, color: 'indigo' },
+  '节点':        { name: '节点',            nameEn: 'Bitcoin Network Nodes',                 phaseId: 1, color: 'indigo' },
 };
 
 export function getConceptMeta(slug: string): ConceptMeta | undefined {

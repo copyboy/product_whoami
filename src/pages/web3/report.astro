@@ -26,7 +26,7 @@ import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
             // 五阶段认知模型 | 理解去中心化的进化路径
           </p>
           <div class="flex items-center gap-4 text-xs text-slate-500 dark:text-[#8b949e]">
-            <span class="font-mono">updated: <span class="text-emerald-600 dark:text-[#7ee787]">2026.04.18</span></span>
+            <span class="font-mono">updated: <span class="text-emerald-600 dark:text-[#7ee787]">2026.09.07</span></span>
             <span class="font-mono">status: <span class="text-amber-600 dark:text-[#f0883e]">active</span></span>
             <span class="font-mono">version: <span class="text-blue-600 dark:text-[#58a6ff]">3.0</span></span>
           </div>
@@ -151,8 +151,8 @@ import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
               <p class="font-mono text-sm text-emerald-600 dark:text-[#7ee787] mb-2">// 为什么 PoW 安全？</p>
               <p class="font-mono text-xs text-slate-600 dark:text-[#8b949e]">
                 攻击成本 &gt; 攻击收益<br>
-                算力租用：$200B+ 比特币网络，1小时攻击成本 ~$1M+<br>
-                物理成本：需要 51% 算力，设备成本数十亿美元
+                1 小时攻击成本：电力 + 算力以百万美元量级计（不含矿机投入）<br>
+                物理成本：需要 51% 算力，矿机设备投入以十亿美元计
               </p>
             </div>
           </div>
@@ -181,27 +181,27 @@ import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
                     <td class="py-2 px-3 text-amber-600 dark:text-amber-400">Bitcoin</td>
                     <td class="py-2 px-3">PoW</td>
                     <td class="py-2 px-3">~7</td>
-                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">$1-50</td>
+                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">≈$0.5-5</td>
                     <td class="py-2 px-3">数字黄金</td>
                   </tr>
                   <tr class="border-t border-slate-200 dark:border-[#21262d]">
                     <td class="py-2 px-3 text-indigo-600 dark:text-indigo-400">Ethereum</td>
                     <td class="py-2 px-3">PoS</td>
-                    <td class="py-2 px-3">~30</td>
-                    <td class="py-2 px-3 text-amber-600 dark:text-amber-400">$1-50</td>
+                    <td class="py-2 px-3">~15-30</td>
+                    <td class="py-2 px-3 text-amber-600 dark:text-amber-400">≈$0.5-5</td>
                     <td class="py-2 px-3">世界计算机</td>
                   </tr>
                   <tr class="border-t border-slate-200 dark:border-[#21262d]">
                     <td class="py-2 px-3 text-purple-600 dark:text-purple-400">Solana</td>
                     <td class="py-2 px-3">PoH + PoS</td>
-                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">65,000</td>
+                    <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">实际 1,000-4,000</td>
                     <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">&lt;$0.001</td>
                     <td class="py-2 px-3">高性能应用链</td>
                   </tr>
                   <tr class="border-t border-slate-200 dark:border-[#21262d]">
                     <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">Cosmos</td>
                     <td class="py-2 px-3">Tendermint</td>
-                    <td class="py-2 px-3">~1000</td>
+                    <td class="py-2 px-3">数百至数千（依链而定）</td>
                     <td class="py-2 px-3 text-emerald-600 dark:text-emerald-400">&lt;$0.01</td>
                     <td class="py-2 px-3">跨链 Hub</td>
                   </tr>
@@ -284,7 +284,7 @@ import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
             </div>
             <div class="mt-4 p-4 bg-amber-50 dark:bg-[#f0883e]/10 border border-amber-200 dark:border-[#f0883e]/30 rounded-lg">
               <p class="text-sm text-amber-700 dark:text-[#f0883e]">
-                <span class="font-bold">关键数据：</span>以太坊主网 Gas 通常 10-100 gwei，L2 (Arbitrum/Base) Gas 不足 0.01 gwei，费用差距可达 <span class="font-mono">1000倍</span>
+                <span class="font-bold">关键数据：</span>以太坊主网 Gas 通常在个位数到几十 gwei 波动（Dencun 升级后长期低于 10 gwei），L2 (Arbitrum/Base) Gas 不足 0.01 gwei，费用差距可达 <span class="font-mono">1000倍</span>
               </p>
             </div>
           </div>
@@ -456,7 +456,7 @@ import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
                   </p>
                 </div>
                 <p class="mt-2 text-xs text-slate-500 dark:text-[#8b949e]">
-                  买入 1 ETH → 池变为 (99, 202,020) → 价格变为 $2040.2<br>
+                  买入 1 ETH → 池变为 (99, 202,020) → 价格变为 $2040.6<br>
                   <span class="text-amber-600 dark:text-amber-400">滑点 2%！这就是大额交易的价格冲击</span>
                 </p>
               </div>
@@ -656,7 +656,7 @@ import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-emerald-200 dark:border-[#238636]/30 transition-colors">
             <p class="text-emerald-600 dark:text-emerald-400 font-bold mb-2">技术成熟度跨越鸿沟</p>
-            <p class="text-sm text-slate-600 dark:text-[#8b949e]">L2 费用 $0.001 级别，账户抽象让 Web2 用户无缝进入。EIP-7702 让 EOA 账户获得智能合约能力。</p>
+            <p class="text-sm text-slate-600 dark:text-[#8b949e]">L2 费用 $0.001 级别，账户抽象让 Web2 用户无缝进入。ERC-4337 定义了账户抽象标准，EIP-7702 让 EOA 账户获得智能合约能力。</p>
           </div>
           <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-blue-200 dark:border-[#58a6ff]/30 transition-colors">
             <p class="text-blue-600 dark:text-blue-400 font-bold mb-2">监管框架清晰化</p>
@@ -668,7 +668,7 @@ import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
           </div>
           <div class="p-4 bg-white dark:bg-[#161b22] rounded-lg border border-amber-200 dark:border-[#f0883e]/30 transition-colors">
             <p class="text-amber-600 dark:text-amber-400 font-bold mb-2">RWA 万亿市场开启</p>
-            <p class="text-sm text-slate-600 dark:text-[#8b949e]">代币化国债规模突破 $5B，贝莱德 BUIDL 是标志性事件。房地产、商品逐步跟进。</p>
+            <p class="text-sm text-slate-600 dark:text-[#8b949e]">代币化国债规模已达数十亿美元量级，贝莱德 BUIDL 是标志性事件。房地产、商品逐步跟进。</p>
           </div>
         </div>
 
@@ -705,7 +705,7 @@ import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
     <footer class="pt-6 border-t border-slate-200 dark:border-[#30363d] transition-colors">
       <div class="flex justify-between items-center text-sm">
         <span class="font-mono text-slate-500 dark:text-[#8b949e]">
-          <span class="text-emerald-600 dark:text-[#7ee787]">$</span> echo "last_updated: 2026.04.18"
+          <span class="text-emerald-600 dark:text-[#7ee787]">$</span> echo "last_updated: 2026.09.07"
         </span>
         <a href="/web3/roadmap" class="text-blue-600 dark:text-[#58a6ff] hover:text-blue-700 dark:hover:text-[#79b8ff] font-mono">
           ← 查看完整路线图

@@ -2,7 +2,7 @@
 title: "工作量证明：比特币的信任机器"
 description: "PoW（Proof of Work）是比特币的核心共识机制。它用数学和能量代替机构，让「谁说了算」这个问题，第一次不需要任何人来背书。"
 pubDate: 2026-04-18
-updatedDate: 2026-04-18
+updatedDate: 2026-09-07
 heroImage: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1200&h=630&fit=crop"
 tags: ["PoW", "Bitcoin", "Web3", "区块链入门", "共识机制"]
 categories: ["Web3"]
@@ -21,7 +21,7 @@ import Highlight from '@components/web3/Highlight.astro';
 
 但比特币没有银行。每一个节点都有权记录交易。那问题来了：如果两个人同时广播了两笔矛盾的交易，谁的版本算数？历史由谁决定？
 
-这就是 <GlossaryTerm term="共识机制" client:load /> 要解决的问题。
+这就是 <GlossaryTerm term="共识机制" /> 要解决的问题。
 
 ---
 
@@ -35,7 +35,7 @@ import Highlight from '@components/web3/Highlight.astro';
 
 这就是**双重支付问题**。
 
-<Highlight type="problem">
+<Highlight type="warning">
 中本聪的论文要解决的，不是「加密货币怎么设计」，而是这个问题：在一个完全去中心化、没有可信第三方的系统里，如何防止双重支付？
 </Highlight>
 
@@ -70,12 +70,14 @@ import Highlight from '@components/web3/Highlight.astro';
 这听起来不可能控制，但因为哈希函数是确定性的，矿工唯一能操作的就是改变区块里的一个随机数（Nonce），不断重试。
 
 ```
-区块数据 + Nonce → SHA256 哈希 → 必须小于目标值
+区块数据 + Nonce → SHA256(SHA256(·)) 双重哈希 → 必须小于目标值
 ```
+
+一个实现细节：比特币用的是**双重 SHA256**（对哈希结果再哈希一次），这是为了防御 SHA256 的 length-extension 攻击。上文的伪代码里我们简写为一次 SHA256，原理不变。
 
 ### 第三步：全网验证
 
-当某个矿工找到了一个满足条件的 Nonce，它把区块广播出去。所有其他节点只需要用 SHA256 算法算一次，就能验证这个解是否正确。
+当某个矿工找到了一个满足条件的 Nonce，它把区块广播出去。所有其他节点只需要用双重 SHA256 算一次，就能验证这个解是否正确。
 
 <Highlight type="info">
 验证的成本（一次哈希运算）远低于找到答案的成本（数十亿次尝试）。这就是 PoW 的核心：找答案贵，验证答案便宜。
@@ -83,9 +85,9 @@ import Highlight from '@components/web3/Highlight.astro';
 
 ### 第四步：最长链原则
 
-可能两个矿工几乎同时找到了解，网络分成了两个版本。这时候，**下一轮 PoW 的胜者所在的链更长**，短链被废弃。
+可能两个矿工几乎同时找到了解，网络分成了两个版本。这时候，节点统一选择**累计工作量最大的那条链**继续建设，短链被废弃。习惯上叫「最长链原则」（白皮书原文口径），严格说是「最重链原则」——分叉时比的是累计难度，难度恒定时与块数等价。
 
-这保证了：最终所有节点都认同同一条最长链作为历史记录。
+这保证了：最终所有节点都认同同一条链作为历史记录。
 
 ---
 
@@ -100,8 +102,8 @@ import Highlight from '@components/web3/Highlight.astro';
 - 一旦攻击成功，比特币价格暴跌，攻击者手中的币也贬值
 - 攻击者实际上在摧毁自己投入巨大的算力基础设施
 
-<Highlight type="quote">
-「攻击比特币就像买下全世界的金矿，然后把它们全倒进海里。」— Naval Ravikant
+<Highlight type="info">
+「攻击比特币就像买下全世界的金矿，然后把它们全倒进海里。」— 网络流传归于 Naval Ravikant，出处待考
 </Highlight>
 
 ### 能量消耗是刻意的
@@ -139,8 +141,8 @@ PoW 常被批评耗电。但中本聪的设计是故意的：
 
 这些问题催生了后来的共识机制：
 
-- <GlossaryTerm term="PoS" client:load />（Proof of Stake）— 用抵押代币代替算力，大幅降低能耗
-- <GlossaryTerm term="layer2" client:load />（Layer 2）— 在链下处理交易，只把最终状态写回主链
+- <GlossaryTerm term="PoS" />（Proof of Stake）— 用抵押代币代替算力，大幅降低能耗
+- <GlossaryTerm term="Layer2" />（Layer 2）— 在链下处理交易，只把最终状态写回主链
 
 ---
 
