@@ -1,7 +1,7 @@
 {
   "_comment": "Shared defaults for all missions. Fill commands.* for YOUR stack.",
-  "model": "zhipuai-coding-plan/glm-5.3",
-  "parseModel": "zhipuai-coding-plan/glm-5.3-flash",
+  "model": "llm-router/glm-5.3",
+  "parseModel": "llm-router/glm-5.3-flash",
   "agent": "build",
   "maxCycles": 8,
   "maxInnerCycles": 6,
