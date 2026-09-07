@@ -1,0 +1,192 @@
+---
+title: "Hardhat 本地测试环境：把合约开发变成工程"
+description: "上一篇笔记结尾预告的 M3.2：把 Remix 里的计数器搬进 Hardhat 本地工程。内容：为什么单机试错有天花板（改一行、手动点一遍按钮的循环走不远）；Hardhat 是什么、装好后长什么样（目录结构逐个文件导览）；自动化测试怎么写——describe/it 结构、贴出计数器的真实用例，重点解释 revert 断言为什么不是异常而是断言；以及我自己踩过的常见坑：Node 版本、cache/artifacts 什么时候该删、为什么会自动重新编译。到这里，「改一行、全量跑一遍测试」终于是自动化的事了。下一篇 M3.3 把合约部署到测试网。"
+pubDate: 2026-09-07
+heroImage: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&h=630&fit=crop"
+tags: ["Web3", "区块链入门", "Hardhat"]
+categories: ["Web3"]
+subject: "DApp"
+---
+
+import Highlight from '@components/web3/Highlight.astro';
+import GlossaryTerm from '@components/web3/GlossaryTerm.astro';
+
+## 为什么离开 Remix：单机试错的天花板
+
+上一篇（[Solidity 基础语法笔记](/blog/solidity-basics-notes)）结尾说：下一步要离开浏览器的舒适区，让「改一行、全量跑一遍测试」变成自动化的事，那份笔记里的计数器会第一个被测试覆盖。这篇就是兑现——我把计数器搬进了 <GlossaryTerm term="Hardhat" /> 本地工程，四条用例全绿。
+
+先交代动机。Remix 对入门是天堂：零安装、点按钮、十分钟从写代码到部署。但我写 decrement 的 `require` 那天就摸到了天花板——为了验证「count 为 0 时减法会被拦下来」，我手动做了一遍：换账户、点 `decrement`、看控制台报错。这没问题，一次而已。问题是每次改一行合约，这套动作都要重来：
+
+```text
+改一行代码
+  → 手动点 Compile
+  → 手动点 Deploy（旧实例作废）
+  → 手动把每个按钮再点一遍：count 对不对？increment 好用吗？
+  → decrement 还拦得住吗？事件还发吗？
+  → ……全部靠眼睛看输出
+```
+
+四个函数的合约我还能撑住；等合约有二十个函数、状态之间互相影响时，靠手点做「回归测试」就是灾难了。而合约又是个特殊的东西——上一篇讲过，字节码部署上链后不可改，出问题不能「发个热修」。**越是改不了的东西，越要在部署前把该验的全部验掉。**这就是把「开发」变成「工程」的那一步：代码进版本管理、测试自动跑、结果可复现。
+
+---
+
+## Hardhat 是什么：一个本地全家桶
+
+<GlossaryTerm term="Hardhat" /> 是以太坊最主流的本地开发框架，把合约开发需要的几件事打包在一起：
+
+- **编译**：`npx hardhat compile` 把 <GlossaryTerm term="Solidity" /> 源码编成 <GlossaryTerm term="字节码" />（它会自动下载对应版本的编译器）；
+- **本地测试网络**：内置一条跑在你进程里的模拟链，有预置的有钱测试账户——跟 Remix VM 是同一个思路，但由测试代码驱动，不用手点；
+- **自动化测试**：跑在 Mocha/Chai 测试框架上，配 ethers 的断言扩展（revert、事件都能断言）；
+- **部署脚本**：用同一套代码指向不同网络（本地 / 测试网 / 主网）——本篇先用本地，测试网是 M3.3 的事。
+
+安装就是标准 npm 流程：在 `dapp/` 目录里 `npm install hardhat @nomicfoundation/hardhat-toolbox`（toolbox 是官方插件包，一条装齐 ethers、chai matchers 等常用件；本机 Node 22 LTS + npm 10，装完 640 个包，顺利）。
+
+---
+
+## 目录结构导览：每个文件是干嘛的
+
+工程建好后长这样（对照本仓库真实的 `dapp/` 目录）：
+
+```text
+dapp/
+├── package.json         # 独立于网站本身：自己的依赖和脚本
+│                        #   "test": "hardhat test" —— npm test 即全量测试
+├── hardhat.config.js    # 工程配置：Solidity 编译器版本、网络、插件
+├── contracts/
+│   └── Counter.sol      # 合约源码：上一篇的计数器，逐字未改
+├── test/
+│   └── counter.js       # 自动化测试：本篇主角
+├── cache/               # 编译缓存（gitignore，不入库）
+├── artifacts/           # 编译产物：字节码 + ABI（gitignore，不入库）
+└── node_modules/        # 依赖（gitignore，不入库）
+
+# 预告：M3.3 会加 scripts/deploy.js（部署脚本），现在还不需要
+```
+
+三个我逐个核对过的细节：
+
+- **`contracts/Counter.sol` 与上一篇逐字一致**（SPDX/MIT + `pragma solidity ^0.8.20` + increment/decrement/getCount）——文章与代码一一对应，测试测的就是读者看到的那个合约；
+- **`hardhat.config.js` 目前只有两行有效内容**：require toolbox + 指定编译器版本 `0.8.20`（满足合约 pragma 的 `^0.8.20`）。网络配置暂时一个都不用写——不指定网络时默认就用内置本地网络，这正是本篇要的；
+- **`cache/`、`artifacts/`、`node_modules/` 都在 `.gitignore` 里**。前两个是「删了能重新生成」的东西，进版本库只会污染 diff。仓库为此显式加了 `dapp/cache/`、`dapp/artifacts/`、`dapp/node_modules/` 三条规则。
+
+---
+
+## 测试怎么写：describe/it + 三类断言
+
+直接贴 `test/counter.js` 的骨架（真实文件的精简排版，逻辑未删）：
+
+```javascript
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
+
+describe("Counter", function () {
+  let counter;
+  let sender;
+
+  beforeEach(async function () {
+    [sender] = await ethers.getSigners();          // 取一个内置测试账户
+    const Counter = await ethers.getContractFactory("Counter");
+    counter = await Counter.deploy();              // 部署到内置本地网络
+    await counter.waitForDeployment();
+  });
+
+  it("正常路径：部署后初始 count == 0", async function () {
+    expect(await counter.getCount()).to.equal(0n);
+    expect(await counter.count()).to.equal(0n);
+  });
+
+  it("正常路径：increment() 后 count == 1，getCount() 返回一致", async function () {
+    await counter.increment();
+    expect(await counter.getCount()).to.equal(1n);
+    expect(await counter.count()).to.equal(1n);
+  });
+
+  it("revert 断言：初始状态调 decrement() 被 revert，错误信息 count is zero", async function () {
+    await expect(counter.decrement()).to.be.revertedWith("count is zero");
+  });
+
+  it("事件断言：increment() emit CountChanged(调用者, 新值)", async function () {
+    await expect(counter.increment())
+      .to.emit(counter, "CountChanged")
+      .withArgs(sender.address, 1n);
+  });
+});
+```
+
+几个第一次写时需要想通的点：
+
+**beforeEach 是隔离的关键。**每个 `it` 跑之前都重新部署一个全新合约——用例之间互不污染。第一个用例验证「初始为 0」时，不用担心别的用例已经 increment 过。这比共享一个实例再小心翼翼排列用例顺序可靠得多。
+
+**revert 断言不是异常，是断言。**这是我和 Remix 思维差最多的地方。在 Remix 里，revert 是控制台里一条红色报错——「出了坏事」。在测试里反过来：**revert 是合约在正确地说「不」**，所以它应该被期待，而不是被 try/catch：
+
+```text
+调用 decrement()（count == 0）
+  → 交易在内置本地网络里执行
+  → require(count > 0, "count is zero") 不满足 → 整笔回滚
+  → chai matcher 捕获这次回滚 + 核对错误信息
+  → 与预期一致 → 用例通过 ✅
+```
+
+`expect(...).to.be.revertedWith("count is zero")` 一行同时验了两件事：确实被拦了，且理由正确。上一篇里「换账户手动点按钮看报错」的那套动作，从此变成一条可以无限重复执行的语句。
+
+**事件也能断言。**`.to.emit(counter, "CountChanged").withArgs(...)` 验证「这一笔交易确实发出了这条事件，且参数正确」——上一篇在 Remix 控制台里展开 logs 肉眼看的那个 `CountChanged`，现在也是断言对象了。
+
+**断言值用 `0n`/`1n`。**ethers v6 里链上返回的大整数是 BigInt，用普通数字 `0`/`1` 比较会类型不匹配。
+
+跑起来：
+
+```text
+$ npm --prefix dapp test
+
+  Counter
+    ✔ 正常路径：部署后初始 count == 0
+    ✔ 正常路径：increment() 后 count == 1，getCount() 返回一致
+    ✔ revert 断言：初始状态调 decrement() 被 revert，错误信息 count is zero
+    ✔ 事件断言：increment() emit CountChanged(调用者, 新值)
+
+  4 passing (886ms)
+```
+
+不到一秒，四个「按钮」全部自动点完、自动核对。改任何一行代码后重跑一遍，这就是我离开 Remix 想要的东西。
+
+---
+
+## 常见坑（写给下次搭环境的自己）
+
+- **Node 版本。**Hardhat 要较新的 Node LTS 版本（本机 v22，npm 10.9，一次装成）。用老版本 Node 时安装阶段就可能报引擎不兼容——先 `node --version` 再排错，能省半小时。
+- **`cache/` 什么时候删？**正常情况永远不用：Hardhat 按文件改动增量编译，没改的文件直接复用缓存（所以第二次 compile 几乎瞬间完成）。要删的场景：改了 `hardhat.config.js` 里的编译器配置、或者出现「代码明明对的但编译行为诡异」时，删掉 `cache/` 让它从零重编——代价只是多等几秒。
+- **`artifacts/` 是什么、为什么 gitignore？**它是编译产物：字节码 + ABI（给 ethers 用的接口描述）。合约改动后重新 compile 会自动更新，手删也可以、下次 compile 会重建。它 100% 由源码推导出来，所以不入库——版本管理只管「源」，不管「产物」（跟网站构建出 `dist/` 不入库同一个道理）。
+- **为什么有时候「没改也要重新编译」？**大概率是 `artifacts/` 或 `cache/` 被删过（或刚 clone 下来还没有），第一次 compile 会全量构建并把编译器下载到缓存里——看到 `Downloading compiler 0.8.20` 不是卡住了，是在下编译器。
+
+<Highlight type="info">
+一个让自己安心的小仪式：每次怀疑「环境坏了」，先跑 `npx hardhat compile`——它无告警通过（本工程输出：Compiled 1 Solidity file successfully）说明工具链、编译器版本、合约语法三者都没问题，再往别处找原因。
+</Highlight>
+
+---
+
+## 总结：从「浏览器里点按钮」到「可回归验证的工程」
+
+| 维度 | Remix | Hardhat 工程 |
+|------|-------|--------------|
+| 上手成本 | 零安装，打开即用 | npm 安装，一次性配置 |
+| 编译部署 | 点按钮，手动 | 命令/脚本，可重复 |
+| 验证方式 | 肉眼看控制台输出 | 断言自动核对，永不疲劳 |
+| 回归测试 | 不存在（手点一遍） | `npm test` 一秒全量重跑 |
+| 版本管理 | 单文件复制粘贴 | 整个目录进 git |
+| 适合阶段 | 第一次写合约 | 准备认真写合约 |
+
+Remix 负责「十分钟见到第一份合约」的惊喜，<GlossaryTerm term="Hardhat" /> 负责「改一行也敢放心」的底气。到这一步，阶段 3 的工程地基打好了：合约在 `contracts/`，测试在 `test/`，一条命令全绿。
+
+下一步（M3.3）：合约目前只活在进程里的本地网络——测试跑完就没了。接下来把它部署到**测试网**（Sepolia），让「真的有外部可见的部署」成立：RPC 节点、水龙头领测试币、部署脚本指向 sepolia 网络。工程还是这个工程，只是网络那一栏要填上真地址了。
+
+**相关文章：**
+
+- [Solidity 基础语法笔记](/blog/solidity-basics-notes) — 前篇：本文测试的 Counter 合约与环境结论出处
+- [智能合约到底是什么，能做什么](/blog/smart-contracts-explained) — 为什么「部署后不可改」倒逼部署前测试
+- [EVM 深度解析](/blog/evm-deep-dive) — 测试网络里执行交易的正是它
+- [Gas：世界计算机的计价系统](/blog/ethereum-gas-fees) — 内置网络里不花钱，但计价逻辑同款
+- [账户模型 vs UTXO](/blog/account-model-vs-utxo) — 内置测试账户是什么
+- [UTXO 模型：比特币的会计学](/blog/utxo-model-deep-dive) — 对照：没有智能合约的记账模型
+- [工作量证明](/blog/pow-consensus) — 本地网络不共识，真网络才需要
+- [比特币白皮书精读](/blog/bitcoin-whitepaper-deep-dive) — 一切的原始蓝图
+- [比特币网络实际运行](/blog/bitcoin-network-in-practice) — 对照：从转账网络到世界计算机

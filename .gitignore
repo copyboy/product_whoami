@@ -30,3 +30,8 @@ search-data.json
 .env
 _tmp/
 tmp/
+
+# DApp (Hardhat) dependencies and build artifacts
+dapp/node_modules/
+dapp/cache/
+dapp/artifacts/

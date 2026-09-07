@@ -292,6 +292,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"hardhat-local-env.mdx": {
+	id: "hardhat-local-env.mdx";
+  slug: "hardhat-local-env";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "hashmap-source-analysis-optimization.mdx": {
 	id: "hashmap-source-analysis-optimization.mdx";
   slug: "hashmap-source-analysis-optimization";
