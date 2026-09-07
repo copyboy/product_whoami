@@ -19,7 +19,7 @@
 | M2/WI1 文章「账户模型 vs UTXO」 | done | `src/content/blog/account-model-vs-utxo.mdx` (output) | — | 术语词典已有 UTXO |
 | M2/WI2 文章「EVM 是什么，为什么重要」 | done | `src/content/blog/evm-deep-dive.mdx` (output) | WI1 | 词典已有 EVM/PoS |
 | M2/WI3 文章「Gas 为什么存在，怎么计算」 | done | `src/content/blog/ethereum-gas-fees.mdx` (output) | WI2 | 词典已有 Gas/EIP1559 |
-| M2/WI4 文章「智能合约到底是什么，能做什么」 | todo | `src/content/blog/smart-contracts-explained.mdx` (output) | WI2 | 词典已有 智能合约/ERC20/ERC721 |
+| M2/WI4 文章「智能合约到底是什么，能做什么」 | done | `src/content/blog/smart-contracts-explained.mdx` (output) | WI2 | 词典已有 智能合约/ERC20/ERC721 |
 | M3/WI5 笔记「Solidity 基础语法」 | todo | `src/content/blog/solidity-basics-notes.mdx` (output) | WI4 | M3.1 用户已在学，有第一手输入 |
 
 ## Milestones
