@@ -29,7 +29,7 @@ const { title, description, image, article, toc } = Astro.props;
     <Navigation class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 shrink-0" />
 
     <!-- Main Content -->
-    <main class="flex-1 w-full px-4 pt-16 lg:pt-0 lg:ml-64 xl:mr-72">
+    <main id="main-content" class="flex-1 w-full px-4 pt-16 lg:pt-0 lg:ml-64 xl:mr-72">
       <div class="max-w-3xl mx-auto py-8">
         <slot />
       </div>

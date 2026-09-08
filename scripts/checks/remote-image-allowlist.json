@@ -1,0 +1,101 @@
+{
+  "comment": "远程图片白名单：WI2 内容完整性检查器对命中此列表的远程图片 URL 跳过 http 可达性检查（设计边界：外链可达性不在本地检查范围，见 docs/design/quality-assurance-architecture.md §5）。新增远程图片时若 CI/离线环境无法验证可达性，必须在此登记并注明出处文章。",
+  "allowlist": [
+    {
+      "url": "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/projects/modern-blog-template.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/ethereum-layer2-rollups.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/bitcoin-whitepaper-deep-dive.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/first-full-dapp.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/dao-governance-voting.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/flash-loans-arbitrage.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1516245834210-c4c142787335?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/bitcoin-network-in-practice.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/pow-consensus.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/evm-deep-dive.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/stablecoins-explained.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/deploy-to-testnet.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/defi-lending-protocols.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/ethereum-gas-fees.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/account-model-vs-utxo.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/solidity-basics-notes.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/tokenomics-design.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/multisig-permission-management.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/hardhat-local-env.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/wallets-and-account-abstraction.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/defi-aggregators-yield.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/dao-case-studies.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/uniswap-amm-explained.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/utxo-model-deep-dive.mdx）"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=630&fit=crop",
+      "reason": "存量远程封面图（2026-09-09 WI2 建档时已在用，出处 src/content/blog/smart-contracts-explained.mdx）"
+    }
+  ]
+}

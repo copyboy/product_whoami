@@ -13,8 +13,9 @@
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react",
+    "allowImportingTsExtensions": true,
     "typeRoots": ["node_modules/@types", "src/types"]
   },
-  "include": ["src/**/*", "astro.config.mjs", ".astro/**/*"],
+  "include": ["src/**/*", "scripts/checks/**/*", "astro.config.mjs", ".astro/**/*"],
   "exclude": ["node_modules", "dist"]
 }

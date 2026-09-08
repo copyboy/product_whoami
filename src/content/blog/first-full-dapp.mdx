@@ -1,6 +1,6 @@
 ---
 title: "第一个完整 DApp：给合约装上可点击的前端"
-description: "阶段 3 收官：上一篇部署到测试网结尾说「合约就位，等一个前端」，本篇补上它。内容：DApp 到底是什么（前端界面 + 链上智能合约作后端，规则上链、无人可单方面下架——回到阶段 3 开篇的平台封号痛点）；前端三件套逐个写——连接 MetaMask（window.ethereum 检测 + eth_requestAccounts）、读合约状态（view 调用不发交易不花 gas）、发写交易（increment → tx.wait(1) 等确认 → 复读 → 从 receipt 回读 CountChanged 事件），代码全部来自 dapp/frontend/ 真实文件；一张 ASCII 数据流图把页面 → provider → 签名 → 内存池 → 打包执行 → 事件回读串起来，每步标注对应阶段 1-3 的概念（账户模型/nonce、gas、EVM/字节码）；本地联调完整步骤（npx hardhat node + 静态服务 + MetaMask 添加 localhost:8545/chainId 31337 + 导入 Hardhat #0 公开夹具账户 + 填合约地址）。如实说明：脚本冒烟已在 localhost + hardhat network 验证通过（读→写→确认→事件回读 exit 0），浏览器 + MetaMask 部分为用户侧操作指引。至此阶段 3 闭环，下一篇进入阶段 4：DeFi。"
+description: "阶段 3 收官：上一篇部署到测试网结尾说「合约就位，等一个前端」，本篇补上它。内容：DApp 到底是什么（前端界面 + 链上智能合约作后端，规则上链、无人可单方面下架——回到阶段 3 开篇的平台封号痛点）；前端三件套逐个写——连接 MetaMask（window.ethereum 检测 + eth_requestAccounts）、读合约状态（view 调用不发交易不花 gas）、发写交易（increment → tx.wait(1) 等确认 → 复读 → 从 receipt 回读 CountChanged 事件），代码全部来自 dapp/frontend/ 真实文件"
 pubDate: 2026-09-07
 heroImage: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=630&fit=crop"
 tags: ["Web3", "区块链入门", "DApp"]
