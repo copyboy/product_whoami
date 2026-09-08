@@ -137,7 +137,8 @@ function isActiveCategory(categoryName: string): boolean {
     {sortedCategories.length > 0 && (
       <div class="shrink-0">
         <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-3">Categories</h3>
-        <ul class="space-y-1 max-h-48 overflow-y-auto">
+        <!-- max-h 取 44px(行高40+间距4) 的整数倍，避免列表底部截出半行；308px 显示 7 行，其余滚动 -->
+        <ul class="space-y-1 max-h-[308px] overflow-y-auto">
           {sortedCategories.slice(0, 10).map(({ name, count }) => (
             <li>
               <a
@@ -161,8 +162,17 @@ function isActiveCategory(categoryName: string): boolean {
           ))}
         </ul>
         {sortedCategories.length > 10 && (
-          <a href="/categories" class="block text-xs text-indigo-600 dark:text-indigo-300 hover:underline mt-2">
+          <a
+            href="/categories"
+            class:list={[
+              "mt-1 flex items-center justify-between rounded-lg px-2 py-1.5 text-xs font-medium transition-colors",
+              "text-indigo-600 dark:text-indigo-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+            ]}
+          >
             View all ({sortedCategories.length})
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
           </a>
         )}
       </div>
