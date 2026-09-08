@@ -600,6 +600,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"tokenomics-design.mdx": {
+	id: "tokenomics-design.mdx";
+  slug: "tokenomics-design";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "uniswap-amm-explained.mdx": {
 	id: "uniswap-amm-explained.mdx";
   slug: "uniswap-amm-explained";
