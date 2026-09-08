@@ -60,14 +60,14 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: 本组计划 2026-09-08-1902-2 已完成（番外 2 发布、roadmap 头部读数 22、`算法稳定币`/`脱锚` 词条已存在，依赖链满足）
 
-- [ ] Add: 在 `GlossaryTerm.astro` 的 `definitions` 对象追加三个 key——`助记词`（Seed Phrase / 助记词，BIP-39 标准：12 或 24 个单词编码私钥种子，由它确定性派生全部账户私钥；Keystore 文件是加密后的私钥另一形态。助记词即账户控制权本身——抄在备忘录、截图存网盘、输入钓鱼网站，任一通道泄露即资产全损，且没有冻结与挂失）、`热钱包`（Hot Wallet：私钥保管在联网环境（浏览器插件/手机 App），签名方便、暴露面大；冷钱包（硬件设备/离线介质）签名麻烦、暴露面小——两者构成安全与便利的光谱，通行做法是小额热钱包日常使用、大额资产冷钱包离线保管）、`无限授权`（Infinite Approval：ERC-20 的 approve 常被钱包默认或被 DApp 引导设为极大额度，此后合约可随时划走该代币的全部余额——合约被黑或作恶时无需再征得签名；防御是交互前核对授权额度、授权后用 revoke 类工具定期回收）。词条文案与既有 `MetaMask`/`多签`/`MPC` 词条口径一致、风格一致。
-- [ ] Add: 在 `web3Concepts.ts` 的 `conceptMeta` 对象追加 `钱包` 条目：`'钱包': { name: '钱包', nameEn: 'Wallet', phaseId: 0 }`（与既有 `wallet`（:30）、`metamask`（:31）条目同 phaseId 0，风格一致）——修复 tag `钱包` 无 conceptMeta 命中导致的聚合页英文命名回退。
-- [ ] Proof: `grep -n "助记词\|热钱包\|无限授权" src/components/web3/GlossaryTerm.astro` 打印三个新 key 的定义行；`grep -n "账户抽象\|钱包" src/utils/web3Concepts.ts` 确认 `账户抽象` 条目在档（核验）且 `钱包` 新条目在档（新增）；重读 multisig-permission-management.mdx :29/:136-137 与 report.astro :659/:686，确认文章将用的呼应点（助记词失窃通道、calldata 核对、无限授权一句带过、ERC-4337/EIP-7702 两路线表述）与既有文案逐项对得上。
+- [x] Add: 在 `GlossaryTerm.astro` 的 `definitions` 对象追加三个 key——`助记词`（Seed Phrase / 助记词，BIP-39 标准：12 或 24 个单词编码私钥种子，由它确定性派生全部账户私钥；Keystore 文件是加密后的私钥另一形态。助记词即账户控制权本身——抄在备忘录、截图存网盘、输入钓鱼网站，任一通道泄露即资产全损，且没有冻结与挂失）、`热钱包`（Hot Wallet：私钥保管在联网环境（浏览器插件/手机 App），签名方便、暴露面大；冷钱包（硬件设备/离线介质）签名麻烦、暴露面小——两者构成安全与便利的光谱，通行做法是小额热钱包日常使用、大额资产冷钱包离线保管）、`无限授权`（Infinite Approval：ERC-20 的 approve 常被钱包默认或被 DApp 引导设为极大额度，此后合约可随时划走该代币的全部余额——合约被黑或作恶时无需再征得签名；防御是交互前核对授权额度、授权后用 revoke 类工具定期回收）。词条文案与既有 `MetaMask`/`多签`/`MPC` 词条口径一致、风格一致。
+- [x] Add: 在 `web3Concepts.ts` 的 `conceptMeta` 对象追加 `钱包` 条目：`'钱包': { name: '钱包', nameEn: 'Wallet', phaseId: 0 }`（与既有 `wallet`（:30）、`metamask`（:31）条目同 phaseId 0，风格一致）——修复 tag `钱包` 无 conceptMeta 命中导致的聚合页英文命名回退。
+- [x] Proof: `grep -n "助记词\|热钱包\|无限授权" src/components/web3/GlossaryTerm.astro` 打印三个新 key 的定义行；`grep -n "账户抽象\|钱包" src/utils/web3Concepts.ts` 确认 `账户抽象` 条目在档（核验）且 `钱包` 新条目在档（新增）；重读 multisig-permission-management.mdx :29/:136-137 与 report.astro :659/:686，确认文章将用的呼应点（助记词失窃通道、calldata 核对、无限授权、ERC-4337/EIP-7702 两路线表述）与既有文案逐项对得上。
 
 Exit Criteria:
 
-- [ ] 词典含 `助记词`、`热钱包`、`无限授权` 三个 key；conceptMeta 含 `钱包` 条目且 `账户抽象` 核验在档，先于文章使用落地。
-- [ ] multisig 篇与 report 页呼应点核对一致，无凭空引用不存在的内容。
+- [x] 词典含 `助记词`、`热钱包`、`无限授权` 三个 key；conceptMeta 含 `钱包` 条目且 `账户抽象` 核验在档，先于文章使用落地。
+- [x] multisig 篇与 report 页呼应点核对一致，无凭空引用不存在的内容。
 
 ## Phase 2 — 文章写作
 
@@ -77,18 +77,18 @@ Skill: none
 - Item Types: `Add | Decision | Proof`
 - Prereqs: Phase 1（词条与 conceptMeta 条目已存在，`GlossaryTerm` 才可引用）
 
-- [ ] Add: 创建 `src/content/blog/wallets-and-account-abstraction.mdx`，frontmatter 满足全局写作规范：`categories: ["Web3"]`、`subject: "Web3"`（番外组内惯例，1902-1 已确立）、`tags: ["Web3", "区块链入门", "钱包", "账户抽象"]`（番外约定 tag 含 `钱包`、`账户抽象`）、`pubDate` 为执行当天日期、`description` 一段摘要；`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop` 后缀）；标题紧扣 roadmap WI 标签「钱包与账户抽象」。
-- [ ] Decision: heroImage 选图——执行时 `grep -h "heroImage" src/content/blog/*.mdx` 全库比对唯一后选定；备选主题（钥匙串/保险箱/锁具视觉）任选，唯一性是硬约束。残余风险：无（可机械复查）。
-- [ ] Add: 正文 150-250 行，结构遵守全局规范：引言（承接番外之二结尾「币稳了，钥匙呢」钩子——执行时以该篇实际结尾为锚）→ 钥匙管理分节（钱包的本质：管理私钥而非「装钱」——资产在链上账本里，钱包只管签名权；私钥/助记词/Keystore 三种载体；呼应账户模型篇的签名验证与 nonce，first-full-dapp 的 MetaMask 签名实操）→ 冷热取舍分节（Markdown 取舍表：热钱包 vs 冷钱包的便利/暴露面/适用金额；通行原则小额热、大额冷，呼应 multisig 篇 :29 助记词失窃通道）→ 实操安全守则分节（四条：小额热/大额冷分层；签名前核对 calldata 与目标地址；**ERC-20 无限授权的坑**与 revoke 类工具回收授权；测试专用账户隔离——后两条直接呼应 multisig 篇 :136-137 与 dapp/ 实践，本篇是其面向个人用户的展开）→ 账户抽象分节（两条路线：ERC-4337 独立标准 vs EIP-7702 EOA 委托，口径与词典 `Account Abstraction` 词条及 report :659 一致；体验升级三件套：社交恢复、无 gas 交易、批量操作；多签/MPC 与 AA 的关系一句话衔接）→ **番外收官总结**：账户体验成熟是 Web3 大规模采用的前提（呼应 report §6 终极判断「钱包抽象化、费用趋近于零、合规清晰化」与 EIP-7702 采用率观察指标），三篇番外（扩容→稳定币→钱包）串成「用得起、算得稳、管得住」的落地三件套，主线 20 篇 + 番外 3 篇全系列收束。
-- [ ] Add: 组件使用合规——按系列既有惯例导入组件；`<Highlight>` 仅四种 type（无限授权风险警示用 `type="danger"`，冷热分层原则提示用 `type="warning"`，不构成产品推荐声明用 `type="info"`）；`<GlossaryTerm>` 仅引用词典已有 key（含 Phase 1 新增三个，大小写完全一致；`非对称加密` 无词条，行文表述不套组件）；禁止 `client:` 指令；图示全 ASCII text 代码块；不编造采用率数字，EIP-7702 只引 report 既有观察指标口径。
-- [ ] Add: 文末「相关文章」内链仅引用已发布 slug（`stablecoins-explained` 必引——番外承接；`first-full-dapp` 必引——MetaMask/签名实操呼应；`account-model-vs-utxo` 必引——账户模型与签名验证；`multisig-permission-management` 必引——钥匙管理与操作安全延续；其余按相关性精选，slug 必须真实存在）。
-- [ ] Proof: `wc -l src/content/blog/wallets-and-account-abstraction.mdx` 打印值在 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过（全库 grep 仅 1 hit）。
+- [x] Add: 创建 `src/content/blog/wallets-and-account-abstraction.mdx`，frontmatter 满足全局写作规范：`categories: ["Web3"]`、`subject: "Web3"`（番外组内惯例，1902-1 已确立）、`tags: ["Web3", "区块链入门", "钱包", "账户抽象"]`（番外约定 tag 含 `钱包`、`账户抽象`）、`pubDate` 为执行当天日期、`description` 一段摘要；`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop` 后缀）；标题紧扣 roadmap WI 标签「钱包与账户抽象」。
+- [x] Decision: heroImage 选图——执行时 `grep -h "heroImage" src/content/blog/*.mdx` 全库比对唯一后选定；备选主题（钥匙串/保险箱/锁具视觉）任选，唯一性是硬约束。残余风险：无（可机械复查）。
+- [x] Add: 正文 150-250 行，结构遵守全局规范：引言（承接番外之二结尾「币稳了，钥匙呢」钩子——执行时以该篇实际结尾为锚）→ 钥匙管理分节（钱包的本质：管理私钥而非「装钱」——资产在链上账本里，钱包只管签名权；私钥/助记词/Keystore 三种载体；呼应账户模型篇的签名验证与 nonce，first-full-dapp 的 MetaMask 签名实操）→ 冷热取舍分节（Markdown 取舍表：热钱包 vs 冷钱包的便利/暴露面/适用金额；通行原则小额热、大额冷，呼应 multisig 篇 :29 助记词失窃通道）→ 实操安全守则分节（四条：小额热/大额冷分层；签名前核对 calldata 与目标地址；**ERC-20 无限授权的坑**与 revoke 类工具回收授权；测试专用账户隔离——后两条直接呼应 multisig 篇 :136-137 与 dapp/ 实践，本篇是其面向个人用户的展开）→ 账户抽象分节（两条路线：ERC-4337 独立标准 vs EIP-7702 EOA 委托，口径与词典 `Account Abstraction` 词条及 report :659 一致；体验升级三件套：社交恢复、无 gas 交易、批量操作；多签/MPC 与 AA 的关系一句话衔接）→ **番外收官总结**：账户体验成熟是 Web3 大规模采用的前提（呼应 report §6 终极判断「钱包抽象化、费用趋近于零、合规清晰化」与 EIP-7702 采用率观察指标），三篇番外（扩容→稳定币→钱包）串成「用得起、算得稳、管得住」的落地三件套，主线 20 篇 + 番外 3 篇全系列收束。
+- [x] Add: 组件使用合规——按系列既有惯例导入组件；`<Highlight>` 仅四种 type（无限授权风险警示用 `type="danger"`，冷热分层原则提示用 `type="warning"`，不构成产品推荐声明用 `type="info"`）；`<GlossaryTerm>` 仅引用词典已有 key（含 Phase 1 新增三个，大小写完全一致；`非对称加密` 无词条，行文表述不套组件）；禁止 `client:` 指令；图示全 ASCII text 代码块；不编造采用率数字，EIP-7702 只引 report 既有观察指标口径。
+- [x] Add: 文末「相关文章」内链仅引用已发布 slug（`stablecoins-explained` 必引——番外承接；`first-full-dapp` 必引——MetaMask/签名实操呼应；`account-model-vs-utxo` 必引——账户模型与签名验证；`multisig-permission-management` 必引——钥匙管理与操作安全延续；其余按相关性精选，slug 必须真实存在）。
+- [x] Proof: `wc -l src/content/blog/wallets-and-account-abstraction.mdx` 打印值在 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过（全库 grep 仅 1 hit）。
 
 Exit Criteria:
 
-- [ ] 文章文件存在，frontmatter 全字段合规，行数 150-250。
-- [ ] 结构完整（引言/钥匙管理/冷热取舍/安全守则/账户抽象两路线与体验升级/番外收官总结），两路线与体验升级口径与词条及 report 页一致。
-- [ ] 组件与内链合规；heroImage 全库唯一；四个必引 slug 均真实存在；无产品推荐式内容。
+- [x] 文章文件存在，frontmatter 全字段合规，行数 150-250。
+- [x] 结构完整（引言/钥匙管理/冷热取舍/安全守则/账户抽象两路线与体验升级/番外收官总结），两路线与体验升级口径与词条及 report 页一致。
+- [x] 组件与内链合规；heroImage 全库唯一；四个必引 slug 均真实存在；无产品推荐式内容。
 
 ## Phase 3 — 发布核验与验证
 
@@ -98,20 +98,20 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: Phase 2（文章已落地才置 done）
 
-- [ ] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表番外/WI19 行 Status `todo` → `done`；同文件头部系列篇数同步（22 → 23，表述注明「主线 20 篇 + 番外 3 篇」，番外收官）。
-- [ ] Add: `docs/logs/2026/` 当日日志记录条目（当日文件不存在则按 `docs/logs/00-log-writing-guide.md` 约定新建；收官条目注明番外 3 篇完成）。
-- [ ] Proof: `npm run test:run` exit 0。
-- [ ] Proof: `npm run build` exit 0 且 `test -f dist/blog/wallets-and-account-abstraction/index.html` 为真（新文章路由生成）。
-- [ ] Proof: 延伸阅读挂卡核验——三个番外 slug（ethereum-layer2-rollups / stablecoins-explained / wallets-and-account-abstraction）在 `dist/web3/roadmap/index.html` 各 ≥ 1 hit（三卡齐全）；`test -f dist/web3/concept/钱包/index.html` 与 `test -f dist/web3/concept/账户抽象/index.html` 均为真（tag 驱动的概念聚合页生成，且 `钱包` 页英文命名不再回退占位文案）。
-- [ ] Proof: 番外约定核验——`git diff --stat src/data/web3-roadmap-data.json AGENTS.md` 输出为空（或等价检查：json 仍为 20 个 `done`、AGENTS.md 路线图表无番外相关变更），证明两文件零改动。
+- [x] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表番外/WI19 行 Status `todo` → `done`；同文件头部系列篇数同步（22 → 23，表述注明「主线 20 篇 + 番外 3 篇」，番外收官）。
+- [x] Add: `docs/logs/2026/` 当日日志记录条目（当日文件不存在则按 `docs/logs/00-log-writing-guide.md` 约定新建；收官条目注明番外 3 篇完成）。
+- [x] Proof: `npm run test:run` exit 0。
+- [x] Proof: `npm run build` exit 0 且 `test -f dist/blog/wallets-and-account-abstraction/index.html` 为真（新文章路由生成）。
+- [x] Proof: 延伸阅读挂卡核验——三个番外 slug（ethereum-layer2-rollups / stablecoins-explained / wallets-and-account-abstraction）在 `dist/web3/roadmap/index.html` 各 ≥ 1 hit（三卡齐全）；`test -f dist/web3/concept/钱包/index.html` 与 `test -f dist/web3/concept/账户抽象/index.html` 均为真（tag 驱动的概念聚合页生成，且 `钱包` 页英文命名不再回退占位文案）。
+- [x] Proof: 番外约定核验——`git diff --stat src/data/web3-roadmap-data.json AGENTS.md` 输出为空（或等价检查：json 仍为 20 个 `done`、AGENTS.md 路线图表无番外相关变更），证明两文件零改动。
 
 Exit Criteria:
 
-- [ ] roadmap WI19 行 done、头部计数 23（番外收官表述）；日志收官条目在档。
-- [ ] `test` / `build` 两验证键均 exit 0，新文章路由、三张延伸阅读卡、两个概念页全部生成。
-- [ ] `web3-roadmap-data.json` 与 `AGENTS.md` 零变更（番外约定遵守，里程碑 20/20 不变）。
-- [ ] `docs/logs/` 更新（本计划闭环 + 番外收官条目）。
-- [ ] 无 owner-doc 之外的文档更新需求——roadmap（`docs/backlog/web3-roadmap.md`）即 owner doc，已在上述条目覆盖。
+- [x] roadmap WI19 行 done、头部计数 23（番外收官表述）；日志收官条目在档。
+- [x] `test` / `build` 两验证键均 exit 0，新文章路由、三张延伸阅读卡、两个概念页全部生成。
+- [x] `web3-roadmap-data.json` 与 `AGENTS.md` 零变更（番外约定遵守，里程碑 20/20 不变）。
+- [x] `docs/logs/` 更新（本计划闭环 + 番外收官条目）。
+- [x] 无 owner-doc 之外的文档更新需求——roadmap（`docs/backlog/web3-roadmap.md`）即 owner doc，已在上述条目覆盖。
 
 ## Draft Review Record
 
@@ -120,4 +120,10 @@ Exit Criteria:
 
 ## Verification
 
+- pass test 2026-09-08-190220-mission-driver exit=0
+- pass build 2026-09-08-190220-mission-driver exit=0
+
 ## Closure
+
+- dispatch audit #audit-2026-09-08-190220-mission-driver-2026-09-08-1902-3-wallets-and-account-abstraction-1-70f3d6f6 to ses_opencode_auditor models={exec:opencode-glm-5.3,aud:opencode-glm-5.3}
+- accepted #audit-2026-09-08-190220-mission-driver-2026-09-08-1902-3-wallets-and-account-abstraction-1-70f3d6f6：审计通过——25 项执行/退出条目全部落地且逐项核验（词典 :96-98 三词条、web3Concepts.ts:42 `钱包` 条目、文章 151 行 frontmatter/组件/内链/heroImage 唯一性合规、roadmap WI19 done 头部计数 23、09-08.md 收官日志、web3-roadmap-data.json 与 AGENTS.md 零变更）；关键验证：`npm run test:run` exit=0（4 tests passed）、`npm run build` exit=0（647 pages）、`dist/blog/wallets-and-account-abstraction/index.html`、`dist/web3/concept/钱包/`、`dist/web3/concept/账户抽象/` 均生成、roadmap 页三番外卡各 1 hit。

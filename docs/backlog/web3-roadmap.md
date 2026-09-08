@@ -1,6 +1,6 @@
 # Product Whoami Web3 Roadmap
 
-> 驱动 Web3 专栏内容生产：五个阶段（Ethereum、DApp、DeFi、DAO）已全部完成，主线 20 篇收官；番外横向专题追加中，系列共 22 篇（主线 20 篇 + 番外 2 篇，番外不占里程碑计数，20/20 保持不变）。主线 WI 产出一篇博客文章 + 路线图数据联动更新，番外 WI 仅发布文章（延伸阅读区块按 slug 自动挂卡）。主线 20 篇：阶段 1-5 各四篇（slug 见 `src/data/web3-roadmap-data.json`）。
+> 驱动 Web3 专栏内容生产：五个阶段（Ethereum、DApp、DeFi、DAO）已全部完成，主线 20 篇收官；番外横向专题 3 篇全部完成（收官），系列共 23 篇（主线 20 篇 + 番外 3 篇，番外不占里程碑计数，20/20 保持不变）。主线 WI 产出一篇博客文章 + 路线图数据联动更新，番外 WI 仅发布文章（延伸阅读区块按 slug 自动挂卡）。主线 20 篇：阶段 1-5 各四篇（slug 见 `src/data/web3-roadmap-data.json`）。
 
 ## 全局写作规范（每个 WI 都必须遵守）
 
@@ -34,7 +34,7 @@
 | M5/WI16 文章「知名 DAO 案例分析」 | done | `src/content/blog/dao-case-studies.mdx` (output) | WI15 | 呼应 WI4 的重入漏洞 |
 | 番外/WI17 文章「Layer2 扩容与 Rollup」 | done | `src/content/blog/ethereum-layer2-rollups.mdx` (output) | WI16 | 词典已有 Layer2/Optimistic Rollups/ZK Rollups |
 | 番外/WI18 文章「稳定币」 | done | `src/content/blog/stablecoins-explained.mdx` (output) | WI16 | 呼应 WI10 的 DAI |
-| 番外/WI19 文章「钱包与账户抽象」 | todo | `src/content/blog/wallets-and-account-abstraction.mdx` (output) | WI16 | 词典已有 Account Abstraction/MPC |
+| 番外/WI19 文章「钱包与账户抽象」 | done | `src/content/blog/wallets-and-account-abstraction.mdx` (output) | WI16 | 词典已有 Account Abstraction/MPC |
 
 ## Milestones
 
