@@ -74,7 +74,7 @@
       "scenarios": ["开源资金管理", "链上治理投票", "NFT 社区治理"],
       "color": "pink",
       "milestones": [
-        { "id": "M5.1", "title": "DAO 治理机制与投票模型", "status": "todo", "articleSlug": null },
+        { "id": "M5.1", "title": "DAO 治理机制与投票模型", "status": "done", "articleSlug": "dao-governance-voting" },
         { "id": "M5.2", "title": "代币经济学设计", "status": "todo", "articleSlug": null },
         { "id": "M5.3", "title": "Multi-sig 与权限管理", "status": "todo", "articleSlug": null },
         { "id": "M5.4", "title": "知名 DAO 案例分析", "status": "todo", "articleSlug": null }
