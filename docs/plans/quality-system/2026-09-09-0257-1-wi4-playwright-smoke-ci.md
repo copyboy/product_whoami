@@ -157,6 +157,11 @@ Closure audit 复测实录（2026-09-09，真实树上独立复跑）：
 - pass test 2026-09-09-012601-mission-driver exit=0
 - `npx playwright test` exit 0 —— 6/6 冒烟路径全绿（chromium，35.2s）；quality.yml YAML `parseDocument` 0 errors 复验通过
 
+Verify step 复测实录（2026-09-09，mission VERIFY 步骤独立复跑，命令电池 + e2e）：
+
+ - pass test 2026-09-09-0326-verify exit=0
+ - 同步复跑全绿：`npm run type-check` exit 0、`npm run build` exit 0（647 pages）、`npm run lint` exit 0（0 errors，存量 SearchIsland.tsx:257 warning）、`npx playwright test` exit 0（6/6，35.3s）—— full-green
+
 Changed files（本计划全量）：
 
 - 新建：`playwright.config.ts`、`e2e/smoke.spec.ts`、`.github/workflows/quality.yml`
