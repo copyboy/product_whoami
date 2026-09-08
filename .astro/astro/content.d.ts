@@ -222,6 +222,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"defi-lending-protocols.mdx": {
+	id: "defi-lending-protocols.mdx";
+  slug: "defi-lending-protocols";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "deploy-to-testnet.mdx": {
 	id: "deploy-to-testnet.mdx";
   slug: "deploy-to-testnet";

@@ -59,7 +59,7 @@
       "color": "amber",
       "milestones": [
         { "id": "M4.1", "title": "AMM 机制与 Uniswap 原理", "status": "done", "articleSlug": "uniswap-amm-explained" },
-        { "id": "M4.2", "title": "借贷协议（Aave / Compound）", "status": "todo", "articleSlug": null },
+        { "id": "M4.2", "title": "借贷协议（Aave / Compound）", "status": "done", "articleSlug": "defi-lending-protocols" },
         { "id": "M4.3", "title": "闪电贷与套利策略", "status": "todo", "articleSlug": null },
         { "id": "M4.4", "title": "DeFi 聚合器与收益策略", "status": "todo", "articleSlug": null }
       ]
