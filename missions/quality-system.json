@@ -1,0 +1,19 @@
+{
+  "extends": "base",
+  "name": "quality-system",
+  "description": "质量测试体系落地 mission：按 docs/design/quality-assurance-architecture.md 的五层防线设计，切 Q1-Q4 四个 WI。Q1 红灯归零（type-check 1 个 TS 错 + lint 14 个 error，修到归零并建立 scripts/verify.sh 的 L1 门）；Q2 内容完整性检查（内链/图片/frontmatter/Glossary 闭合/产物对账脚本，纳入 verify）；Q3 utils 层单测补齐（web3Roadmap/web3Concepts/seo/content）；Q4 Playwright 冒烟（6 条路径 + console 零报错）+ GitHub Actions workflow。总验收：干净树上 npm run verify exit 0；故意制造死链或悬空 Glossary 引用时 verify 必须失败并指到文件行号；全绿后在 docs/testing/known-good-baselines.md 记录基线行。边界约束见设计文档第 5 节：不追覆盖率、不做视觉回归、外链可达性不进 CI 门。",
+  "flowName": "mission-driver",
+  "roadmapPath": "docs/backlog/quality-system-roadmap.md",
+  "plansDir": "docs/plans/quality-system",
+  "planGuide": "docs/plans/00-plan-authoring-and-execution-guide.md",
+  "auditsDir": "docs/audits",
+  "contextDir": "docs/context",
+  "moduleDir": ".",
+  "commands": {
+    "test": "npm run test:run",
+    "build": "npm run build",
+    "lint": "npm run lint",
+    "typecheck": "npm run type-check"
+  },
+  "commitFormat": "feat(quality): <description>"
+}
