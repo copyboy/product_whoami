@@ -25,7 +25,7 @@
 | M3/WI7 测试网部署脚本 + 文章 | done | `dapp/` 部署脚本 + `src/content/blog/deploy-to-testnet.mdx` (output) | WI6 | — |
 | M3/WI8 第一个完整 DApp + 文章 | done | `dapp/` 合约+前端 + `src/content/blog/first-full-dapp.mdx` (output) | WI7 | — |
 | M4/WI9 文章「AMM 机制与 Uniswap」 | done | `src/content/blog/uniswap-amm-explained.mdx` (output) | WI8 | 词典已有 AMM/Uniswap |
-| M4/WI10 文章「借贷协议」 | todo | `src/content/blog/defi-lending-protocols.mdx` (output) | WI9 | 词典已有 Aave/MakerDAO/清算 |
+| M4/WI10 文章「借贷协议」 | done | `src/content/blog/defi-lending-protocols.mdx` (output) | WI9 | 词典已有 Aave/MakerDAO/清算 |
 | M4/WI11 文章「闪电贷与套利」 | todo | `src/content/blog/flash-loans-arbitrage.mdx` (output) | WI10 | 词典已有 闪电贷/MEV |
 | M4/WI12 文章「聚合器与收益策略」 | todo | `src/content/blog/defi-aggregators-yield.mdx` (output) | WI11 | 词典已有 Curve/Convex/gauge voting |
 | M5/WI13 文章「DAO 治理与投票」 | todo | `src/content/blog/dao-governance-voting.mdx` (output) | WI12 | 词典已有 DAO |

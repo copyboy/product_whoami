@@ -58,13 +58,13 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: 计划 2026-09-08-0950-1 已完成（M4.1 done，依赖链 WI9 → WI10 满足）
 
-- [ ] Add: 在 `GlossaryTerm.astro` 的 `definitions` 对象追加三个 key——`稳定币`（Stablecoin：锚定法币价值（通常 1 美元）的加密货币，如 DAI、USDC；去中心化发行路线靠超额抵押与清算维持锚定，对照中心化托管路线一句带过）、`aToken`（Aave 的生息存款凭证：存款入池后收到 aToken，余额随利息自动增长，赎回时 1:1 取回底层资产；Compound 的对应物是 cToken）、`超额抵押`（Overcollateralization：抵押品价值高于借款金额的借贷前提——链上没有信用记录与追索权，只能靠「抵押品够多 + 随时可清算」约束违约动机）。词条文案与既有 `Aave`/`MakerDAO`/`Health Factor`/`清算` 词条口径一致、风格一致。
-- [ ] Proof: `grep -n "稳定币\|aToken\|超额抵押" src/components/web3/GlossaryTerm.astro` 打印三个新 key 的定义行；重读 report.astro 阶段 4.3 小节与既有 `MakerDAO`/`清算` 词条，确认文章将用的 DAI/DSR/PSM/清算罚金口径与三处来源逐项一致（PSM = 1:1 抵押 USDC 生成 DAI；清算罚金 5-10% 量级）。
+- [x] Add: 在 `GlossaryTerm.astro` 的 `definitions` 对象追加三个 key——`稳定币`（Stablecoin：锚定法币价值（通常 1 美元）的加密货币，如 DAI、USDC；去中心化发行路线靠超额抵押与清算维持锚定，对照中心化托管路线一句带过）、`aToken`（Aave 的生息存款凭证：存款入池后收到 aToken，余额随利息自动增长，赎回时 1:1 取回底层资产；Compound 的对应物是 cToken）、`超额抵押`（Overcollateralization：抵押品价值高于借款金额的借贷前提——链上没有信用记录与追索权，只能靠「抵押品够多 + 随时可清算」约束违约动机）。词条文案与既有 `Aave`/`MakerDAO`/`Health Factor`/`清算` 词条口径一致、风格一致。
+- [x] Proof: `grep -n "稳定币\|aToken\|超额抵押" src/components/web3/GlossaryTerm.astro` 打印三个新 key 的定义行；重读 report.astro 阶段 4.3 小节与既有 `MakerDAO`/`清算` 词条，确认文章将用的 DAI/DSR/PSM/清算罚金口径与三处来源逐项一致（PSM = 1:1 抵押 USDC 生成 DAI；清算罚金 5-10% 量级）。
 
 Exit Criteria:
 
-- [ ] 词典含 `稳定币`、`aToken`、`超额抵押` 三个 key，先于文章使用落地。
-- [ ] DAI/DSR/PSM/清算口径与 report 页及既有词条核对一致。
+- [x] 词典含 `稳定币`、`aToken`、`超额抵押` 三个 key，先于文章使用落地。
+- [x] DAI/DSR/PSM/清算口径与 report 页及既有词条核对一致。
 
 ## Phase 2 — 文章写作
 
@@ -74,18 +74,18 @@ Skill: none
 - Item Types: `Add | Decision | Proof`
 - Prereqs: Phase 1（词条已存在，`GlossaryTerm` 才可引用）
 
-- [ ] Add: 创建 `src/content/blog/defi-lending-protocols.mdx`，frontmatter 满足全局写作规范：`categories: ["Web3"]`、`subject: "DeFi"`（承 2026-09-08-0950-1 Phase 1 Decision 的阶段主题惯例）、`tags: ["Web3", "区块链入门", "DeFi", "Aave"]`、`pubDate` 为执行当天日期、`description` 一段摘要；`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop` 后缀）。
-- [ ] Decision: heroImage 选图——执行时 `grep -h "heroImage" src/content/blog/*.mdx` 全库比对唯一后选定；备选主题（抵押/金库/利率视觉）任选，唯一性是硬约束。残余风险：无（可机械复查）。
-- [ ] Add: 正文 150-250 行，结构遵守全局规范：引言（承接 WI9 结尾「价格有了，借贷呢」，回到阶段 4 painPoint——没有信用记录的人怎么借钱）→ 超额抵押为什么是前提分节（无许可环境无信用记录、无追索权，保证金 + 随时清算替代征信；对比 TradFi 抵押贷/信用贷一句话）→ Aave 模式拆解分节（池化借贷：存款人入池收 aToken 生息；利用率利率模型方向性讲解；Health Factor 计算含义与清算流程，罚金 5-10% 量级表述；ASCII text 代码块画一笔借款-价格下跌-清算的时间线示意）→ Compound cTokens 对照一句带过 → MakerDAO 与 DAI 分节（超额抵押 ETH 铸 DAI 的稳定币视角、DSR、PSM，口径与词典/report 一致）→ 呼应 WI3 gas 分节（清算的经济学动机：清算利润吸引 Keeper 机器人竞速，gas 竞价是成本项——保证金安全的最后一道防线是经济激励而非善意）→ 总结：过渡 M4.3（「池子里的规则是同区块借还，不还就整体回滚——闪电贷」）。
-- [ ] Add: 组件使用合规——按系列既有惯例导入组件；`<Highlight>` 仅四种 type；`<GlossaryTerm>` 仅引用词典已有 key（含 Phase 1 新增三个，大小写完全一致）；禁止 `client:` 指令；图示全 ASCII text 代码块；数字不确定处用「量级/约」表述，不编造精确值。
-- [ ] Add: 文末「相关文章」内链仅引用已发布 slug（`uniswap-amm-explained` 必引——前篇钩子承接；`ethereum-gas-fees` 必引——清算经济学呼应；其余按相关性精选，slug 必须真实存在）。
-- [ ] Proof: `wc -l src/content/blog/defi-lending-protocols.mdx` 打印值在 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过（全库 grep 仅 1 hit）。
+- [x] Add: 创建 `src/content/blog/defi-lending-protocols.mdx`，frontmatter 满足全局写作规范：`categories: ["Web3"]`、`subject: "DeFi"`（承 2026-09-08-0950-1 Phase 1 Decision 的阶段主题惯例）、`tags: ["Web3", "区块链入门", "DeFi", "Aave"]`、`pubDate` 为执行当天日期、`description` 一段摘要；`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop` 后缀）。
+- [x] Decision: heroImage 选图——执行时 `grep -h "heroImage" src/content/blog/*.mdx` 全库比对唯一后选定；备选主题（抵押/金库/利率视觉）任选，唯一性是硬约束。残余风险：无（可机械复查）。（选定 photo-1553729459-efe14ef6055d，全库唯一 1 hit）
+- [x] Add: 正文 150-250 行，结构遵守全局规范：引言（承接 WI9 结尾「价格有了，借贷呢」，回到阶段 4 painPoint——没有信用记录的人怎么借钱）→ 超额抵押为什么是前提分节（无许可环境无信用记录、无追索权，保证金 + 随时清算替代征信；对比 TradFi 抵押贷/信用贷一句话）→ Aave 模式拆解分节（池化借贷：存款人入池收 aToken 生息；利用率利率模型方向性讲解；Health Factor 计算含义与清算流程，罚金 5-10% 量级表述；ASCII text 代码块画一笔借款-价格下跌-清算的时间线示意）→ Compound cTokens 对照一句带过 → MakerDAO 与 DAI 分节（超额抵押 ETH 铸 DAI 的稳定币视角、DSR、PSM，口径与词典/report 一致）→ 呼应 WI3 gas 分节（清算的经济学动机：清算利润吸引 Keeper 机器人竞速，gas 竞价是成本项——保证金安全的最后一道防线是经济激励而非善意）→ 总结：过渡 M4.3（「池子里的规则是同区块借还，不还就整体回滚——闪电贷」）。
+- [x] Add: 组件使用合规——按系列既有惯例导入组件；`<Highlight>` 仅四种 type；`<GlossaryTerm>` 仅引用词典已有 key（含 Phase 1 新增三个，大小写完全一致）；禁止 `client:` 指令；图示全 ASCII text 代码块；数字不确定处用「量级/约」表述，不编造精确值。
+- [x] Add: 文末「相关文章」内链仅引用已发布 slug（`uniswap-amm-explained` 必引——前篇钩子承接；`ethereum-gas-fees` 必引——清算经济学呼应；其余按相关性精选，slug 必须真实存在）。
+- [x] Proof: `wc -l src/content/blog/defi-lending-protocols.mdx` 打印值在 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过（全库 grep 仅 1 hit）。（实测 170 行；10 个 term 全部命中词典；photo-1553729459-efe14ef6055d 全库 1 hit）
 
 Exit Criteria:
 
-- [ ] 文章文件存在，frontmatter 全字段合规，行数 150-250。
-- [ ] 结构完整（引言/超额抵押前提/Aave 拆解/cToken 对照/DAI 视角/gas 呼应/总结过渡），清算罚金等口径与 report 及词典一致且为量级表述。
-- [ ] 组件与内链合规；heroImage 全库唯一。
+- [x] 文章文件存在，frontmatter 全字段合规，行数 150-250。
+- [x] 结构完整（引言/超额抵押前提/Aave 拆解/cToken 对照/DAI 视角/gas 呼应/总结过渡），清算罚金等口径与 report 及词典一致且为量级表述。
+- [x] 组件与内链合规；heroImage 全库唯一。
 
 ## Phase 3 — 数据联动与验证
 
@@ -95,18 +95,18 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: Phase 2（文章已落地才置 done）
 
-- [ ] Add: `web3-roadmap-data.json` 阶段 4 的 M4.2 `status: "todo"` → `"done"`、`articleSlug: null` → `"defi-lending-protocols"`；M4.3/M4.4 保持不动（其余阶段全不动）。
-- [ ] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表 M4/WI10 行 Status `todo` → `done`。
-- [ ] Add: `docs/logs/2026/` 当日日志记录条目（当日文件不存在则按 `docs/logs/00-log-writing-guide.md` 约定新建）。
-- [ ] Proof: `npm run test:run` exit 0。
-- [ ] Proof: `npm run build` exit 0 且 `test -f dist/blog/defi-lending-protocols/index.html` 为真（新文章路由生成）。
+- [x] Add: `web3-roadmap-data.json` 阶段 4 的 M4.2 `status: "todo"` → `"done"`、`articleSlug: null` → `"defi-lending-protocols"`；M4.3/M4.4 保持不动（其余阶段全不动）。
+- [x] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表 M4/WI10 行 Status `todo` → `done`。
+- [x] Add: `docs/logs/2026/` 当日日志记录条目（当日文件不存在则按 `docs/logs/00-log-writing-guide.md` 约定新建）。（09-08.md 已由前置计划建立，追加 M4/WI10 段落）
+- [x] Proof: `npm run test:run` exit 0。（4/4 passed）
+- [x] Proof: `npm run build` exit 0 且 `test -f dist/blog/defi-lending-protocols/index.html` 为真（新文章路由生成）。（603 pages built；DIST_OK）
 
 Exit Criteria:
 
-- [ ] M4.2 done + articleSlug 指向真实存在的文章 slug；roadmap WI10 行 done；日志条目在档。
-- [ ] `test` / `build` 两验证键均 exit 0，新文章路由生成。
-- [ ] `docs/logs/` 更新（本计划闭环条目）。
-- [ ] 无 owner-doc 之外的文档更新需求——roadmap 数据文件与 roadmap 本身即 owner doc，已在上述条目覆盖。
+- [x] M4.2 done + articleSlug 指向真实存在的文章 slug；roadmap WI10 行 done；日志条目在档。
+- [x] `test` / `build` 两验证键均 exit 0，新文章路由生成。
+- [x] `docs/logs/` 更新（本计划闭环条目）。
+- [x] 无 owner-doc 之外的文档更新需求——roadmap 数据文件与 roadmap 本身即 owner doc，已在上述条目覆盖。
 
 ## Draft Review Record
 
@@ -115,4 +115,12 @@ Exit Criteria:
 
 ## Verification
 
+- pass test 2026-09-08-094755-mission-driver exit=0
+- pass build 2026-09-08-094755-mission-driver exit=0
+- pass test 2026-09-08-094755-mission-driver-r2 exit=0
+- pass build 2026-09-08-094755-mission-driver-r2 exit=0
+
 ## Closure
+
+- dispatch audit #audit-2026-09-08-094755-mission-driver-2026-09-08-0950-2-defi-lending-protocols-1-a7d5ab30 to ses-opencode-glm53 models={exec:glm-5.3,aud:glm-5.3}
+- accepted #audit-2026-09-08-094755-mission-driver-2026-09-08-0950-2-defi-lending-protocols-1-a7d5ab30：审计通过——全部 22 项勾选与实仓一致（文章 170 行、词典三新词条、M4.2 done+articleSlug、roadmap WI10 done、日志在档）；`npm run test:run` exit=0（4/4）、`npm run build` exit=0（603 pages）且 `dist/blog/defi-lending-protocols/index.html` 生成；10 个 GlossaryTerm 引用全部命中词典、heroImage 全库唯一（1 hit）、内链 slug 真实存在、无 client: 指令；exec/aud 同为 glm-5.3，单模型降级如实记录。
