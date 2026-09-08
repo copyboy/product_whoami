@@ -49,7 +49,7 @@ Replace every placeholder before implementation work starts.
 | Build                     | `npm run build`      |
 | Lint / static check       | `npm run lint`       |
 | Unit tests                | `npm run test:run`   |
-| E2E / integration tests   | none                 |
+| E2E / integration tests   | `npx playwright test` |
 
 (Commands sourced from `package.json` `"scripts"`; no pass/fail baseline is claimed here — the known-good green baseline is recorded separately in `docs/testing/known-good-baselines.md`.)
 
