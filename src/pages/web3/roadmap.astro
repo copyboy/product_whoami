@@ -102,9 +102,6 @@ const postsMap = new Map(allPosts.map(p => [p.slug, p]));
           </div>
         </div>
 
-        <!-- Timeline line -->
-        <div class="absolute left-6 top-20 h-96 w-0.5 bg-gradient-to-b from-indigo-500 via-purple-500 to-amber-500 to-pink-500 opacity-20 dark:opacity-30"></div>
-
         <!-- Pain Point Block -->
         <PainPointBlock
           painPoint={phase.painPoint}
@@ -147,6 +144,44 @@ const postsMap = new Map(allPosts.map(p => [p.slug, p]));
         </div>
       </section>
     ))}
+
+    <!-- 延伸阅读：番外专题（不在五阶段里程碑内，发布后自动出现） -->
+    ---
+    const supplementSlugs = ['ethereum-layer2-rollups', 'stablecoins-explained', 'wallets-and-account-abstraction'];
+    const supplementPosts = supplementSlugs.map(s => postsMap.get(s)).filter(Boolean);
+    ---
+    {supplementPosts.length > 0 && (
+      <section class="pt-8 border-t border-slate-200 dark:border-[#30363d]">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-mono text-xs text-[#7ee787]">//</span>
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">延伸阅读</h2>
+        </div>
+        <p class="font-mono text-xs text-slate-500 dark:text-slate-400 mb-4">
+          五阶段主线之外的横向专题，不占里程碑进度
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {supplementPosts.map(post => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="group p-4 rounded-xl border border-slate-200 dark:border-[#30363d] bg-white dark:bg-[#161b22] hover:border-indigo-500/50 dark:hover:border-indigo-500/50 transition-colors"
+            >
+              <h3 class="font-semibold text-slate-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                {post.data.title}
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
+                {post.data.description}
+              </p>
+              <span class="inline-flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400 mt-3">
+                阅读
+                <svg class="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
     <!-- Back link -->
     <div class="pt-8 border-t border-slate-200 dark:border-[#30363d]">

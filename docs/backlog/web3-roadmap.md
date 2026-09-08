@@ -32,6 +32,9 @@
 | M5/WI14 文章「代币经济学设计」 | done | `src/content/blog/tokenomics-design.mdx` (output) | WI13 | — |
 | M5/WI15 文章「Multi-sig 与权限管理」 | done | `src/content/blog/multisig-permission-management.mdx` (output) | WI14 | — |
 | M5/WI16 文章「知名 DAO 案例分析」 | done | `src/content/blog/dao-case-studies.mdx` (output) | WI15 | 呼应 WI4 的重入漏洞 |
+| 番外/WI17 文章「Layer2 扩容与 Rollup」 | todo | `src/content/blog/ethereum-layer2-rollups.mdx` (output) | WI16 | 词典已有 Layer2/Optimistic Rollups/ZK Rollups |
+| 番外/WI18 文章「稳定币」 | todo | `src/content/blog/stablecoins-explained.mdx` (output) | WI16 | 呼应 WI10 的 DAI |
+| 番外/WI19 文章「钱包与账户抽象」 | todo | `src/content/blog/wallets-and-account-abstraction.mdx` (output) | WI16 | 词典已有 Account Abstraction/MPC |
 
 ## Milestones
 
@@ -69,3 +72,11 @@ DeFi 各篇共识口径：与 `report.astro` 阶段 4 章节保持一致（x*y=k
 - **WI14 文章「代币经济学设计」（M5.2）** — 供给曲线（固定上限/通胀/销毁，呼应 EIP-1559 的 ETH 燃烧口径）；分配结构与归属（vesting/锁仓，团队/投资者/国库/社区的典型区间沿用 report 页 5.3 的 15-20%/10-15%/20-30%/40-50% 表述并标注为常见区间而非标准）；价值捕获（手续费分红/回购/治理权）与「治理代币为什么有价值」；警惕纯激励驱动的死亡螺旋。完成定义含：M5.2 置 done。
 - **WI15 文章「Multi-sig 与权限管理」（M5.3）** — 单私钥的风险 → 多签的 m-of-n 模型（沿用 report 页 5.4 的 Gnosis Safe 3/7 + 48 小时时间锁口径）；多签 vs MPC（词典已有 MPC 词条）的取舍；DAO 金库的权限分层（多签执行 + 治理提案 + 时间锁窗口）；操作安全的现实建议（测试专用账户、签名前核对 calldata）。完成定义含：M5.3 置 done。
 - **WI16 文章「知名 DAO 案例分析」（M5.4）** — The DAO 2016 事件始末与重入漏洞（呼应 WI4 智能合约的安全边界，注明该事件催生了 ERC-20 时代的 checks-effects-interactions 模式与硬分叉先例）；MakerDAO 治理的现实运转（执行/治理两院制可一句话带过）；Uniswap 国库与治理权争议的量级描述（不编造精确数字）；案例总结表（成败维度：金库规模/治理参与率/幸存状态用定性词）。**本篇是专栏收官文**：结尾做五阶段总回顾（价值转移→计算→应用→金融→组织），呼应系列第一篇。完成定义含：M5.4 置 done + AGENTS.md 阶段 5 状态改 4/4；检查 `getCurrentPhase`（web3Roadmap.ts）在全 done 时的行为无异常（返回 undefined 即首页不显示当前阶段 CTA，属预期）。
+
+### 番外 — 延伸专题（WI17-WI19，2026-09-08 追加；纯文章阶段）
+
+**番外特殊约定（覆盖全局规范中的数据联动条款）**：三篇是五阶段主线之外的横向专题，**严禁修改 `src/data/web3-roadmap-data.json` 和 AGENTS.md 路线图表**——里程碑进度 20/20 保持不变；roadmap 页底部已有「延伸阅读」区块，按 slug 自动挂卡（slugs：ethereum-layer2-rollups / stablecoins-explained / wallets-and-account-abstraction），无需任何数据联动。tags 驱动概念聚合页：WI17 tag 含 `Layer2`，WI18 tag 含 `稳定币`，WI19 tag 含 `钱包`、`账户抽象`；新增 tag 需在 `src/utils/web3Concepts.ts` 的 conceptMeta 补条目（`稳定币`、`账户抽象`）。
+
+- **WI17 文章「Layer2 扩容与 Rollup」** — 从不可能三角（去中心化/安全/可扩展不可兼得）引出「为什么 L1 直接扩容难」：提高区块参数 = 提高全节点门槛 = 侵蚀去中心化；Rollup 核心思路：执行移到链下、把数据与证明交回 L1（数据可用性是安全锚）；Optimistic（欺诈证明 + 7 天挑战期）vs ZK（有效性证明 + 即时退出）对比表（口径与词典一致）；blob（EIP-4844）如何把 DA 成本打下来（呼应 Gas 篇的 L2 费用口径）；主流 L2 定位速览（Arbitrum/Base/Optimism vs zkSync/Starknet，量级表述）；结尾：L2 是普通用户实际入口，也是 report 页「采用指标」的核心。完成定义含：文章发布 + build 验证；**不动 roadmap 数据与 AGENTS.md**。
+- **WI18 文章「稳定币」** — 稳定币为什么是链上结算层（呼应 AMM 篇的 USDC 计价与借贷篇的 DAI）；三种锚定机制对比：法币抵押（USDT/USDC，中心化托管 + 储备审计透明度问题）、加密超额抵押（DAI，机制细节指路借贷篇不重复展开）、算法/部分算法（UST 崩盘复盘——死亡螺旋机制图解，Web3 最重要的失败案例，标注时间为 2022 年 5 月）；历史脱锚事件用定性词描述（不编造精确幅度）；监管视角一句带过（MiCA 口径与词典一致）；选型清单（用途 → 适配的稳定币类型）。完成定义含：文章发布 + build 验证 + conceptMeta 加 `稳定币`；**不动 roadmap 数据与 AGENTS.md**。
+- **WI19 文章「钱包与账户抽象」** — 钱包的本质是钥匙管理不是「装钱」（私钥/助记词/Keystore，呼应非对称加密与账户模型的签名验证）；热钱包 vs 冷钱包取舍表；实操安全守则（小额热/大额冷、签名前核对、**ERC-20 无限授权的坑**与 revoke 工具、测试专用账户——呼应 dapp/ 实践）；账户抽象两条路线：ERC-4337 独立标准 vs EIP-7702 EOA 委托（口径与词典/report 修订后一致），带来的体验升级：社交恢复、无 gas 交易、批量操作；结尾：账户体验成熟是 Web3 大规模采用的前提（呼应 report §6）。完成定义含：文章发布 + build 验证 + conceptMeta 加 `账户抽象`；**不动 roadmap 数据与 AGENTS.md**。
