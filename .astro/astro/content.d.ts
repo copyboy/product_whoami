@@ -222,6 +222,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"dao-case-studies.mdx": {
+	id: "dao-case-studies.mdx";
+  slug: "dao-case-studies";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "dao-governance-voting.mdx": {
 	id: "dao-governance-voting.mdx";
   slug: "dao-governance-voting";
