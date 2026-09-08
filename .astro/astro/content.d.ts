@@ -572,6 +572,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"uniswap-amm-explained.mdx": {
+	id: "uniswap-amm-explained.mdx";
+  slug: "uniswap-amm-explained";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "unlocking-ai-hidden-capabilities.mdx": {
 	id: "unlocking-ai-hidden-capabilities.mdx";
   slug: "unlocking-ai-hidden-capabilities";
