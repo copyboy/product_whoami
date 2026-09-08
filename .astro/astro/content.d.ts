@@ -663,6 +663,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"wallets-and-account-abstraction.mdx": {
+	id: "wallets-and-account-abstraction.mdx";
+  slug: "wallets-and-account-abstraction";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "workplace-sop-overview.mdx": {
 	id: "workplace-sop-overview.mdx";
   slug: "workplace-sop-overview";

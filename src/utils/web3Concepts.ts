@@ -39,6 +39,7 @@ export const conceptMeta: Record<string, ConceptMeta> = {
   '节点':        { name: '节点',            nameEn: 'Bitcoin Network Nodes',                 phaseId: 1, color: 'indigo' },
   '稳定币':      { name: '稳定币',          nameEn: 'Stablecoins',                          phaseId: 4, color: 'amber' },
   '账户抽象':    { name: '账户抽象',        nameEn: 'Account Abstraction',                  phaseId: 3, color: 'emerald' },
+  '钱包':        { name: '钱包',            nameEn: 'Wallet',                               phaseId: 0 },
 };
 
 export function getConceptMeta(slug: string): ConceptMeta | undefined {
