@@ -61,13 +61,13 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: 本组计划 2026-09-08-1223-1 已完成（M5.3 done；`多签`/`Gnosis Safe` 词条已存在可复用；roadmap 头部读数 19）
 
-- [ ] Add: 在 `GlossaryTerm.astro` 的 `definitions` 对象追加两个 key——`重入攻击`（Reentrancy：外部合约在余额扣减前被回调、递归重复提款的攻击模式——The DAO 2016 事件损失约当时流通 ETH 的相当比例，直接催生以太坊硬分叉；防御即 checks-effects-interactions 模式：先改状态、记账在后、外部交互放最后）、`硬分叉`（Hard Fork：协议规则变更导致不兼容分链——节点必须升级否则留在旧链；The DAO 事件后的干预性分叉是以太坊唯一一次大规模回滚先例，分出的原链延续为 ETC，也留下「代码即规则」与「人治干预」的长期争论）。词条文案与既有 `智能合约`/`闪电贷`/`原子性` 词条口径一致、风格一致。
-- [ ] Proof: `grep -n "重入攻击\|硬分叉" src/components/web3/GlossaryTerm.astro` 打印两个新 key 的定义行；重读 `evm-deep-dive` :130 与 `smart-contracts-explained` :38/:135，确认文章将用的呼应点与既有文案逐项对得上（重入被提及的语境、代理升级权限风险的表述）。
+- [x] Add: 在 `GlossaryTerm.astro` 的 `definitions` 对象追加两个 key——`重入攻击`（Reentrancy：外部合约在余额扣减前被回调、递归重复提款的攻击模式——The DAO 2016 事件损失约当时流通 ETH 的相当比例，直接催生以太坊硬分叉；防御即 checks-effects-interactions 模式：先改状态、记账在后、外部交互放最后）、`硬分叉`（Hard Fork：协议规则变更导致不兼容分链——节点必须升级否则留在旧链；The DAO 事件后的干预性分叉是以太坊唯一一次大规模回滚先例，分出的原链延续为 ETC，也留下「代码即规则」与「人治干预」的长期争论）。词条文案与既有 `智能合约`/`闪电贷`/`原子性` 词条口径一致、风格一致。
+- [x] Proof: `grep -n "重入攻击\|硬分叉" src/components/web3/GlossaryTerm.astro` 打印两个新 key 的定义行；重读 `evm-deep-dive` :130 与 `smart-contracts-explained` :38/:135，确认文章将用的呼应点与既有文案逐项对得上（重入被提及的语境、代理升级权限风险的表述）。
 
 Exit Criteria:
 
-- [ ] 词典含 `重入攻击`、`硬分叉` 两个 key，先于文章使用落地。
-- [ ] WI4/evm-deep-dive 呼应点核对一致，无凭空引用不存在的内容。
+- [x] 词典含 `重入攻击`、`硬分叉` 两个 key，先于文章使用落地。
+- [x] WI4/evm-deep-dive 呼应点核对一致，无凭空引用不存在的内容。
 
 ## Phase 2 — 文章写作
 
@@ -77,18 +77,18 @@ Skill: none
 - Item Types: `Add | Decision | Proof`
 - Prereqs: Phase 1（词条已存在，`GlossaryTerm` 才可引用）
 
-- [ ] Add: 创建 `src/content/blog/dao-case-studies.mdx`，frontmatter 满足全局写作规范：`categories: ["Web3"]`、`subject: "DAO"`（承阶段主题惯例，见 Current Baseline）、`tags: ["Web3", "区块链入门", "DAO", "案例分析"]`、`pubDate` 为执行当天日期、`description` 一段摘要；`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop` 后缀）；标题紧扣 roadmap WI 标签「知名 DAO 案例分析」。
-- [ ] Decision: heroImage 选图——执行时 `grep -h "heroImage" src/content/blog/*.mdx` 全库比对唯一后选定；备选主题（档案馆/编年史/判例视觉）任选，唯一性是硬约束。残余风险：无（可机械复查）。
-- [ ] Add: 正文 150-250 行，结构遵守全局规范：引言（承接 WI15 结尾「规则、激励、钥匙都齐了——现实里跑得怎么样」钩子）→ The DAO 分节（2016 始末：募集规模与 split 函数递归提款漏洞拆解；ASCII text 代码块画重入调用时序；催生 checks-effects-interactions 模式与硬分叉先例；呼应 WI4 安全边界与 evm-deep-dive「安全的复利」论点）→ MakerDAO 分节（治理的现实运转：执行/治理两院制一句话带过；呼应 WI13 治理模型与 WI10 稳定币视角的既有口径）→ Uniswap 分节（国库与治理权争议：费开关/国库用途的量级与定性描述，不编造精确数字）→ 案例总结表（Markdown 表：案例 × 金库规模/治理参与率/幸存状态，全部定性词）→ **收官总结**：五阶段总回顾（价值转移 Bitcoin → 计算 Ethereum → 应用 DApp → 金融 DeFi → 组织 DAO，每阶段一句话收束 + 代表文章内链），呼应系列第一篇 utxo-model-deep-dive 的开篇视角，专栏完。
-- [ ] Add: 组件使用合规——按系列既有惯例导入组件；`<Highlight>` 仅四种 type（The DAO 事件警示用 `type="danger"`，「历史数字用量级表述」提示用 `type="warning"`）；`<GlossaryTerm>` 仅引用词典已有 key（含 Phase 1 新增两个，大小写完全一致）；禁止 `client:` 指令；图示全 ASCII text 代码块；所有历史数字（募集额、损失额、补偿比例）用「量级/约」表述，不编造精确值。
-- [ ] Add: 文末「相关文章」内链仅引用已发布 slug（`multisig-permission-management` 必引——引言承接其结尾钩子；`smart-contracts-explained` 必引——安全边界与代理权限呼应；`evm-deep-dive` 必引——重入的既有提及与 EVM 安全复利论点；`utxo-model-deep-dive` 必引——系列第一篇，收官呼应；其余按相关性精选，slug 必须真实存在）。
-- [ ] Proof: `wc -l src/content/blog/dao-case-studies.mdx` 打印值在 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过（全库 grep 仅 1 hit）。
+- [x] Add: 创建 `src/content/blog/dao-case-studies.mdx`，frontmatter 满足全局写作规范：`categories: ["Web3"]`、`subject: "DAO"`（承阶段主题惯例，见 Current Baseline）、`tags: ["Web3", "区块链入门", "DAO", "案例分析"]`、`pubDate` 为执行当天日期、`description` 一段摘要；`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop` 后缀）；标题紧扣 roadmap WI 标签「知名 DAO 案例分析」。
+- [x] Decision: heroImage 选图——执行时 `grep -h "heroImage" src/content/blog/*.mdx` 全库比对唯一后选定；备选主题（档案馆/编年史/判例视觉）任选，唯一性是硬约束。残余风险：无（可机械复查）。（选判例视觉 photo-1589829545856-d10d557cf95f，全库 grep 仅 1 hit）
+- [x] Add: 正文 150-250 行，结构遵守全局规范：引言（承接 WI15 结尾「规则、激励、钥匙都齐了——现实里跑得怎么样」钩子）→ The DAO 分节（2016 始末：募集规模与 split 函数递归提款漏洞拆解；ASCII text 代码块画重入调用时序；催生 checks-effects-interactions 模式与硬分叉先例；呼应 WI4 安全边界与 evm-deep-dive「安全的复利」论点）→ MakerDAO 分节（治理的现实运转：执行/治理两院制一句话带过；呼应 WI13 治理模型与 WI10 稳定币视角的既有口径）→ Uniswap 分节（国库与治理权争议：费开关/国库用途的量级与定性描述，不编造精确数字）→ 案例总结表（Markdown 表：案例 × 金库规模/治理参与率/幸存状态，全部定性词）→ **收官总结**：五阶段总回顾（价值转移 Bitcoin → 计算 Ethereum → 应用 DApp → 金融 DeFi → 组织 DAO，每阶段一句话收束 + 代表文章内链），呼应系列第一篇 utxo-model-deep-dive 的开篇视角，专栏完。（wc -l = 165）
+- [x] Add: 组件使用合规——按系列既有惯例导入组件；`<Highlight>` 仅四种 type（The DAO 事件警示用 `type="danger"`，「历史数字用量级表述」提示用 `type="warning"`）；`<GlossaryTerm>` 仅引用词典已有 key（含 Phase 1 新增两个，大小写完全一致）；禁止 `client:` 指令；图示全 ASCII text 代码块；所有历史数字（募集额、损失额、补偿比例）用「量级/约」表述，不编造精确值。
+- [x] Add: 文末「相关文章」内链仅引用已发布 slug（`multisig-permission-management` 必引——引言承接其结尾钩子；`smart-contracts-explained` 必引——安全边界与代理权限呼应；`evm-deep-dive` 必引——重入的既有提及与 EVM 安全复利论点；`utxo-model-deep-dive` 必引——系列第一篇，收官呼应；其余按相关性精选，slug 必须真实存在）。
+- [x] Proof: `wc -l src/content/blog/dao-case-studies.mdx` 打印值在 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过（全库 grep 仅 1 hit）。
 
 Exit Criteria:
 
-- [ ] 文章文件存在，frontmatter 全字段合规，行数 150-250。
-- [ ] 结构完整（引言/The DAO/MakerDAO/Uniswap/案例总结表/五阶段收官总回顾），历史数字全部量级/定性表述。
-- [ ] 组件与内链合规；heroImage 全库唯一；四个必引 slug 均真实存在。
+- [x] 文章文件存在，frontmatter 全字段合规，行数 150-250。
+- [x] 结构完整（引言/The DAO/MakerDAO/Uniswap/案例总结表/五阶段收官总回顾），历史数字全部量级/定性表述。
+- [x] 组件与内链合规；heroImage 全库唯一；四个必引 slug 均真实存在。
 
 ## Phase 3 — 数据联动、收官核验与验证
 
@@ -98,21 +98,21 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: Phase 2（文章已落地才置 done）
 
-- [ ] Add: `web3-roadmap-data.json` 阶段 5 的 M5.4 `status: "todo"` → `"done"`、`articleSlug: null` → `"dao-case-studies"`（其余阶段全不动）。
-- [ ] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表 M5/WI16 行 Status `todo` → `done`；同文件头部系列篇数同步刷新（19 → 20，阶段 5 第四篇，全系列完）。
-- [ ] Add: `AGENTS.md` 路线图表阶段 5 行 `0/4` → `4/4`（:109，仅改该行状态列）。
-- [ ] Add: `docs/logs/2026/` 当日日志记录条目（当日文件不存在则按 `docs/logs/00-log-writing-guide.md` 约定新建；收官条目注明全系列 20 篇完成）。
-- [ ] Proof: `npm run test:run` exit 0。
-- [ ] Proof: `npm run build` exit 0 且 `test -f dist/blog/dao-case-studies/index.html` 为真（新文章路由生成）。
-- [ ] Proof: 收官行为核验——`grep -c "当前阶段" dist/web3/index.html` 为 0（getCurrentPhase 全 done 返回 undefined，首页当前阶段 CTA 块不再渲染，属预期行为）；`grep -n "| 5 | DAO" AGENTS.md` 显示 `4/4`。
+- [x] Add: `web3-roadmap-data.json` 阶段 5 的 M5.4 `status: "todo"` → `"done"`、`articleSlug: null` → `"dao-case-studies"`（其余阶段全不动）。
+- [x] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表 M5/WI16 行 Status `todo` → `done`；同文件头部系列篇数同步刷新（19 → 20，阶段 5 第四篇，全系列完）。
+- [x] Add: `AGENTS.md` 路线图表阶段 5 行 `0/4` → `4/4`（:109，仅改该行状态列）。
+- [x] Add: `docs/logs/2026/` 当日日志记录条目（当日文件不存在则按 `docs/logs/00-log-writing-guide.md` 约定新建；收官条目注明全系列 20 篇完成）。
+- [x] Proof: `npm run test:run` exit 0。
+- [x] Proof: `npm run build` exit 0 且 `test -f dist/blog/dao-case-studies/index.html` 为真（新文章路由生成）。
+- [x] Proof: 收官行为核验——`grep -c "当前阶段" dist/web3/index.html` 为 0（getCurrentPhase 全 done 返回 undefined，首页当前阶段 CTA 块不再渲染，属预期行为）；`grep -n "| 5 | DAO" AGENTS.md` 显示 `4/4`。
 
 Exit Criteria:
 
-- [ ] M5.4 done + articleSlug 指向真实存在的文章 slug；roadmap WI16 行 done、头部计数 20；AGENTS.md 阶段 5 行 4/4；日志收官条目在档。
-- [ ] `test` / `build` 两验证键均 exit 0，新文章路由生成。
-- [ ] `getCurrentPhase` 全 done 行为核验通过（首页 CTA 消失），无代码改动。
-- [ ] `docs/logs/` 更新（本计划闭环 + 系列收官条目）。
-- [ ] 无 owner-doc 之外的文档更新需求——roadmap 数据文件、roadmap、AGENTS.md 路线图状态即 owner doc 更新，已在上述条目覆盖。
+- [x] M5.4 done + articleSlug 指向真实存在的文章 slug；roadmap WI16 行 done、头部计数 20；AGENTS.md 阶段 5 行 4/4；日志收官条目在档。
+- [x] `test` / `build` 两验证键均 exit 0，新文章路由生成。
+- [x] `getCurrentPhase` 全 done 行为核验通过（首页 CTA 消失），无代码改动。
+- [x] `docs/logs/` 更新（本计划闭环 + 系列收官条目）。
+- [x] 无 owner-doc 之外的文档更新需求——roadmap 数据文件、roadmap、AGENTS.md 路线图状态即 owner doc 更新，已在上述条目覆盖。
 
 ## Draft Review Record
 
@@ -121,4 +121,12 @@ Exit Criteria:
 
 ## Verification
 
+- pass test 2026-09-08-094755-mission-driver-verify exit=0
+- pass build 2026-09-08-094755-mission-driver-verify exit=0
+- pass test 2026-09-08-094755-mission-driver-verify-r2 exit=0
+- pass build 2026-09-08-094755-mission-driver-verify-r2 exit=0
+
 ## Closure
+
+- dispatch audit #audit-2026-09-08-094755-mission-driver-2026-09-08-1223-2-dao-case-studies-1-c1b7133a to ses-opencode-glm53 models={exec:glm-5.3,aud:glm-5.3}
+- accepted #audit-2026-09-08-094755-mission-driver-2026-09-08-1223-2-dao-case-studies-1-c1b7133a：审计通过——25/25 项落地并活库核验（文章 dao-case-studies.mdx 165 行，frontmatter 合规 subject=DAO/tags/heroImage 带后缀且全库唯一 1 hit，无 client: 指令；词典 重入攻击/硬分叉 于 GlossaryTerm.astro:90-91，文中 7 个 GlossaryTerm term= 全部命中既有 key 含 MakerDAO:56；内链 10 个 slug 均真实存在含 4 个必引；web3-roadmap-data.json M5.4 done+articleSlug、其余阶段未动；roadmap WI16 行 done、头部计数 20；AGENTS.md 阶段 5 行 4/4；docs/logs/2026/09-08.md 收官条目在档）。本审计重跑验证门：npm run test:run exit=0（4/4）、npm run build exit=0（631 pages，dist/blog/dao-case-studies/index.html 生成）；收官行为核验 grep -c "当前阶段" dist/web3/index.html = 0（getCurrentPhase 全 done 返回 undefined，预期行为无代码改动）。exec 与 aud 同为 GLM 系（单模型降级，如实记录）。
