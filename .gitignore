@@ -35,3 +35,7 @@ tmp/
 dapp/node_modules/
 dapp/cache/
 dapp/artifacts/
+
+# Playwright (L4 冒烟构建产物)
+test-results/
+playwright-report/

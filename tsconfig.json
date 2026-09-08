@@ -16,6 +16,6 @@
     "allowImportingTsExtensions": true,
     "typeRoots": ["node_modules/@types", "src/types"]
   },
-  "include": ["src/**/*", "scripts/checks/**/*", "astro.config.mjs", ".astro/**/*"],
+  "include": ["src/**/*", "scripts/checks/**/*", "e2e/**/*", "playwright.config.ts", "astro.config.mjs", ".astro/**/*"],
   "exclude": ["node_modules", "dist"]
 }

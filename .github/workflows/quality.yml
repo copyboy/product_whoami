@@ -1,0 +1,45 @@
+# Quality gate（quality-system WI4，取代已删除的 legacy ci.yml）。
+# push → npm ci + verify（type-check → lint → test:run → build → content-checks）；
+# PR → 上述全部 + Playwright 冒烟（6 条路径，chromium）。
+# 边界（设计文档 §5）：CI 不含外链可达性检查 —— 外链/远程资源可达性属 L5 线上巡检，
+# 放进 CI 会因外网抖动假红。部署由 Cloudflare Pages 托管，不经 Actions。
+name: Quality
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    name: Verify + Build (PR adds E2E smoke)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # verify 内含 build（scripts/verify.sh：type-check → lint → test:run →
+      # build → content-checks），push 后此步骤给出 verify+build 单一结论。
+      - name: Verify (type-check + lint + test + build + content-checks)
+        run: npm run verify
+
+      # 以下两步仅 PR 触发：Playwright 冒烟（config webServer 会再跑一次
+      # build + preview，e2e 的产物新鲜性由其自身保证）。
+      - name: Install Playwright browsers
+        if: github.event_name == 'pull_request'
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E smoke (6 paths)
+        if: github.event_name == 'pull_request'
+        run: npx playwright test
