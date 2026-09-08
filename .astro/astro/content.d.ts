@@ -572,6 +572,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"stablecoins-explained.mdx": {
+	id: "stablecoins-explained.mdx";
+  slug: "stablecoins-explained";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "star-behavioral-interview.mdx": {
 	id: "star-behavioral-interview.mdx";
   slug: "star-behavioral-interview";
