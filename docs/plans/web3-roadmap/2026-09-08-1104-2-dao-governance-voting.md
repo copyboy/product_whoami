@@ -59,13 +59,13 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: 本组计划 2026-09-08-1104-1 已完成（M4.4 done，阶段 5 开篇依赖阶段 4 收尾的过渡钩子）
 
-- [ ] Add: 在 `GlossaryTerm.astro` 的 `definitions` 对象追加四个 key——`治理代币`（Governance Token：赋予持有者协议治理权的代币——提交提案、投票决定协议参数与金库使用；其价值支撑来自治理权与协议的价值捕获设计，而非公司股权）、`Quadratic Voting`（二次方投票：票数按 √(代币数) 计，投票成本随影响力平方增长，巨鲸话语权边际递减，用于缓解 1 token = 1 票的富者越富；代价是机制复杂、需防拆分多账户绕过）、`时间锁`（Timelock：治理执行的延迟窗口——投票通过的提案不立即执行，须等待约 1-2 天窗口期，给社区留出发现恶意提案后的反应时间，是治理合约的标配安全层）、`Snapshot`（最常用的链下投票工具：在指定区块高度对持币地址拍照记账，投票与计票在链下完成、结果回链执行，零 gas 成本；因快照先于投票，天然免疫闪电贷借币投票）。词条文案与既有 `DAO`/`闪电贷` 词条口径一致、风格一致。
-- [ ] Proof: `grep -n "治理代币\|Quadratic Voting\|时间锁\|Snapshot" src/components/web3/GlossaryTerm.astro` 打印四个新 key 的定义行；重读 report 页 5.2 章节，确认文章将用的 Token Voting / Quadratic Voting 表述与页面逐项一致（1 token = 1 票/√ 计票/优缺点四要素）。
+- [x] Add: 在 `GlossaryTerm.astro` 的 `definitions` 对象追加四个 key——`治理代币`（Governance Token：赋予持有者协议治理权的代币——提交提案、投票决定协议参数与金库使用；其价值支撑来自治理权与协议的价值捕获设计，而非公司股权）、`Quadratic Voting`（二次方投票：票数按 √(代币数) 计，投票成本随影响力平方增长，巨鲸话语权边际递减，用于缓解 1 token = 1 票的富者越富；代价是机制复杂、需防拆分多账户绕过）、`时间锁`（Timelock：治理执行的延迟窗口——投票通过的提案不立即执行，须等待约 1-2 天窗口期，给社区留出发现恶意提案后的反应时间，是治理合约的标配安全层）、`Snapshot`（最常用的链下投票工具：在指定区块高度对持币地址拍照记账，投票与计票在链下完成、结果回链执行，零 gas 成本；因快照先于投票，天然免疫闪电贷借币投票）。词条文案与既有 `DAO`/`闪电贷` 词条口径一致、风格一致。
+- [x] Proof: `grep -n "治理代币\|Quadratic Voting\|时间锁\|Snapshot" src/components/web3/GlossaryTerm.astro` 打印四个新 key 的定义行；重读 report 页 5.2 章节，确认文章将用的 Token Voting / Quadratic Voting 表述与页面逐项一致（1 token = 1 票/√ 计票/优缺点四要素）。
 
 Exit Criteria:
 
-- [ ] 词典含 `治理代币`、`Quadratic Voting`、`时间锁`、`Snapshot` 四个 key，先于文章使用落地。
-- [ ] 投票模型口径与 report 页 5.2 核对一致。
+- [x] 词典含 `治理代币`、`Quadratic Voting`、`时间锁`、`Snapshot` 四个 key，先于文章使用落地。
+- [x] 投票模型口径与 report 页 5.2 核对一致。
 
 ## Phase 2 — 文章写作
 
@@ -75,18 +75,18 @@ Skill: none
 - Item Types: `Add | Decision | Proof`
 - Prereqs: Phase 1（词条已存在，`GlossaryTerm` 才可引用）
 
-- [ ] Add: 创建 `src/content/blog/dao-governance-voting.mdx`，frontmatter 满足全局写作规范：`categories: ["Web3"]`、`subject: "DAO"`（承阶段主题惯例，见 Current Baseline）、`tags: ["Web3", "区块链入门", "DAO", "治理"]`、`pubDate` 为执行当天日期、`description` 一段摘要；`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop` 后缀）；标题紧扣 roadmap WI 标签「DAO 治理与投票」。
-- [ ] Decision: heroImage 选图——执行时 `grep -h "heroImage" src/content/blog/*.mdx` 全库比对唯一后选定；备选主题（投票箱/议会/组织协作视觉）任选，唯一性是硬约束。残余风险：无（可机械复查）。
-- [ ] Add: 正文 150-250 行，结构遵守全局规范：引言（承接 WI12 结尾「协议群没有 CEO」钩子——阶段 4 的协议群都由谁决定升级与参数）→ 链上治理动机分节（「协议由谁升级」：参数调整、金库支出、合约升级都需要决策权；去中心化协议的合法性来自规则而非公司，`DAO` 词条呼应）→ 投票模型分节（Token Voting 1 token = 1 票的优缺点 vs Quadratic Voting，口径与 report 页 5.2 完全一致；对比表列两模型四要素）→ 生命周期分节（提案-投票-时间锁完整流程，ASCII text 代码块画流程：提案门槛→链上提案→投票期→时间锁窗口→执行；时间锁为什么必要）→ 治理攻击面分节（闪电贷投票——治理代币也能被闪电贷借来投票，呼应 WI11 的同区块借还机制；巨鲸垄断/富者越富；缓解：Snapshot 链下快照投票等——快照先于投票开始故借不到票）→ 总结：治理是权利分配的机器，过渡 M5.2（投票权来自治理代币——这个代币本身怎么发、怎么分、凭什么有价值：代币经济学）。
-- [ ] Add: 组件使用合规——按系列既有惯例导入组件；`<Highlight>` 仅四种 type（攻击面警示用 `type="danger"`，机制复杂度提示用 `type="warning"`）；`<GlossaryTerm>` 仅引用词典已有 key（含 Phase 1 新增四个，大小写完全一致）；禁止 `client:` 指令；图示全 ASCII text 代码块；数字不确定处用「量级/约」表述，不编造精确值（投票率、提案数量等均用量级表述）。
-- [ ] Add: 文末「相关文章」内链仅引用已发布 slug（`defi-aggregators-yield` 必引——引言承接；`flash-loans-arbitrage` 必引——闪电贷投票呼应；`smart-contracts-explained` 必引——治理规则即合约代码；其余按相关性精选，slug 必须真实存在）。
-- [ ] Proof: `wc -l src/content/blog/dao-governance-voting.mdx` 打印值在 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过（全库 grep 仅 1 hit）。
+- [x] Add: 创建 `src/content/blog/dao-governance-voting.mdx`，frontmatter 满足全局写作规范：`categories: ["Web3"]`、`subject: "DAO"`（承阶段主题惯例，见 Current Baseline）、`tags: ["Web3", "区块链入门", "DAO", "治理"]`、`pubDate` 为执行当天日期、`description` 一段摘要；`heroImage` 为 Unsplash 图（`?w=1200&h=630&fit=crop` 后缀）；标题紧扣 roadmap WI 标签「DAO 治理与投票」。
+- [x] Decision: heroImage 选图——执行时 `grep -h "heroImage" src/content/blog/*.mdx` 全库比对唯一后选定；备选主题（投票箱/议会/组织协作视觉）任选，唯一性是硬约束。残余风险：无（可机械复查）。
+- [x] Add: 正文 150-250 行，结构遵守全局规范：引言（承接 WI12 结尾「协议群没有 CEO」钩子——阶段 4 的协议群都由谁决定升级与参数）→ 链上治理动机分节（「协议由谁升级」：参数调整、金库支出、合约升级都需要决策权；去中心化协议的合法性来自规则而非公司，`DAO` 词条呼应）→ 投票模型分节（Token Voting 1 token = 1 票的优缺点 vs Quadratic Voting，口径与 report 页 5.2 完全一致；对比表列两模型四要素）→ 生命周期分节（提案-投票-时间锁完整流程，ASCII text 代码块画流程：提案门槛→链上提案→投票期→时间锁窗口→执行；时间锁为什么必要）→ 治理攻击面分节（闪电贷投票——治理代币也能被闪电贷借来投票，呼应 WI11 的同区块借还机制；巨鲸垄断/富者越富；缓解：Snapshot 链下快照投票等——快照先于投票开始故借不到票）→ 总结：治理是权利分配的机器，过渡 M5.2（投票权来自治理代币——这个代币本身怎么发、怎么分、凭什么有价值：代币经济学）。
+- [x] Add: 组件使用合规——按系列既有惯例导入组件；`<Highlight>` 仅四种 type（攻击面警示用 `type="danger"`，机制复杂度提示用 `type="warning"`）；`<GlossaryTerm>` 仅引用词典已有 key（含 Phase 1 新增四个，大小写完全一致）；禁止 `client:` 指令；图示全 ASCII text 代码块；数字不确定处用「量级/约」表述，不编造精确值（投票率、提案数量等均用量级表述）。
+- [x] Add: 文末「相关文章」内链仅引用已发布 slug（`defi-aggregators-yield` 必引——引言承接；`flash-loans-arbitrage` 必引——闪电贷投票呼应；`smart-contracts-explained` 必引——治理规则即合约代码；其余按相关性精选，slug 必须真实存在）。
+- [x] Proof: `wc -l src/content/blog/dao-governance-voting.mdx` 打印值在 150-250；每个 `GlossaryTerm term="X"` 词典命中且大小写一致；heroImage 唯一性复查通过（全库 grep 仅 1 hit）。
 
 Exit Criteria:
 
-- [ ] 文章文件存在，frontmatter 全字段合规，行数 150-250。
-- [ ] 结构完整（引言/治理动机/投票模型/生命周期/攻击面/总结收束与过渡），投票模型口径与 report 页一致、闪电贷投票呼应 WI11、投票率等数字为量级表述。
-- [ ] 组件与内链合规；heroImage 全库唯一。
+- [x] 文章文件存在，frontmatter 全字段合规，行数 150-250。
+- [x] 结构完整（引言/治理动机/投票模型/生命周期/攻击面/总结收束与过渡），投票模型口径与 report 页一致、闪电贷投票呼应 WI11、投票率等数字为量级表述。
+- [x] 组件与内链合规；heroImage 全库唯一。
 
 ## Phase 3 — 数据联动与验证
 
@@ -96,18 +96,18 @@ Skill: none
 - Item Types: `Add | Proof`
 - Prereqs: Phase 2（文章已落地才置 done）
 
-- [ ] Add: `web3-roadmap-data.json` 阶段 5 的 M5.1 `status: "todo"` → `"done"`、`articleSlug: null` → `"dao-governance-voting"`；M5.2-M5.4 保持不动（其余阶段全不动）。
-- [ ] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表 M5/WI13 行 Status `todo` → `done`；同文件头部系列篇数同步刷新为「系列已有 17 篇：阶段 1-4 各四篇 + 阶段 5 一篇」（16 → 17，阶段 5 首篇）。
-- [ ] Add: `docs/logs/2026/` 当日日志记录条目（当日文件不存在则按 `docs/logs/00-log-writing-guide.md` 约定新建）。
-- [ ] Proof: `npm run test:run` exit 0。
-- [ ] Proof: `npm run build` exit 0 且 `test -f dist/blog/dao-governance-voting/index.html` 为真（新文章路由生成）。
+- [x] Add: `web3-roadmap-data.json` 阶段 5 的 M5.1 `status: "todo"` → `"done"`、`articleSlug: null` → `"dao-governance-voting"`；M5.2-M5.4 保持不动（其余阶段全不动）。
+- [x] Add: `docs/backlog/web3-roadmap.md` Work Item Status 表 M5/WI13 行 Status `todo` → `done`；同文件头部系列篇数同步刷新为「系列已有 17 篇：阶段 1-4 各四篇 + 阶段 5 一篇」（16 → 17，阶段 5 首篇）。
+- [x] Add: `docs/logs/2026/` 当日日志记录条目（当日文件不存在则按 `docs/logs/00-log-writing-guide.md` 约定新建）。
+- [x] Proof: `npm run test:run` exit 0。
+- [x] Proof: `npm run build` exit 0 且 `test -f dist/blog/dao-governance-voting/index.html` 为真（新文章路由生成）。
 
 Exit Criteria:
 
-- [ ] M5.1 done + articleSlug 指向真实存在的文章 slug；roadmap WI13 行 done、头部计数刷新；日志条目在档。
-- [ ] `test` / `build` 两验证键均 exit 0，新文章路由生成。
-- [ ] `docs/logs/` 更新（本计划闭环条目）。
-- [ ] 无 owner-doc 之外的文档更新需求——roadmap 数据文件与 roadmap 本身即 owner doc，已在上述条目覆盖（AGENTS.md 阶段 5 行按 roadmap 定义不在本 WI 范围）。
+- [x] M5.1 done + articleSlug 指向真实存在的文章 slug；roadmap WI13 行 done、头部计数刷新；日志条目在档。
+- [x] `test` / `build` 两验证键均 exit 0，新文章路由生成。
+- [x] `docs/logs/` 更新（本计划闭环条目）。
+- [x] 无 owner-doc 之外的文档更新需求——roadmap 数据文件与 roadmap 本身即 owner doc，已在上述条目覆盖（AGENTS.md 阶段 5 行按 roadmap 定义不在本 WI 范围）。
 
 ## Draft Review Record
 
@@ -116,4 +116,10 @@ Exit Criteria:
 
 ## Verification
 
+- pass test 2026-09-08-094755-mission-driver exit=0
+- pass build 2026-09-08-094755-mission-driver exit=0
+
 ## Closure
+
+- dispatch audit #audit-2026-09-08-094755-mission-driver-2026-09-08-1104-2-dao-governance-voting-1-ff9943ec to opencode-glm53-auditor models={exec:opencode-glm53,aud:opencode-glm53}
+- accepted #audit-2026-09-08-094755-mission-driver-2026-09-08-1104-2-dao-governance-voting-1-ff9943ec：审计通过——文章 `src/content/blog/dao-governance-voting.mdx` 159 行落地（heroImage 全库唯一带裁剪后缀）、词典四新 key（GlossaryTerm.astro:82-85）先于文章落地、M5.1 done + articleSlug、roadmap WI13 done + 头部计数 17、`docs/logs/2026/09-08.md` 条目在档且与实测一致；审计者独立复跑 `npm run test:run` exit=0（4/4）与 `npm run build` exit=0（617 pages，`dist/blog/dao-governance-voting/index.html` 生成）；typecheck/lint 存量失败为 mission config 声明 skip 项。
