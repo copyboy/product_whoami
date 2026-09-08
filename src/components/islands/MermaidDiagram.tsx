@@ -1,4 +1,5 @@
 import mermaid from 'mermaid';
+import type { MermaidConfig } from 'mermaid';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface MermaidDiagramProps {
@@ -49,7 +50,7 @@ export default function MermaidDiagram({ chart, id = 'mermaid-diagram' }: Mermai
   }, []);
 
   // 获取主题配置
-  const getThemeConfig = useCallback((isDarkTheme: boolean) => {
+  const getThemeConfig = useCallback((isDarkTheme: boolean): MermaidConfig => {
     if (isDarkTheme) {
       return {
         theme: 'dark',

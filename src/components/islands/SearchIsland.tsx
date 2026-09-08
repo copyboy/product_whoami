@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 // Import types only for Fuse.js which will be dynamically loaded at runtime
-import type { FuseResult, IFuseOptions } from 'fuse.js';
+import type { FuseResult } from 'fuse.js';
 
 interface SearchArticle {
   title: string;
@@ -18,11 +18,10 @@ interface SearchResult {
   score?: number;
 }
 
-// Define Fuse type for dynamic import
-interface FuseType<T> {
+// Define Fuse instance type for dynamic import
+type FuseType<T> = {
   search: (query: string) => FuseResult<T>[];
-  new (items: T[], options?: IFuseOptions<T>): FuseType<T>;
-}
+};
 
 interface SearchIslandProps {
   dataTimestamp: number;
@@ -120,7 +119,7 @@ const SearchIsland = ({
   const [searchArticles, setSearchArticles] = useState<SearchArticle[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
-  const fuseRef = useRef<any>(null);
+  const fuseRef = useRef<FuseType<SearchArticle> | null>(null);
   const initialQueryRun = useRef(false);
 
   // Format date - Use useCallback to cache function
@@ -216,7 +215,7 @@ const SearchIsland = ({
         if (!response.ok) {
           throw new Error('Failed to fetch search data');
         }
-        const data = await response.json();
+        const data: SearchArticle[] = await response.json();
         if (!isMounted) return;
         setSearchArticles(data);
         

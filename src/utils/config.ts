@@ -117,7 +117,7 @@ export function getFeaturesConfig() {
  * Get navigation configuration
  */
 export function getNavigationConfig() {
-  return (siteConfig as any).navigation || { header: [], footer: [] };
+  return (siteConfig as SiteConfig).navigation || { header: [], footer: [] };
 }
 
 /**
