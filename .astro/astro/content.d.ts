@@ -383,6 +383,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"multisig-permission-management.mdx": {
+	id: "multisig-permission-management.mdx";
+  slug: "multisig-permission-management";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "mysql-btree-index-principle.mdx": {
 	id: "mysql-btree-index-principle.mdx";
   slug: "mysql-btree-index-principle";

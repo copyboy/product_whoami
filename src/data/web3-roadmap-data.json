@@ -81,7 +81,7 @@
         "status": "done",
         "articleSlug": "tokenomics-design"
       },
-        { "id": "M5.3", "title": "Multi-sig 与权限管理", "status": "todo", "articleSlug": null },
+        { "id": "M5.3", "title": "Multi-sig 与权限管理", "status": "done", "articleSlug": "multisig-permission-management" },
         { "id": "M5.4", "title": "知名 DAO 案例分析", "status": "todo", "articleSlug": null }
       ]
     }
