@@ -1,6 +1,6 @@
 # Product Whoami Web3 Roadmap
 
-> 驱动 Web3 专栏内容生产：阶段 2（Ethereum）、阶段 3（DApp 入门）已完成；当前批次为阶段 4（DeFi，M4.1-M4.4）与阶段 5（DAO，M5.1-M5.4）。每个 WI 产出一篇博客文章 + 路线图数据联动更新。系列已有 12 篇：阶段 1 四篇 + 阶段 2 四篇 + 阶段 3 四篇（slug 见 `src/data/web3-roadmap-data.json`）。
+> 驱动 Web3 专栏内容生产：阶段 2（Ethereum）、阶段 3（DApp 入门）已完成；当前批次为阶段 4（DeFi，M4.1-M4.4）与阶段 5（DAO，M5.1-M5.4）。每个 WI 产出一篇博客文章 + 路线图数据联动更新。系列已有 16 篇：阶段 1-4 各四篇（slug 见 `src/data/web3-roadmap-data.json`）。
 
 ## 全局写作规范（每个 WI 都必须遵守）
 
@@ -27,7 +27,7 @@
 | M4/WI9 文章「AMM 机制与 Uniswap」 | done | `src/content/blog/uniswap-amm-explained.mdx` (output) | WI8 | 词典已有 AMM/Uniswap |
 | M4/WI10 文章「借贷协议」 | done | `src/content/blog/defi-lending-protocols.mdx` (output) | WI9 | 词典已有 Aave/MakerDAO/清算 |
 | M4/WI11 文章「闪电贷与套利」 | done | `src/content/blog/flash-loans-arbitrage.mdx` (output) | WI10 | 词典已有 闪电贷/MEV |
-| M4/WI12 文章「聚合器与收益策略」 | todo | `src/content/blog/defi-aggregators-yield.mdx` (output) | WI11 | 词典已有 Curve/Convex/gauge voting |
+| M4/WI12 文章「聚合器与收益策略」 | done | `src/content/blog/defi-aggregators-yield.mdx` (output) | WI11 | 词典已有 Curve/Convex/gauge voting |
 | M5/WI13 文章「DAO 治理与投票」 | todo | `src/content/blog/dao-governance-voting.mdx` (output) | WI12 | 词典已有 DAO |
 | M5/WI14 文章「代币经济学设计」 | todo | `src/content/blog/tokenomics-design.mdx` (output) | WI13 | — |
 | M5/WI15 文章「Multi-sig 与权限管理」 | todo | `src/content/blog/multisig-permission-management.mdx` (output) | WI14 | — |

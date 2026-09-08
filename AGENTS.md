@@ -105,7 +105,7 @@ featured?: boolean (default: false)
 | 1 | Bitcoin — 去中心化价值转移 | 4/4 完成 |
 | 2 | Ethereum — 去中心化计算 | 4/4 完成 |
 | 3 | DApp — 去中心化应用 | 4/4 |
-| 4 | DeFi — 去中心化金融市场 | 0/4 |
+| 4 | DeFi — 去中心化金融市场 | 4/4 完成 |
 | 5 | DAO — 去中心化组织 | 0/4 |
 
 ---
