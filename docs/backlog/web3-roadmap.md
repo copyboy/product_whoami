@@ -1,6 +1,6 @@
 # Product Whoami Web3 Roadmap
 
-> 驱动 Web3 专栏内容生产：阶段 2（Ethereum）、阶段 3（DApp 入门）、阶段 4（DeFi）已完成；当前批次为阶段 5（DAO，M5.1-M5.4）。每个 WI 产出一篇博客文章 + 路线图数据联动更新。系列已有 18 篇：阶段 1-4 各四篇 + 阶段 5 两篇（slug 见 `src/data/web3-roadmap-data.json`）。
+> 驱动 Web3 专栏内容生产：阶段 2（Ethereum）、阶段 3（DApp 入门）、阶段 4（DeFi）已完成；当前批次为阶段 5（DAO，M5.1-M5.4）。每个 WI 产出一篇博客文章 + 路线图数据联动更新。系列已有 19 篇：阶段 1-4 各四篇 + 阶段 5 三篇（slug 见 `src/data/web3-roadmap-data.json`）。
 
 ## 全局写作规范（每个 WI 都必须遵守）
 
@@ -30,7 +30,7 @@
 | M4/WI12 文章「聚合器与收益策略」 | done | `src/content/blog/defi-aggregators-yield.mdx` (output) | WI11 | 词典已有 Curve/Convex/gauge voting |
 | M5/WI13 文章「DAO 治理与投票」 | done | `src/content/blog/dao-governance-voting.mdx` (output) | WI12 | 词典已有 DAO |
 | M5/WI14 文章「代币经济学设计」 | done | `src/content/blog/tokenomics-design.mdx` (output) | WI13 | — |
-| M5/WI15 文章「Multi-sig 与权限管理」 | todo | `src/content/blog/multisig-permission-management.mdx` (output) | WI14 | — |
+| M5/WI15 文章「Multi-sig 与权限管理」 | done | `src/content/blog/multisig-permission-management.mdx` (output) | WI14 | — |
 | M5/WI16 文章「知名 DAO 案例分析」 | todo | `src/content/blog/dao-case-studies.mdx` (output) | WI15 | 呼应 WI4 的重入漏洞 |
 
 ## Milestones
