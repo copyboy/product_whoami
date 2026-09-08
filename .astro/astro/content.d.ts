@@ -292,6 +292,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"ethereum-layer2-rollups.mdx": {
+	id: "ethereum-layer2-rollups.mdx";
+  slug: "ethereum-layer2-rollups";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "evm-deep-dive.mdx": {
 	id: "evm-deep-dive.mdx";
   slug: "evm-deep-dive";

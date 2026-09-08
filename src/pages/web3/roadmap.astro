@@ -14,6 +14,10 @@ const allPosts = await getCollection('blog', ({ data }) => {
 
 // 构建 phase → posts 映射
 const postsMap = new Map(allPosts.map(p => [p.slug, p]));
+
+// 延伸阅读：番外专题（不在五阶段里程碑内，发布后自动出现）
+const supplementSlugs = ['ethereum-layer2-rollups', 'stablecoins-explained', 'wallets-and-account-abstraction'];
+const supplementPosts = supplementSlugs.map(s => postsMap.get(s)).filter(Boolean);
 ---
 
 <ThreeColumnLayout
@@ -145,11 +149,7 @@ const postsMap = new Map(allPosts.map(p => [p.slug, p]));
       </section>
     ))}
 
-    <!-- 延伸阅读：番外专题（不在五阶段里程碑内，发布后自动出现） -->
-    ---
-    const supplementSlugs = ['ethereum-layer2-rollups', 'stablecoins-explained', 'wallets-and-account-abstraction'];
-    const supplementPosts = supplementSlugs.map(s => postsMap.get(s)).filter(Boolean);
-    ---
+    <!-- 延伸阅读：番外专题（不在五阶段里程碑内，发布后自动出现，见 frontmatter supplementPosts） -->
     {supplementPosts.length > 0 && (
       <section class="pt-8 border-t border-slate-200 dark:border-[#30363d]">
         <div class="flex items-center gap-2 mb-1">
