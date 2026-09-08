@@ -9,7 +9,7 @@
 
 ## Q2 — L3 内容完整性（本站特色层）
 
-- **WI2 内容完整性检查器 + verify 接入** — 新建内容扫描脚本（Node，放 `scripts/checks/`，vitest 可单测其解析逻辑）：(a) 内链检查：MDX/astro 中相对 href 目标存在（含 anchor 对 slug 校验）；(b) 图片存在性：frontmatter heroImage 与正文图片引用可解析（本地路径存在、远程 URL 允许 http 200 或显式白名单跳过）；(c) frontmatter 强化：pubDate ≤ 今天、tags 非空、description 非空且 ≤ 300 字符；(d) Glossary 闭合：`<GlossaryTerm term="x">` 的 x 必须在词典数据中注册；(e) 产物对账：build 后 sitemap URL 数与实际页面数一致、search-index 覆盖所有非 draft 文章、RSS 含最新文章。全部接入 `scripts/verify.sh`。完成定义：verify 包含内容检查；故意在测试 fixture 注入一个死链与一个悬空 Glossary 引用，verify 必须失败且错误信息指到文件与行号（验收证据记入 plan）。
+- **WI2 内容完整性检查器 + verify 接入**（done 2026-09-09，plan `docs/plans/quality-system/2026-09-09-0127-2-wi2-content-integrity-checker.md` § Verification；verify exit 0 含内容检查，注入死链/悬空 Glossary 时精确报文件+行号且非零退出）— 新建内容扫描脚本（Node，放 `scripts/checks/`，vitest 可单测其解析逻辑）：(a) 内链检查：MDX/astro 中相对 href 目标存在（含 anchor 对 slug 校验）；(b) 图片存在性：frontmatter heroImage 与正文图片引用可解析（本地路径存在、远程 URL 允许 http 200 或显式白名单跳过）；(c) frontmatter 强化：pubDate ≤ 今天、tags 非空、description 非空且 ≤ 300 字符；(d) Glossary 闭合：`<GlossaryTerm term="x">` 的 x 必须在词典数据中注册；(e) 产物对账：build 后 sitemap URL 数与实际页面数一致、search-index 覆盖所有非 draft 文章、RSS 含最新文章。全部接入 `scripts/verify.sh`。完成定义：verify 包含内容检查；故意在测试 fixture 注入一个死链与一个悬空 Glossary 引用，verify 必须失败且错误信息指到文件与行号（验收证据记入 plan）。
 
 ## Q3 — L2 单测补齐
 
