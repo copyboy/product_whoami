@@ -292,6 +292,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"flash-loans-arbitrage.mdx": {
+	id: "flash-loans-arbitrage.mdx";
+  slug: "flash-loans-arbitrage";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "gc-algorithms-tuning-practice.mdx": {
 	id: "gc-algorithms-tuning-practice.mdx";
   slug: "gc-algorithms-tuning-practice";
