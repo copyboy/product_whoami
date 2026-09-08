@@ -13,7 +13,7 @@
 
 ## Q3 — L2 单测补齐
 
-- **WI3 utils 层单测补齐** — 为 `src/utils/web3Roadmap.ts`、`src/utils/web3Concepts.ts`、`src/utils/seo.ts`、`src/utils/content.ts` 补 vitest 用例（colocated `__tests__` 或同目录 `.test.ts`，与 config.test.ts 风格一致）：纯函数正常路径 + 边界（空值、缺失 slug、draft 文章过滤等）。不追覆盖率数字，只锁行为契约。完成定义：`npm run test:run` 全绿且新增用例数 ≥ 20；verify 保持 exit 0。
+- **WI3 utils 层单测补齐**（done 2026-09-09，plan `docs/plans/quality-system/2026-09-09-0127-3-wi3-utils-unit-tests.md` § Verification；test:run 全绿 13 files / 120 tests，新增 57 用例 ≥ 20，verify exit 0 含内容检查，基线见 `docs/testing/known-good-baselines.md` 2026-09-09 WI3 行）— 为 `src/utils/web3Roadmap.ts`、`src/utils/web3Concepts.ts`、`src/utils/seo.ts`、`src/utils/content.ts` 补 vitest 用例（colocated `__tests__` 或同目录 `.test.ts`，与 config.test.ts 风格一致）：纯函数正常路径 + 边界（空值、缺失 slug、draft 文章过滤等）。不追覆盖率数字，只锁行为契约。完成定义：`npm run test:run` 全绿且新增用例数 ≥ 20；verify 保持 exit 0。
 
 ## Q4 — L4 冒烟 + CI 卡口
 
