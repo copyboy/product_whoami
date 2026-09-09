@@ -162,6 +162,11 @@ Verify step 复测实录（2026-09-09，mission VERIFY 步骤独立复跑，命�
  - pass test 2026-09-09-0326-verify exit=0
  - 同步复跑全绿：`npm run type-check` exit 0、`npm run build` exit 0（647 pages）、`npm run lint` exit 0（0 errors，存量 SearchIsland.tsx:257 warning）、`npx playwright test` exit 0（6/6，35.3s）—— full-green
 
+push 后首跑实录（2026-09-08→09-09 交接，successor 计划 `2026-09-09-0336-1-wi4-ci-first-run-backfill.md` 回填）：
+
+- pass test 2026-09-09-0840-first-run exit=0
+ - quality.yml 首次真实 GitHub Actions run 34294655717 —— conclusion **success**，head SHA ba299974751d59bb631b31abb7bb253e699485ca（branch main / event push），耗时 ~1m55s（2026-09-09T00:21:24Z → 00:23:19Z），run URL：https://github.com/copyboy/product_whoami/actions/runs/34294655717。job「Verify + Build (PR adds E2E smoke)」success：Set up job / Checkout code / Setup Node.js / Install dependencies（npm ci）/ Verify（type-check + lint + test + build + content-checks）全 success；Install Playwright browsers 与 E2E smoke (6 paths) 两步 PR 门控按设计 skipped（push 事件不触发）。§ Deferred But Adjudicated 的 successor 义务（run URL + 结论 + 耗时回填本节）就此闭合；首跑绿，红灯归零流程未触发。
+
 Changed files（本计划全量）：
 
 - 新建：`playwright.config.ts`、`e2e/smoke.spec.ts`、`.github/workflows/quality.yml`
