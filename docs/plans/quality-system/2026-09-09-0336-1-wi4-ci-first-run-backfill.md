@@ -109,6 +109,7 @@ Skill: none
       - 2026-09-09 07:39 复测（第十九轮）：收尾终测 `gh run list --workflow=quality.yml --limit 1` 仍 HTTP 404「workflow quality.yml not found on the default branch」—— 前置 Proof（push 完成判定）未闭合（ahead=17、quality.yml 未达 origin/main），无可观察 run。保持未勾选。
       - 2026-09-09 07:54 复测（第二十轮）：收尾终测 `gh run list --workflow=quality.yml --limit 1` 仍 HTTP 404「workflow quality.yml not found on the default branch」—— 前置 Proof（push 完成判定）未闭合（ahead=18、quality.yml 未达 origin/main），无可观察 run。保持未勾选。
       - 2026-09-09 08:11 复测（第二十一轮）：收尾终测 `gh run list --workflow=quality.yml --limit 1` 仍 HTTP 404「workflow quality.yml not found on the default branch」—— 前置 Proof（push 完成判定）未闭合（ahead=19、quality.yml 未达 origin/main），无可观察 run。保持未勾选。
+      - 2026-09-09 第十一次 closure audit 独立复测：`git fetch origin` 后 `git log origin/main..HEAD --oneline | wc -l` = 20（未推送区间扩大为 1beed66..339b26f，HEAD=339b26f）、`git ls-tree origin/main -- .github/workflows/` 仅命中 legacy ci.yml（quality.yml 无命中）、`gh run list --workflow=quality.yml --limit 3` 仍 HTTP 404 workflow not found —— 三项断点第十一次独立复核成立，push 仍未发生，首跑从未发生。`plan-check.mjs --strict` 结果 FAIL（7 unchecked / missing-pass:test / no-audit-receipt）。审计裁决维持前十次结论：7 个未勾项为真实未完成的 EXECUTE 工作（本计划核心交付物，即 WI4 successor 义务本体），不适用 Deferred/watch-only 收窄，不伪造勾选与回执；本计划保持 open，下一轮从 Proof（push 完成判定）断点恢复，唯一前置事件为 supervisor/作者 push main 至 origin/main（现为 20 个提交）。
 - [ ] Add：证据回填 —— 本计划 § Verification 追加首跑回执行；WI4 计划 § Verification 追加「push 后首跑实录」行（append-only 区 prose 追加）；roadmap WI4 行 done 注记内追加 run URL 与结论；`docs/logs/` 当日聚合条目落盘。
       - Skill: none
 - [ ] Follow-up：若首跑 conclusion ≠ success（failure / cancelled / timed_out），本计划如实记录红灯证据后，按红灯归零流程（roadmap Q1）建立新 Fix 计划修复 CI 红灯，并在本计划记录该 Fix 计划的 plan-id。触发条件：quality.yml 首次 run 的 conclusion 非 success。
@@ -129,9 +130,11 @@ Exit Criteria:
 
 Verify step 复测实录（2026-09-09，mission VERIFY 步骤独立复跑，命令电池 + e2e）：
 
- - pass test 2026-09-09-012601-verify exit=0
+- pass test 2026-09-09-012601-verify exit=0
  - 同步复跑全绿：`npm run type-check` exit 0、`npm run build` exit 0（647 pages）、`npm run lint` exit 0（0 errors，存量 SearchIsland.tsx:257 warning）、`npm run test:run` exit 0（13 files / 120 tests）、`npx playwright test` exit 0（6/6，35.3s）—— full-green。注：本计划核心交付物（push 后首跑观察）仍处于 Proof 断点等待 supervisor/作者 push，以上为本地机械验证电池回执，不构成首跑证据。
- - pass test 2026-09-09-061315-verify exit=0
+- pass test 2026-09-09-061315-verify exit=0
  - 第二次 VERIFY 复跑全绿：`npm run type-check` exit 0、`npm run build` exit 0（647 pages）、`npm run lint` exit 0（0 errors，存量 SearchIsland.tsx:257 warning）、`npm run test:run` exit 0（13 files / 120 tests）、`npx playwright test` exit 0（6/6，35.4s）—— full-green。断点不变：首跑观察仍待 supervisor/作者 push 后下一轮恢复。
+- pass test 2026-09-09-081608-verify exit=0
+ - 第三次 VERIFY 复跑全绿：`npm run type-check` exit 0、`npm run build` exit 0（647 pages）、`npm run lint` exit 0（0 errors，存量 SearchIsland.tsx:257 warning）、`npm run test:run` exit 0（13 files / 120 tests）、`npx playwright test` exit 0（6/6，35.4s）—— full-green verification。断点不变：本计划核心交付物（push 后首跑观察）仍处 Proof（push 完成判定）断点，唯一前置事件为 supervisor/作者 push main 至 origin/main。
 
 ## Closure
