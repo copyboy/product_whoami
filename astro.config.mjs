@@ -29,7 +29,10 @@ export default defineConfig({
       }
     }),
     react(),
-    sitemap(),
+    sitemap({
+      // tag/分类聚合页与搜索页是薄页面，不进 sitemap（仍可被抓取），把抓取预算留给文章与专栏
+      filter: (page) => !/^\/(tags|categories|search)(\/|$)/.test(new URL(page).pathname)
+    }),
     robotsTxt(),
     partytown({
       config: {
