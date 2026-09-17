@@ -31,7 +31,14 @@ export default defineConfig({
     react(),
     sitemap({
       // tag/分类聚合页与搜索页是薄页面，不进 sitemap（仍可被抓取），把抓取预算留给文章与专栏
-      filter: (page) => !/^\/(tags|categories|search)(\/|$)/.test(new URL(page).pathname)
+      // web3/concept/* 是按标签自动生成的聚合页（GSC 扫描 233 个全部未收录），博客分页同理
+      filter: (page) => {
+        const path = new URL(page).pathname;
+        if (/^\/(tags|categories|search|web3\/concept)(\/|$)/.test(path)) return false;
+        // 博客分页 /blog/2/ /blog/3/ …（纯数字段），/blog/ 本身保留
+        if (/^\/blog\/\d+(\/)?$/.test(path)) return false;
+        return true;
+      }
     }),
     robotsTxt(),
     partytown({

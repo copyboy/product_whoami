@@ -38,7 +38,7 @@ const socialImageURL = new URL(image, Astro.site || siteConfig.url).toString();
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="canonical" href={canonicalURL} />
+    <!-- canonical 由下方 <SEO canonical=…> 统一输出，避免重复 -->
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
     <meta name="author" content={siteConfig.author} />
