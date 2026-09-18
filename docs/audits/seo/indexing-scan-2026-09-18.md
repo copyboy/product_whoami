@@ -52,5 +52,12 @@
 - 与 `indexing-latest.json` 基线对比：新收录、新掉出、状态迁移；
 - 若部署未发生（sitemap 仍 329），会在报告中提示「修复尚未部署」。
 
+## 五、部署与 sitemap 重提记录（同日追加）
+
+- push：`347823e..e2ef072`（两笔：修复 9a5ccd7 + 基线报告 e2ef072）
+- Cloudflare Pages 部署验证：线上 `sitemap-0.xml` 329 → **89 URL**（本地构建 90，差 1 为未 push 的 topics 页），concept=0
+- GSC 重新提交：`sitemap-index.xml` + `sitemap-0.xml`（2026-09-18 00:36），Google 已重新下载，`sitemap-0.xml` 状态 Valid、发现 89 URL
+- 手动请求编入索引的 7 个候选 URL（用户在 GSC UI 操作）：`/web3/phase/1~5/`、`/web3/report/`、`/projects/chinaneighbor/`
+
 ---
 *自动化任务 automation-8d94dd62 · 扫描+修复+报告均已完成 · 本地 commit 未 push*
