@@ -1,15 +1,15 @@
 {
-  "date": "2026-09-20",
+  "date": "2026-09-19",
   "property": "sc-domain:i.zhangqingdong.cn",
-  "source": "live sitemap-0.xml (89 urls)",
+  "source": "live sitemap-0.xml (89 urls, post-cleanup deploy of 2026-09-18)",
   "total": 89,
   "indexed_count": 19,
   "not_indexed_count": 70,
   "state_counts": {
     "indexed": 19,
     "crawled_not_indexed": 26,
-    "discovered_not_indexed": 42,
-    "unknown_to_google": 2
+    "discovered_not_indexed": 27,
+    "unknown_to_google": 17
   },
   "states": {
     "indexed": [
@@ -62,18 +62,11 @@
       "https://i.zhangqingdong.cn/blog/volatile-memory-visibility/"
     ],
     "discovered_not_indexed": [
-      "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
-      "https://i.zhangqingdong.cn/blog/agile-project-management/",
+      "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
       "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
-      "https://i.zhangqingdong.cn/blog/cache-consistency-strategies/",
-      "https://i.zhangqingdong.cn/blog/concurrenthashmap-concurrent-mechanism/",
       "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
-      "https://i.zhangqingdong.cn/blog/dao-case-studies/",
       "https://i.zhangqingdong.cn/blog/defi-aggregators-yield/",
-      "https://i.zhangqingdong.cn/blog/defi-lending-protocols/",
-      "https://i.zhangqingdong.cn/blog/deploy-to-testnet/",
       "https://i.zhangqingdong.cn/blog/ethereum-gas-fees/",
-      "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
       "https://i.zhangqingdong.cn/blog/evm-deep-dive/",
       "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
       "https://i.zhangqingdong.cn/blog/first-full-dapp/",
@@ -81,10 +74,9 @@
       "https://i.zhangqingdong.cn/blog/github-arsenal-skills/",
       "https://i.zhangqingdong.cn/blog/hardhat-local-env/",
       "https://i.zhangqingdong.cn/blog/hashmap-source-analysis-optimization/",
-      "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
       "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
+      "https://i.zhangqingdong.cn/blog/multisig-permission-management/",
       "https://i.zhangqingdong.cn/blog/pdca-knowledge-management/",
-      "https://i.zhangqingdong.cn/blog/pow-consensus/",
       "https://i.zhangqingdong.cn/blog/pyramid-principle-communication/",
       "https://i.zhangqingdong.cn/blog/redis-data-structures-memory-optimization/",
       "https://i.zhangqingdong.cn/blog/smart-contracts-explained/",
@@ -92,29 +84,13 @@
       "https://i.zhangqingdong.cn/blog/spring-singleton-thread-safety/",
       "https://i.zhangqingdong.cn/blog/stablecoins-explained/",
       "https://i.zhangqingdong.cn/blog/star-behavioral-interview/",
-      "https://i.zhangqingdong.cn/blog/tokenomics-design/",
-      "https://i.zhangqingdong.cn/blog/uniswap-amm-explained/",
-      "https://i.zhangqingdong.cn/blog/utxo-model-deep-dive/",
       "https://i.zhangqingdong.cn/blog/wallets-and-account-abstraction/",
-      "https://i.zhangqingdong.cn/projects/chinaneighbor/",
       "https://i.zhangqingdong.cn/projects/modern-blog-template/",
       "https://i.zhangqingdong.cn/web3/phase/1/",
-      "https://i.zhangqingdong.cn/web3/phase/2/",
       "https://i.zhangqingdong.cn/web3/phase/3/",
-      "https://i.zhangqingdong.cn/web3/phase/4/",
-      "https://i.zhangqingdong.cn/web3/phase/5/",
       "https://i.zhangqingdong.cn/web3/report/"
     ],
     "unknown_to_google": [
-      "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
-      "https://i.zhangqingdong.cn/blog/multisig-permission-management/"
-    ]
-  },
-  "comparable_urls_vs_baseline": 89,
-  "delta_vs_2026_09_19": {
-    "newly_indexed": [],
-    "dropped_from_index": [],
-    "state_improvements": [
       "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
       "https://i.zhangqingdong.cn/blog/agile-project-management/",
       "https://i.zhangqingdong.cn/blog/cache-consistency-strategies/",
@@ -132,12 +108,42 @@
       "https://i.zhangqingdong.cn/web3/phase/2/",
       "https://i.zhangqingdong.cn/web3/phase/4/",
       "https://i.zhangqingdong.cn/web3/phase/5/"
+    ]
+  },
+  "comparable_urls_vs_baseline": 89,
+  "delta_vs_2026_09_18": {
+    "newly_indexed": [],
+    "dropped_from_index": [],
+    "state_improvements": [
+      "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
+      "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
+      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
+      "https://i.zhangqingdong.cn/blog/evm-deep-dive/",
+      "https://i.zhangqingdong.cn/blog/gc-algorithms-tuning-practice/",
+      "https://i.zhangqingdong.cn/blog/hardhat-local-env/",
+      "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
+      "https://i.zhangqingdong.cn/blog/multisig-permission-management/",
+      "https://i.zhangqingdong.cn/blog/pdca-knowledge-management/",
+      "https://i.zhangqingdong.cn/blog/redis-data-structures-memory-optimization/",
+      "https://i.zhangqingdong.cn/blog/smart-contracts-explained/",
+      "https://i.zhangqingdong.cn/blog/spring-singleton-thread-safety/",
+      "https://i.zhangqingdong.cn/blog/wallets-and-account-abstraction/",
+      "https://i.zhangqingdong.cn/projects/modern-blog-template/",
+      "https://i.zhangqingdong.cn/web3/phase/1/",
+      "https://i.zhangqingdong.cn/web3/phase/3/"
     ],
     "state_regressions": [
-      "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
-      "https://i.zhangqingdong.cn/blog/multisig-permission-management/"
+      "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
+      "https://i.zhangqingdong.cn/blog/concurrenthashmap-concurrent-mechanism/",
+      "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
+      "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
+      "https://i.zhangqingdong.cn/blog/pow-consensus/",
+      "https://i.zhangqingdong.cn/blog/utxo-model-deep-dive/",
+      "https://i.zhangqingdong.cn/projects/chinaneighbor/",
+      "https://i.zhangqingdong.cn/web3/phase/2/",
+      "https://i.zhangqingdong.cn/web3/phase/5/"
     ],
-    "note": "无新增收录；17 个 URL unknown->discovered（web3 phase/2/4/5、report 队列补齐），2 个 discovered->unknown 抖动；unknown 池 17 -> 2"
+    "note": "240 个薄页(concept 233 + 分页 7)按计划移出 sitemap，不计入掉出；GSC 重提后第 1 天，尚无新增收录，状态迁移以 unknown->discovered 为主"
   },
   "fixes_applied": []
 }
