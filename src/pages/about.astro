@@ -67,21 +67,39 @@ const socialConfig = getSocialConfig();
   
   <div class="prose dark:prose-invert prose-lg max-w-none">
     <p>
-      Welcome to my blog! This is my personal space where I share my thoughts, insights, and experiences in payment technology, system architecture, and software development.
+      I'm Gerrad Zhang (张青冬) — a payments architect in Wuhan, China. For the past ten years I've been building cross-border payment infrastructure; this site is where I write down what I learn: payment & architecture deep dives, a structured Web3 learning roadmap, and workplace playbooks from leading a team.
     </p>
-    
+
     <h2>Personal Profile</h2>
     <p>
-      I'm Zhang Qingdong, a Senior Java Engineer and Team Leader with 9 years of experience in payment system development, specializing in cross-border payment solutions.
-      As a "Bridge Builder between Technology and Business," I combine deep fintech expertise with excellent engineering practices to create secure and reliable cross-border payment infrastructure.
+      I'm Zhang Qingdong (Gerrad), a Java Architect and Team Leader with 10 years of experience in payment system development, specializing in cross-border payment solutions.
+      As a "bridge builder between technology and business," I combine deep fintech expertise with solid engineering practices — and outside work I build and ship my own products.
     </p>
-    
+
     <h2>ChinaNeighbor — My Product</h2>
     <p>
       I'm the founder and builder of <a href="https://chinaneighbor.com/" target="_blank" rel="noopener noreferrer">ChinaNeighbor</a> (chinaneighbor.com), an independent guide platform that helps foreigners live in and travel to China: mobile payments, healthcare, the 240-hour visa-free transit policy, essential apps, and first-week setup. Every guide cites official sources such as the National Immigration Administration and is kept current with the latest policies. The site is available in English, Chinese, Russian, French, Spanish, and Arabic, and includes free tools like a 240-hour visa-free transit eligibility checker.
     </p>
     <p>
       The project combines what I do professionally — building reliable payment and cross-border systems — with what I live daily as an expat-life observer in Wuhan: making the practical side of China legible to newcomers.
+    </p>
+
+    <h2>Now — October 2026</h2>
+    <p>
+      Leading the cross-border payment product line at Onerway by day; exploring independent products by night. Besides <a href="https://chinaneighbor.com/" target="_blank" rel="noopener noreferrer">ChinaNeighbor</a>, I'm shipping small utility tools such as <a href="https://imagetranslate.app/" target="_blank" rel="noopener noreferrer">ImageTranslate</a> (translate text inside images) and a free <a href="https://meditation-timer-online.site/" target="_blank" rel="noopener noreferrer">online meditation timer</a>. This site itself is my public learning ledger — the current focus is turning daily AI-assisted engineering work into reproducible playbooks.
+    </p>
+
+    <h2>What I Write About</h2>
+    <p>
+      The blog is organized around three threads, all fed by day-to-day work and deliberate learning:
+    </p>
+    <ul>
+      <li><strong>Payments &amp; Architecture</strong> — field notes from building payment systems: <a href="/blog/kafka-high-throughput-architecture/">high-throughput Kafka architecture</a>, <a href="/blog/performance-optimization-practices/">performance optimization practices</a>, and <a href="/blog/redis-persistence-rdb-aof/">Redis persistence (RDB vs AOF)</a>.</li>
+      <li><strong>Web3, systematically</strong> — a five-phase <a href="/web3/roadmap/">blockchain learning roadmap</a> (Bitcoin → Ethereum → DApp → DeFi → DAO) with milestone articles such as <a href="/blog/dao-governance-voting/">DAO governance and voting</a> and <a href="/blog/flash-loans-arbitrage/">flash loans &amp; arbitrage</a>.</li>
+      <li><strong>Workplace playbooks</strong> — battle-tested team practices: <a href="/blog/workplace-sop-overview/">workplace SOPs</a>, <a href="/blog/effective-meeting-management/">effective meeting management</a>, and <a href="/blog/constraint-based-management/">constraint-based management</a>.</li>
+    </ul>
+    <p>
+      I also keep a running topic on <a href="/topics/human-ai-collaboration/">Human × AI collaboration</a> — how I integrate AI agents into real engineering work.
     </p>
 
     <h2>Technical Skills</h2>
@@ -104,7 +122,7 @@ const socialConfig = getSocialConfig();
     </ul>
     
     <h2>Work Experience</h2>
-    <h3>Wuhan Ronghan Technology Co., Ltd. | Team Leader | Nov 2019-Present</h3>
+    <h3>Wuhan Ronghan Technology Co., Ltd. (Onerway Payment) | Team Leader | Nov 2019–Present</h3>
     <p>
       Led the technical planning and architectural design for the company's cross-border payment product line, ensuring high availability and scalability.
       Designed and implemented a microservice architecture cross-border acquiring system based on Spring Cloud, using DDD design methods to define clear domain boundaries.
@@ -161,7 +179,7 @@ const socialConfig = getSocialConfig();
     </ul>
     
     <p>
-      Thank you for visiting my blog. I hope you find valuable content here!
+      If any article here saves you an hour, it has done its job. Reach out any time.
     </p>
   </div>
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -169,14 +187,16 @@ const socialConfig = getSocialConfig();
     "@type": "Person",
     "name": "Gerrad Zhang",
     "alternateName": "Zhang Qingdong",
-    "description": "Payments systems engineer and builder of ChinaNeighbor.com, a guide platform for foreigners living in and traveling to China.",
-    "jobTitle": "Senior Java Engineer & Team Leader",
+    "description": "Java architect and team lead with 10 years in cross-border payments; builder of ChinaNeighbor.com and independent utility tools. Writes about payments, Web3, and engineering playbooks.",
+    "jobTitle": "Java Architect & Team Leader",
     "email": "mailto:" + siteConfig.email,
     "address": { "@type": "PostalAddress", "addressLocality": "Wuhan", "addressCountry": "CN" },
     "sameAs": [
       socialConfig.github,
       socialConfig.linkedin,
-      "https://chinaneighbor.com/"
+      "https://chinaneighbor.com/",
+      "https://imagetranslate.app/",
+      "https://meditation-timer-online.site/"
     ]
   })} />
 </ThreeColumnLayout> 
