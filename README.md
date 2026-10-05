@@ -1,3 +1,5 @@
+
+
 # Modern Personal Blog ✨
 
 <div align="center">
@@ -226,6 +228,7 @@ location: City, Country             # Optional
 | `npm run build` | Build production site to `./dist/` |
 | `npm run preview` | Preview production build locally |
 | `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Fix lint issues with ESLint |
 | `npm run format` | Format code with Prettier |
 | `npm run test` | Run unit tests with Vitest |
 | `npm run type-check` | Check TypeScript types |
@@ -499,4 +502,3 @@ Made with ❤️ by [Gerrad Zhang](https://github.com/copyboy)
 🏆 **[Featured on Astro Official Themes](https://portal.astro.build/themes/modern-personal-blog/)** 🏆
 
 </div>
-
