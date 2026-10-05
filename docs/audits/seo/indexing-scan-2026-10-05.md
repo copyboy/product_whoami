@@ -24,7 +24,12 @@
 
 ## 三、行动清单（唯一优先项加粗）
 
-1. **GSC 手动请求编入索引 `https://i.zhangqingdong.cn/about/`**（新内容已部署 36 小时，Google 尚未重爬，手动请求是立即触发抓取的唯一手段）；顺手把这 8 个也请求了：`/web3/phase/1~5/`、`/web3/report/`、`/projects/chinaneighbor/`、`/blog/distributed-transaction-patterns/`；
+1. ~~GSC 手动请求编入索引~~ → **已完成（同日 10:30-11:00，用户委托浏览器自动化执行）**，9 个 URL 全部拿到「Indexing requested — URL was added to a priority crawl queue」确认：
+   - `/about/`（重写版翻案触发）
+   - `/web3/phase/1/`、`/web3/phase/2/`、`/web3/phase/3/`、`/web3/phase/4/`、`/web3/phase/5/`
+   - `/web3/report/`
+   - `/projects/chinaneighbor/`
+   - `/blog/distributed-transaction-patterns/`（掉出 13 天后的翻案请求）
 2. 「相关文章」内链模板：等点头即做。
 
 ## 四、存档
