@@ -1,15 +1,15 @@
 {
-  "date": "2026-10-08",
+  "date": "2026-10-09",
   "property": "sc-domain:i.zhangqingdong.cn",
   "source": "live sitemap-0.xml (89 urls)",
   "total": 89,
-  "indexed_count": 30,
-  "not_indexed_count": 59,
+  "indexed_count": 28,
+  "not_indexed_count": 61,
   "state_counts": {
-    "indexed": 30,
-    "crawled_not_indexed": 19,
-    "discovered_not_indexed": 25,
-    "unknown_to_google": 15
+    "indexed": 28,
+    "crawled_not_indexed": 21,
+    "discovered_not_indexed": 27,
+    "unknown_to_google": 13
   },
   "states": {
     "indexed": [
@@ -29,11 +29,9 @@
       "https://i.zhangqingdong.cn/blog/problem-solving-5w2h/",
       "https://i.zhangqingdong.cn/blog/rabbitmq-message-reliability/",
       "https://i.zhangqingdong.cn/blog/team-performance-management/",
-      "https://i.zhangqingdong.cn/blog/threadlocal-memory-leak-prevention/",
       "https://i.zhangqingdong.cn/blog/unlocking-ai-hidden-capabilities/",
       "https://i.zhangqingdong.cn/blog/volatile-memory-visibility/",
       "https://i.zhangqingdong.cn/blog/workplace-sop-overview/",
-      "https://i.zhangqingdong.cn/projects/",
       "https://i.zhangqingdong.cn/projects/chinaneighbor/",
       "https://i.zhangqingdong.cn/web3/",
       "https://i.zhangqingdong.cn/web3/phase/1/",
@@ -62,98 +60,88 @@
       "https://i.zhangqingdong.cn/blog/service-mesh-istio-analysis/",
       "https://i.zhangqingdong.cn/blog/swot-strategic-analysis/",
       "https://i.zhangqingdong.cn/blog/synchronized-deep-dive/",
+      "https://i.zhangqingdong.cn/blog/threadlocal-memory-leak-prevention/",
       "https://i.zhangqingdong.cn/blog/threadpool-principles-best-practices/",
-      "https://i.zhangqingdong.cn/blog/time-management-prioritization/"
+      "https://i.zhangqingdong.cn/blog/time-management-prioritization/",
+      "https://i.zhangqingdong.cn/projects/"
     ],
     "discovered_not_indexed": [
+      "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
       "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
+      "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
       "https://i.zhangqingdong.cn/blog/cache-consistency-strategies/",
-      "https://i.zhangqingdong.cn/blog/concurrenthashmap-concurrent-mechanism/",
-      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
       "https://i.zhangqingdong.cn/blog/dao-case-studies/",
+      "https://i.zhangqingdong.cn/blog/defi-aggregators-yield/",
+      "https://i.zhangqingdong.cn/blog/defi-lending-protocols/",
       "https://i.zhangqingdong.cn/blog/deploy-to-testnet/",
-      "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
       "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
       "https://i.zhangqingdong.cn/blog/first-full-dapp/",
       "https://i.zhangqingdong.cn/blog/gc-algorithms-tuning-practice/",
       "https://i.zhangqingdong.cn/blog/github-arsenal-skills/",
+      "https://i.zhangqingdong.cn/blog/hardhat-local-env/",
       "https://i.zhangqingdong.cn/blog/hashmap-source-analysis-optimization/",
-      "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
+      "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
       "https://i.zhangqingdong.cn/blog/microservices-design-patterns/",
       "https://i.zhangqingdong.cn/blog/multisig-permission-management/",
-      "https://i.zhangqingdong.cn/blog/pdca-knowledge-management/",
+      "https://i.zhangqingdong.cn/blog/mysql-partitioning-sharding/",
+      "https://i.zhangqingdong.cn/blog/okr-goal-management/",
       "https://i.zhangqingdong.cn/blog/pow-consensus/",
-      "https://i.zhangqingdong.cn/blog/redis-data-structures-memory-optimization/",
-      "https://i.zhangqingdong.cn/blog/solidity-basics-notes/",
+      "https://i.zhangqingdong.cn/blog/pyramid-principle-communication/",
       "https://i.zhangqingdong.cn/blog/spring-singleton-thread-safety/",
       "https://i.zhangqingdong.cn/blog/star-behavioral-interview/",
       "https://i.zhangqingdong.cn/blog/tokenomics-design/",
-      "https://i.zhangqingdong.cn/blog/utxo-model-deep-dive/",
+      "https://i.zhangqingdong.cn/blog/uniswap-amm-explained/",
       "https://i.zhangqingdong.cn/blog/wallets-and-account-abstraction/",
       "https://i.zhangqingdong.cn/projects/modern-blog-template/"
     ],
     "unknown_to_google": [
-      "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
       "https://i.zhangqingdong.cn/blog/agile-project-management/",
+      "https://i.zhangqingdong.cn/blog/concurrenthashmap-concurrent-mechanism/",
+      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
+      "https://i.zhangqingdong.cn/blog/ethereum-gas-fees/",
+      "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
+      "https://i.zhangqingdong.cn/blog/evm-deep-dive/",
+      "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
+      "https://i.zhangqingdong.cn/blog/pdca-knowledge-management/",
+      "https://i.zhangqingdong.cn/blog/redis-data-structures-memory-optimization/",
+      "https://i.zhangqingdong.cn/blog/smart-contracts-explained/",
+      "https://i.zhangqingdong.cn/blog/solidity-basics-notes/",
+      "https://i.zhangqingdong.cn/blog/stablecoins-explained/",
+      "https://i.zhangqingdong.cn/blog/utxo-model-deep-dive/"
+    ]
+  },
+  "comparable_urls_vs_baseline": 89,
+  "delta_vs_2026_10_08": {
+    "newly_indexed": [],
+    "dropped_from_index": [
+      "https://i.zhangqingdong.cn/blog/threadlocal-memory-leak-prevention/",
+      "https://i.zhangqingdong.cn/projects/"
+    ],
+    "state_improvements": [
+      "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
       "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
       "https://i.zhangqingdong.cn/blog/defi-aggregators-yield/",
       "https://i.zhangqingdong.cn/blog/defi-lending-protocols/",
-      "https://i.zhangqingdong.cn/blog/ethereum-gas-fees/",
-      "https://i.zhangqingdong.cn/blog/evm-deep-dive/",
       "https://i.zhangqingdong.cn/blog/hardhat-local-env/",
       "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
       "https://i.zhangqingdong.cn/blog/mysql-partitioning-sharding/",
       "https://i.zhangqingdong.cn/blog/okr-goal-management/",
       "https://i.zhangqingdong.cn/blog/pyramid-principle-communication/",
-      "https://i.zhangqingdong.cn/blog/smart-contracts-explained/",
-      "https://i.zhangqingdong.cn/blog/stablecoins-explained/",
       "https://i.zhangqingdong.cn/blog/uniswap-amm-explained/"
-    ]
-  },
-  "comparable_urls_vs_baseline": 89,
-  "delta_vs_2026_10_07": {
-    "newly_indexed": [
-      "https://i.zhangqingdong.cn/blog/mysql-btree-index-principle/",
-      "https://i.zhangqingdong.cn/blog/problem-solving-5w2h/",
-      "https://i.zhangqingdong.cn/blog/rabbitmq-message-reliability/",
-      "https://i.zhangqingdong.cn/blog/team-performance-management/",
-      "https://i.zhangqingdong.cn/blog/volatile-memory-visibility/",
-      "https://i.zhangqingdong.cn/web3/phase/1/",
-      "https://i.zhangqingdong.cn/web3/phase/3/"
-    ],
-    "dropped_from_index": [
-      "https://i.zhangqingdong.cn/blog/redis-persistence-rdb-aof/"
-    ],
-    "state_improvements": [
-      "https://i.zhangqingdong.cn/blog/concurrenthashmap-concurrent-mechanism/",
-      "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
-      "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
-      "https://i.zhangqingdong.cn/blog/gc-algorithms-tuning-practice/",
-      "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
-      "https://i.zhangqingdong.cn/blog/multisig-permission-management/",
-      "https://i.zhangqingdong.cn/blog/mysql-btree-index-principle/",
-      "https://i.zhangqingdong.cn/blog/problem-solving-5w2h/",
-      "https://i.zhangqingdong.cn/blog/rabbitmq-message-reliability/",
-      "https://i.zhangqingdong.cn/blog/solidity-basics-notes/",
-      "https://i.zhangqingdong.cn/blog/team-performance-management/",
-      "https://i.zhangqingdong.cn/blog/tokenomics-design/",
-      "https://i.zhangqingdong.cn/blog/volatile-memory-visibility/",
-      "https://i.zhangqingdong.cn/projects/modern-blog-template/",
-      "https://i.zhangqingdong.cn/web3/phase/1/",
-      "https://i.zhangqingdong.cn/web3/phase/3/"
     ],
     "state_regressions": [
-      "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
-      "https://i.zhangqingdong.cn/blog/defi-aggregators-yield/",
-      "https://i.zhangqingdong.cn/blog/defi-lending-protocols/",
-      "https://i.zhangqingdong.cn/blog/ethereum-gas-fees/",
-      "https://i.zhangqingdong.cn/blog/hardhat-local-env/",
-      "https://i.zhangqingdong.cn/blog/okr-goal-management/",
-      "https://i.zhangqingdong.cn/blog/redis-persistence-rdb-aof/",
-      "https://i.zhangqingdong.cn/blog/smart-contracts-explained/",
-      "https://i.zhangqingdong.cn/blog/stablecoins-explained/"
+      "https://i.zhangqingdong.cn/blog/concurrenthashmap-concurrent-mechanism/",
+      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
+      "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
+      "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
+      "https://i.zhangqingdong.cn/blog/pdca-knowledge-management/",
+      "https://i.zhangqingdong.cn/blog/redis-data-structures-memory-optimization/",
+      "https://i.zhangqingdong.cn/blog/solidity-basics-notes/",
+      "https://i.zhangqingdong.cn/blog/threadlocal-memory-leak-prevention/",
+      "https://i.zhangqingdong.cn/blog/utxo-model-deep-dive/",
+      "https://i.zhangqingdong.cn/projects/"
     ],
-    "note": "连续第二天 +7-1：phase/1、phase/3 补交生效（web3 专栏 7/7 全收录），昨日 6 篇 crawled 请求中 5 篇收录（volatile 10-07 当天即收）；redis-persistence-rdb-aof 以旧抓取（9-04）重评掉出，为第 4 个掉出页；service-mesh 昨日请求未确认成功仍 crawled；手动请求滚动 2 日累计 +13"
+    "note": "24h 前提交的 8 个请求中 0 新收录（GSC 数据滞后正常），但掉出 2 个：threadlocal（9-17 旧抓取重评）、/projects/ hub（9-09）——Google 重评仍在剃旧抓取页；redis-persistence 的 last_crawled 仍 9-04，证实 10-08 中断的请求未送达；掉出页全部排入今日请求队列头部"
   },
   "fixes_applied": []
 }
