@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-11",
+  "date": "2026-10-12",
   "property": "sc-domain:i.zhangqingdong.cn",
   "source": "live sitemap-0.xml (89 urls)",
   "total": 89,
@@ -111,36 +111,12 @@
     ]
   },
   "comparable_urls_vs_baseline": 89,
-  "delta_vs_2026_10_10": {
+  "delta_vs_2026_10_11": {
     "newly_indexed": [],
-    "dropped_from_index": [
-      "https://i.zhangqingdong.cn/blog/mysql-btree-index-principle/"
-    ],
-    "state_improvements": [
-      "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
-      "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
-      "https://i.zhangqingdong.cn/blog/dao-case-studies/",
-      "https://i.zhangqingdong.cn/blog/microservices-design-patterns/",
-      "https://i.zhangqingdong.cn/blog/redis-data-structures-memory-optimization/",
-      "https://i.zhangqingdong.cn/blog/smart-contracts-explained/",
-      "https://i.zhangqingdong.cn/blog/tokenomics-design/",
-      "https://i.zhangqingdong.cn/blog/wallets-and-account-abstraction/"
-    ],
-    "state_regressions": [
-      "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
-      "https://i.zhangqingdong.cn/blog/deploy-to-testnet/",
-      "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
-      "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
-      "https://i.zhangqingdong.cn/blog/mysql-btree-index-principle/",
-      "https://i.zhangqingdong.cn/blog/mysql-partitioning-sharding/",
-      "https://i.zhangqingdong.cn/blog/okr-goal-management/",
-      "https://i.zhangqingdong.cn/blog/pdca-knowledge-management/",
-      "https://i.zhangqingdong.cn/blog/pyramid-principle-communication/",
-      "https://i.zhangqingdong.cn/blog/solidity-basics-notes/",
-      "https://i.zhangqingdong.cn/blog/stablecoins-explained/",
-      "https://i.zhangqingdong.cn/blog/star-behavioral-interview/"
-    ],
-    "note": "mysql-btree 掉出（10-08 收录、10-08 重爬即拒——新收录页 48h 内被复检淘汰，站点整体质量分仍低于 Google 门槛）；其余 26 个存量稳固；4 个抢救 URL 的 last_crawled 均未更新（请求通道中断第 4 天）；昨日 5 篇 crawled 中 volatile/workplace-sop 经受住复检保持收录"
+    "dropped_from_index": [],
+    "state_improvements": [],
+    "state_regressions": [],
+    "note": "完全持平日：indexed/crawled 两桶集合与昨日一致（26/23），零掉出零新收录——无请求注入时系统进入静止态；rescue 清单 8 个 URL 的 last_crawled 仍全部未更新（通道中断第 5 天）；discovered/unknown 常规互跳 18 个"
   },
   "fixes_applied": []
 }
