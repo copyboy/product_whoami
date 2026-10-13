@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-13",
+  "date": "2026-10-14",
   "property": "sc-domain:i.zhangqingdong.cn",
   "source": "live sitemap-0.xml (89 urls)",
   "total": 89,
@@ -8,19 +8,19 @@
   "state_counts": {
     "indexed": 25,
     "crawled_not_indexed": 23,
-    "discovered_not_indexed": 35,
-    "unknown_to_google": 6
+    "discovered_not_indexed": 41,
+    "unknown_to_google": 0
   },
   "states": {
     "indexed": [
       "https://i.zhangqingdong.cn/",
       "https://i.zhangqingdong.cn/about/",
       "https://i.zhangqingdong.cn/blog/",
+      "https://i.zhangqingdong.cn/blog/cloudflare-pages-deployment-guide-zh/",
       "https://i.zhangqingdong.cn/blog/constraint-based-management/",
       "https://i.zhangqingdong.cn/blog/dao-governance-voting/",
       "https://i.zhangqingdong.cn/blog/digital-tools-integration/",
       "https://i.zhangqingdong.cn/blog/effective-meeting-management/",
-      "https://i.zhangqingdong.cn/blog/elasticsearch-distributed-search/",
       "https://i.zhangqingdong.cn/blog/flash-loans-arbitrage/",
       "https://i.zhangqingdong.cn/blog/kafka-high-throughput-architecture/",
       "https://i.zhangqingdong.cn/blog/problem-solving-5w2h/",
@@ -41,8 +41,8 @@
     ],
     "crawled_not_indexed": [
       "https://i.zhangqingdong.cn/blog/arraylist-source-analysis-optimization/",
-      "https://i.zhangqingdong.cn/blog/cloudflare-pages-deployment-guide-zh/",
       "https://i.zhangqingdong.cn/blog/distributed-transaction-patterns/",
+      "https://i.zhangqingdong.cn/blog/elasticsearch-distributed-search/",
       "https://i.zhangqingdong.cn/blog/getting-started-with-astro/",
       "https://i.zhangqingdong.cn/blog/jmm-memory-model-deep-dive/",
       "https://i.zhangqingdong.cn/blog/mysql-btree-index-principle/",
@@ -65,9 +65,13 @@
       "https://i.zhangqingdong.cn/projects/"
     ],
     "discovered_not_indexed": [
+      "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
+      "https://i.zhangqingdong.cn/blog/agile-project-management/",
+      "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
       "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
       "https://i.zhangqingdong.cn/blog/cache-consistency-strategies/",
       "https://i.zhangqingdong.cn/blog/concurrenthashmap-concurrent-mechanism/",
+      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
       "https://i.zhangqingdong.cn/blog/dao-case-studies/",
       "https://i.zhangqingdong.cn/blog/defi-aggregators-yield/",
       "https://i.zhangqingdong.cn/blog/defi-lending-protocols/",
@@ -75,6 +79,7 @@
       "https://i.zhangqingdong.cn/blog/ethereum-gas-fees/",
       "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
       "https://i.zhangqingdong.cn/blog/evm-deep-dive/",
+      "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
       "https://i.zhangqingdong.cn/blog/first-full-dapp/",
       "https://i.zhangqingdong.cn/blog/gc-algorithms-tuning-practice/",
       "https://i.zhangqingdong.cn/blog/github-arsenal-skills/",
@@ -83,6 +88,7 @@
       "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
       "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
       "https://i.zhangqingdong.cn/blog/microservices-design-patterns/",
+      "https://i.zhangqingdong.cn/blog/multisig-permission-management/",
       "https://i.zhangqingdong.cn/blog/mysql-partitioning-sharding/",
       "https://i.zhangqingdong.cn/blog/mysql-performance-monitoring/",
       "https://i.zhangqingdong.cn/blog/okr-goal-management/",
@@ -101,48 +107,29 @@
       "https://i.zhangqingdong.cn/blog/wallets-and-account-abstraction/",
       "https://i.zhangqingdong.cn/projects/modern-blog-template/"
     ],
-    "unknown_to_google": [
+    "unknown_to_google": []
+  },
+  "comparable_urls_vs_baseline": 89,
+  "delta_vs_2026_10_13": {
+    "newly_indexed": [
+      "https://i.zhangqingdong.cn/blog/cloudflare-pages-deployment-guide-zh/"
+    ],
+    "dropped_from_index": [
+      "https://i.zhangqingdong.cn/blog/elasticsearch-distributed-search/"
+    ],
+    "state_improvements": [
       "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
       "https://i.zhangqingdong.cn/blog/agile-project-management/",
       "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
+      "https://i.zhangqingdong.cn/blog/cloudflare-pages-deployment-guide-zh/",
       "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
       "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
       "https://i.zhangqingdong.cn/blog/multisig-permission-management/"
-    ]
-  },
-  "comparable_urls_vs_baseline": 89,
-  "delta_vs_2026_10_12": {
-    "newly_indexed": [],
-    "dropped_from_index": [
-      "https://i.zhangqingdong.cn/blog/distributed-transaction-patterns/"
-    ],
-    "state_improvements": [
-      "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
-      "https://i.zhangqingdong.cn/blog/cache-consistency-strategies/",
-      "https://i.zhangqingdong.cn/blog/deploy-to-testnet/",
-      "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
-      "https://i.zhangqingdong.cn/blog/gc-algorithms-tuning-practice/",
-      "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
-      "https://i.zhangqingdong.cn/blog/mysql-partitioning-sharding/",
-      "https://i.zhangqingdong.cn/blog/okr-goal-management/",
-      "https://i.zhangqingdong.cn/blog/pdca-knowledge-management/",
-      "https://i.zhangqingdong.cn/blog/pyramid-principle-communication/",
-      "https://i.zhangqingdong.cn/blog/solidity-basics-notes/",
-      "https://i.zhangqingdong.cn/blog/stablecoins-explained/",
-      "https://i.zhangqingdong.cn/blog/star-behavioral-interview/",
-      "https://i.zhangqingdong.cn/blog/uniswap-amm-explained/"
     ],
     "state_regressions": [
-      "https://i.zhangqingdong.cn/blog/account-model-vs-utxo/",
-      "https://i.zhangqingdong.cn/blog/agile-project-management/",
-      "https://i.zhangqingdong.cn/blog/bitcoin-network-in-practice/",
-      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
-      "https://i.zhangqingdong.cn/blog/distributed-transaction-patterns/",
-      "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
-      "https://i.zhangqingdong.cn/blog/multisig-permission-management/",
-      "https://i.zhangqingdong.cn/blog/mysql-performance-monitoring/"
+      "https://i.zhangqingdong.cn/blog/elasticsearch-distributed-search/"
     ],
-    "note": "关键信号：distributed-transaction-patterns 再次掉出（10-05 翻案、仅存活 7 天）——翻案页也会被复检剃掉，证实站点整体权威分低于线时单页翻案不可持续；4 天无请求注入累计净 -5（30->25）；discover 池大幅回血 +9（噪音互跳）"
+    "note": "一进一出持平 25：cloudflare-pages 新收录（10-13 重爬+Breadcrumbs，crawled 8 天老页自行转正）；elasticsearch 掉出（同日重爬被拒，曾是 9-25 抓取的稳定页）；同日两笔重爬一收一拒=Google 逐页裁决中；unknown 池清零（全部前进到 discovered）；Google 重爬活动明显（mvcc/txn-isolation 10-13 重爬仍拒）"
   },
   "fixes_applied": []
 }
