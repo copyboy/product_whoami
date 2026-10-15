@@ -1,15 +1,15 @@
 {
-  "date": "2026-10-15",
+  "date": "2026-10-16",
   "property": "sc-domain:i.zhangqingdong.cn",
   "source": "live sitemap-0.xml (89 urls)",
   "total": 89,
-  "indexed_count": 24,
-  "not_indexed_count": 65,
+  "indexed_count": 23,
+  "not_indexed_count": 66,
   "state_counts": {
-    "indexed": 24,
-    "crawled_not_indexed": 24,
-    "discovered_not_indexed": 33,
-    "unknown_to_google": 8
+    "indexed": 23,
+    "crawled_not_indexed": 25,
+    "discovered_not_indexed": 32,
+    "unknown_to_google": 9
   },
   "states": {
     "indexed": [
@@ -26,7 +26,6 @@
       "https://i.zhangqingdong.cn/blog/problem-solving-5w2h/",
       "https://i.zhangqingdong.cn/blog/team-performance-management/",
       "https://i.zhangqingdong.cn/blog/unlocking-ai-hidden-capabilities/",
-      "https://i.zhangqingdong.cn/blog/volatile-memory-visibility/",
       "https://i.zhangqingdong.cn/blog/workplace-sop-overview/",
       "https://i.zhangqingdong.cn/projects/chinaneighbor/",
       "https://i.zhangqingdong.cn/web3/",
@@ -62,6 +61,7 @@
       "https://i.zhangqingdong.cn/blog/threadlocal-memory-leak-prevention/",
       "https://i.zhangqingdong.cn/blog/threadpool-principles-best-practices/",
       "https://i.zhangqingdong.cn/blog/time-management-prioritization/",
+      "https://i.zhangqingdong.cn/blog/volatile-memory-visibility/",
       "https://i.zhangqingdong.cn/projects/"
     ],
     "discovered_not_indexed": [
@@ -71,25 +71,24 @@
       "https://i.zhangqingdong.cn/blog/bitcoin-whitepaper-deep-dive/",
       "https://i.zhangqingdong.cn/blog/cache-consistency-strategies/",
       "https://i.zhangqingdong.cn/blog/concurrenthashmap-concurrent-mechanism/",
-      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
       "https://i.zhangqingdong.cn/blog/dao-case-studies/",
       "https://i.zhangqingdong.cn/blog/defi-aggregators-yield/",
       "https://i.zhangqingdong.cn/blog/defi-lending-protocols/",
-      "https://i.zhangqingdong.cn/blog/deploy-to-testnet/",
       "https://i.zhangqingdong.cn/blog/ethereum-gas-fees/",
       "https://i.zhangqingdong.cn/blog/ethereum-layer2-rollups/",
       "https://i.zhangqingdong.cn/blog/evm-deep-dive/",
-      "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
       "https://i.zhangqingdong.cn/blog/gc-algorithms-tuning-practice/",
-      "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
+      "https://i.zhangqingdong.cn/blog/github-arsenal-skills/",
+      "https://i.zhangqingdong.cn/blog/hardhat-local-env/",
+      "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
       "https://i.zhangqingdong.cn/blog/microservices-design-patterns/",
       "https://i.zhangqingdong.cn/blog/multisig-permission-management/",
-      "https://i.zhangqingdong.cn/blog/mysql-partitioning-sharding/",
       "https://i.zhangqingdong.cn/blog/mysql-performance-monitoring/",
       "https://i.zhangqingdong.cn/blog/pdca-knowledge-management/",
-      "https://i.zhangqingdong.cn/blog/pow-consensus/",
+      "https://i.zhangqingdong.cn/blog/pyramid-principle-communication/",
       "https://i.zhangqingdong.cn/blog/redis-data-structures-memory-optimization/",
       "https://i.zhangqingdong.cn/blog/smart-contracts-explained/",
+      "https://i.zhangqingdong.cn/blog/solidity-basics-notes/",
       "https://i.zhangqingdong.cn/blog/spring-singleton-thread-safety/",
       "https://i.zhangqingdong.cn/blog/stablecoins-explained/",
       "https://i.zhangqingdong.cn/blog/star-behavioral-interview/",
@@ -100,35 +99,40 @@
       "https://i.zhangqingdong.cn/projects/modern-blog-template/"
     ],
     "unknown_to_google": [
+      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
+      "https://i.zhangqingdong.cn/blog/deploy-to-testnet/",
+      "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
       "https://i.zhangqingdong.cn/blog/first-full-dapp/",
-      "https://i.zhangqingdong.cn/blog/github-arsenal-skills/",
-      "https://i.zhangqingdong.cn/blog/hardhat-local-env/",
       "https://i.zhangqingdong.cn/blog/hashmap-source-analysis-optimization/",
-      "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
+      "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
+      "https://i.zhangqingdong.cn/blog/mysql-partitioning-sharding/",
       "https://i.zhangqingdong.cn/blog/okr-goal-management/",
-      "https://i.zhangqingdong.cn/blog/pyramid-principle-communication/",
-      "https://i.zhangqingdong.cn/blog/solidity-basics-notes/"
+      "https://i.zhangqingdong.cn/blog/pow-consensus/"
     ]
   },
   "comparable_urls_vs_baseline": 89,
-  "delta_vs_2026_10_14": {
+  "delta_vs_2026_10_15": {
     "newly_indexed": [],
     "dropped_from_index": [
-      "https://i.zhangqingdong.cn/blog/rabbitmq-message-reliability/"
+      "https://i.zhangqingdong.cn/blog/volatile-memory-visibility/"
     ],
-    "state_improvements": [],
-    "state_regressions": [
-      "https://i.zhangqingdong.cn/blog/first-full-dapp/",
+    "state_improvements": [
       "https://i.zhangqingdong.cn/blog/github-arsenal-skills/",
       "https://i.zhangqingdong.cn/blog/hardhat-local-env/",
-      "https://i.zhangqingdong.cn/blog/hashmap-source-analysis-optimization/",
       "https://i.zhangqingdong.cn/blog/jvm-memory-structure-analysis/",
-      "https://i.zhangqingdong.cn/blog/okr-goal-management/",
       "https://i.zhangqingdong.cn/blog/pyramid-principle-communication/",
-      "https://i.zhangqingdong.cn/blog/rabbitmq-message-reliability/",
       "https://i.zhangqingdong.cn/blog/solidity-basics-notes/"
     ],
-    "note": "一进一出持平：volatile 自行恢复收录（10-12 掉出、10-07 抓取版本翻案成功，未注入请求）；rabbitmq 掉出（10-08 收录、今日复检淘汰）——10-07 批 6 篇请求文章 4 篇留存 2 篇被剃；Google 重爬持续（synchronized/swot 10-14 重爬仍拒）；发现池继续回血（unknown 池 9 个）"
+    "state_regressions": [
+      "https://i.zhangqingdong.cn/blog/creators-alchemy-system/",
+      "https://i.zhangqingdong.cn/blog/deploy-to-testnet/",
+      "https://i.zhangqingdong.cn/blog/evolution-heartbeat-system/",
+      "https://i.zhangqingdong.cn/blog/linkedlist-source-analysis/",
+      "https://i.zhangqingdong.cn/blog/mysql-partitioning-sharding/",
+      "https://i.zhangqingdong.cn/blog/pow-consensus/",
+      "https://i.zhangqingdong.cn/blog/volatile-memory-visibility/"
+    ],
+    "note": "volatile 二次掉出（两周内第二次进出——最边缘页面）；其余 23 个存量稳固；redis-cache 10-15 被重爬仍拒；手动请求通道中断第 9 天，9 个 URL 待提交"
   },
   "fixes_applied": []
 }
